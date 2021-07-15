@@ -7,6 +7,7 @@
  * Return: On success 1.
  * On error, -1 is returned, and errno is set appropriately.
  */
+
 int _putchar(char c)
 {
 	return (write(1, &c, 1));
@@ -18,6 +19,7 @@ int _putchar(char c)
  * @src: source string
  * Return: dest
  */
+
 char *_strcat(char *dest, char *src)
 {
 	int i, j;
@@ -30,4 +32,20 @@ char *_strcat(char *dest, char *src)
 		dest[i + j] = src[j];
 	}
 	return (dest);
+}
+
+/**
+ * _strlen - function to find string length
+ * @s: string
+ * Return: string length
+ */
+
+int _strlen(char *s)
+{
+	int n;
+
+	for (n = 0; s[n] != '\0'; n++)
+	{
+	}
+	return (n);
 }
