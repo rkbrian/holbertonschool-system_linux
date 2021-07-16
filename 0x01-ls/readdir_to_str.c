@@ -65,28 +65,6 @@ char *sorted_array(char *av[])
 }
 
 /**
- * calc_arraylen - function to calculate total length of given array
- * @arr: array of strings
- * Return: int
- */
-
-int calc_arraylen(char *arr[])
-{
-	int i, j, k = 0;
-
-	for (i = 0; arr[i] != NULL; i++)
-	{
-		for (j = 0; arr[i][j] != "\0"; j++)
-		{
-			k++;
-		}
-		k++;
-	}
-	k++;
-	return (k);
-}
-
-/**
  * arr_of_str - add a string into given array, to be free in main
  * @arr: array of string
  * @newstr: new string
@@ -95,11 +73,35 @@ int calc_arraylen(char *arr[])
 
 char **arr_of_str(char *arr[], char *newstr)
 {
-	int newstrlen, itemcount;
-	char *str_copied;
 
-	/* k = calc_arraylen(arr); */
+	int newstrlen, itemcount;
+	char *str_copied, **ptr = arr;
+
 	newstrlen = _strlen(newstr);
-	str_copied
+	for (itemcount = 0; arr[itemcount] != NULL; itemcount++)
+	{
+	}
+	str_copied = malloc(sizeof(char) * newstrlen + 1);
+	_strcpy(str_copied, newstr);
+	ptr[itemcount] = str_copied;
+	return (ptr);
 }
 
+/**
+ * free_array - function to free array of strings
+ * @arr: array of strings
+ */
+
+void free_array(char *arr[])
+{
+	int i;
+
+	for (i = 0; arr[i] != NULL; i++)
+	{
+		free(arr[i]);
+	}
+	if (arr != NULL)
+	{
+		free(arr);
+	}
+}

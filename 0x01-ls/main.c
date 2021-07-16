@@ -12,25 +12,36 @@
  */
 int main(int argc, char *argv[])
 {
-  char *dest, *separator = "  ";
-  char linkname[] = ".";
-  char *newpath;
-  int i, j;
+  int i, j, k, l;
+  char flaglist[] = "aA1l"
 
-  /* (void)argc; */
-  block_list(argv);
-  for (i = 0; i < argv[1])
   for (i = 1; i < argc - 1; i++)
   {
-    if (argv[i] == "-1")
+    if (argv[i][0] == "-")
     {
-      /*separator change*/
+      for (j = 1; argv[i][j] != "\0"; j++)
+      {
+        if (argv[i][j] = "l")
+      }
     }
   }
-  
+
+for (i = 1; i < argc - 1; i++)
+  {
+    if (argv[i][0] != "-")
+    {
+      for (j = 1; argv[i][j] != "\0"; j++)
+      {
+        if (argv[i][j] = "l")
+      }
+    }
+  }
+
+
+
   if (argc == 1)
   {
-    dir = opendir(linkname);
+    ;
   }
   else if (argv[1])
   {
@@ -42,7 +53,7 @@ int main(int argc, char *argv[])
   {
 
   }
-  
+
 
   return (0);
 }
@@ -58,23 +69,29 @@ void printme(int ac, char *av[])
   int i;
   struct dirent *mydir_stream;
   DIR *dir;
+  char dest[] = {""};
+  char separator[] = "  ";
+  char linkname[] = ".";
+  char *newpath;
+  char block_list[] = {".", ".."};
 
+  dir = opendir(linkname);
   if (dir == NULL)
   {
     return (1);
   }
 
   mydir_stream = readdir(dir);
-  dest = "";
   while (mydir_stream != NULL)
   {
     /* printf("%s  ", mydir_stream->d_name); */
-    dirtostr(dest, mydir_stream->d_name, separator);
-    /* malloc and free! */
+    arr_of_str(dest, mydir_stream->d_name);
     mydir_stream = readdir(dir);
   }
+
   printf("%s/n", dest);
   free(dest);
+  free_array()
 
   closedir(dir);
 }

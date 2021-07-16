@@ -19,6 +19,9 @@ int _strcmp(char *s1, char *s2);
 /* readdir_to_str */
 char *mall_strcat(char *oldstr, char *newstr, char *separator);
 char *sorted_array(char *av[]);
+char **arr_of_str(char *arr[], char *newstr);
+void free_array(char *arr[]);
+/*  */
 
 
 #endif
