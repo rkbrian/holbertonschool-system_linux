@@ -21,7 +21,7 @@ char *mall_strcat(char *oldstr, char *newstr, char *separator);
 char *sorted_array(char *av[]);
 char **arr_of_str(char *arr[], char *newstr);
 void free_array(char *arr[]);
-/*  */
-
+/* main */
+void printme(char *av, char newlineflag, char listallflag);
 
 #endif

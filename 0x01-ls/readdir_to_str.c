@@ -28,9 +28,8 @@ char *mall_strcat(char *oldstr, char *newstr, char *separator)
 
 /**
  * sorted_array - function to bubble sort readdir strings for the print
- * @oldstr: destination string
- * @newstr: source string
- * Return: ptr to new string or null
+ * @av: given array
+ * Return: sorted array
  */
 
 char *sorted_array(char *av[])
