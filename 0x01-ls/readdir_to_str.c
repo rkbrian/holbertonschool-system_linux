@@ -32,7 +32,7 @@ char *mall_strcat(char *oldstr, char *newstr, char *separator)
  * Return: sorted array
  */
 
-char *sorted_array(char *av[])
+char **sorted_array(char *av[])
 {
 	int i, j, n, templen;
 	char *tempstr;

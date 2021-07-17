@@ -13,14 +13,14 @@ int main(int argc, char *argv[])
 
   for (i = 1; i < argc - 1; i++)
   {
-    if (argv[i][0] = "-")
+    if (argv[i][0] == "-")
     {
       for (j = 1; argv[i][j] != "\0"; j++)
       {
-        if (argv[i][j] = "1" || argv[i][j] = "l")
+        if (argv[i][j] == "1" || argv[i][j] == "l")
           newlineflag = argv[i][j];
 
-        if (argv[i][j] = "a" || argv[i][j] =  "A" )
+        if (argv[i][j] == "a" || argv[i][j] == "A" )
           listallflag = argv[i][j];
       }
     }
@@ -59,7 +59,7 @@ void printme(char *av, char newlineflag, char listallflag)
   int i;
   struct dirent *mydir_stream;
   DIR *dir;
-  char dest[] = {""}, separator[] = "  ";
+  char *dest[] = {""}, separator[] = "  ";
 
   if (av != NULL)
     dir = opendir(mall_strcat(".", av, "/"));
