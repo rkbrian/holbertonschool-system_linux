@@ -9,7 +9,7 @@
 
 int main(int argc, char *argv[])
 {
-  int i, j, k = 0;
+  int i, j, k = 0, l = 0;
   char newlineflag = 'n', listallflag = 'n';
 
   for (i = 1; i < argc; i++)
@@ -26,7 +26,10 @@ int main(int argc, char *argv[])
       }
     }
     else
+    {
       k++;
+      l++;
+    }
   }
   if (argc == 1 || (argc == 2 && argv[1][0] == '-'))
     printme(NULL, newlineflag, listallflag);
@@ -37,15 +40,14 @@ int main(int argc, char *argv[])
     {
       if (argv[i][0] != '-')
       {
-	if (k > 1)
+	if (l > 1)
 	  printf("%s:\n", argv[i]);
 
 	printme(argv[i], newlineflag, listallflag);
 	if (k > 1)
 	  printf("\n");
-
-	k--;
       }
+      k--;
     }
   }
   return (0);
@@ -63,7 +65,7 @@ void printme(char *av, char newlineflag, char listallflag)
   int i;
   struct dirent *dstream;
   DIR *dir;
-  char *dest = "", *separator, *newpath, noflag[] = "  ", yesflag[] = "\n";
+  char *dest = "", *separator = NULL, *newpath = NULL;
 
   if (av != NULL)
   {
@@ -75,10 +77,15 @@ void printme(char *av, char newlineflag, char listallflag)
     dir = opendir(".");
 
   if (newlineflag == 'n')
-    separator = noflag;
+  {
+    separator = malloc(sizeof(char) * 3);
+    _strcat(separator, "  ");
+  }
   else
-    separator = yesflag;
-
+  {
+    separator = malloc(sizeof(char) * 2);
+    _strcat(separator, "\n");
+  }
   dstream = readdir(dir);
   while (dstream != NULL)
   {
@@ -95,5 +102,7 @@ void printme(char *av, char newlineflag, char listallflag)
     printf("%c", dest[i]);
   printf("\n");
   free(dest);
+  /*while (separator != NULL)*/
+  free(separator);
   closedir(dir);
 }
