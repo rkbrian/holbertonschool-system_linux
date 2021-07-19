@@ -61,9 +61,9 @@ int main(int argc, char *argv[])
 void printme(char *av, char newlineflag, char listallflag)
 {
   int i;
-  struct dirent *mydir_stream;
+  struct dirent *dstream;
   DIR *dir;
-  char *dest = "", *separator = "  ", *newpath;
+  char *dest = "", *separator, *newpath, noflag[] = "  ", yesflag[] = "\n";
 
   if (av != NULL)
   {
@@ -74,39 +74,25 @@ void printme(char *av, char newlineflag, char listallflag)
   else
     dir = opendir(".");
 
-  if (newlineflag != 'n')
-      separator = "\n";
+  if (newlineflag == 'n')
+    separator = noflag;
+  else
+    separator = yesflag;
 
-  mydir_stream = readdir(dir);
-  while (mydir_stream != NULL)
+  dstream = readdir(dir);
+  while (dstream != NULL)
   {
-    if (listallflag == 'n' && (mydir_stream->d_type == 4 || mydir_stream->d_type == 8) && _strcmp(mydir_stream->d_name, ".") != 0 && _strcmp(mydir_stream->d_name, "..") != 0)
-    {
-      /* arr_of_str(dest, mydir_stream->d_name); */
-      dest = mall_strcat(dest, mydir_stream->d_name, separator);
-    }
-    else if (listallflag == 'A' && _strcmp(mydir_stream->d_name, ".") != 0 && _strcmp(mydir_stream->d_name, "..") != 0)
-    {
-      /* arr_of_str(dest, mydir_stream->d_name); */
-      dest = mall_strcat(dest, mydir_stream->d_name, separator);
-    }
+    if (listallflag == 'n' && (dstream->d_type == 4 || dstream->d_type == 8) && _strcmp(dstream->d_name, ".") != 0 && _strcmp(dstream->d_name, "..") != 0)
+      dest = mall_strcat(dest, dstream->d_name, separator);
+    else if (listallflag == 'A' && _strcmp(dstream->d_name, ".") != 0 && _strcmp(dstream->d_name, "..") != 0)
+      dest = mall_strcat(dest, dstream->d_name, separator);
     else if (listallflag == 'a')
-    {
-      /* arr_of_str(dest, mydir_stream->d_name); */
-      dest = mall_strcat(dest, mydir_stream->d_name, separator);
-    }
-    mydir_stream = readdir(dir);
+      dest = mall_strcat(dest, dstream->d_name, separator);
+
+    dstream = readdir(dir);
   }
   for (i = _strlen(separator); dest[i] != '\0'; i++)
     printf("%c", dest[i]);
-
-  /* sorted_array(dest); */
-  /** printf("%s", dest[0]);
-  for (i = 1; dest[i] != NULL; i++)
-  {
-    if (newlineflag == "l"){printf("")}
-    printf("%s%s", separator, dest[i]);
-  } */
   printf("\n");
   free(dest);
   closedir(dir);
