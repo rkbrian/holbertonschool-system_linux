@@ -6,42 +6,46 @@
  * @argv: argument array
  * Retrun: 0
  */
+
 int main(int argc, char *argv[])
 {
   int i, j, k = 0;
-  char newlineflag = "n", listallflag = "n";
+  char newlineflag = 'n', listallflag = 'n';
 
-  for (i = 1; i < argc - 1; i++)
+  for (i = 1; i < argc; i++)
   {
-    if (argv[i][0] == "-")
+    if (argv[i][0] == '-')
     {
-      for (j = 1; argv[i][j] != "\0"; j++)
+      for (j = 1; argv[i][j] != '\0'; j++)
       {
-        if (argv[i][j] == "1" || argv[i][j] == "l")
+        if (argv[i][j] == '1' || argv[i][j] == 'l')
           newlineflag = argv[i][j];
 
-        if (argv[i][j] == "a" || argv[i][j] == "A" )
+        if (argv[i][j] == 'a' || argv[i][j] == 'A' )
           listallflag = argv[i][j];
       }
     }
     else
       k++;
   }
-  for (i = 1; i < argc - 1; i++)
-  {
-    if (argc == 1)
-      printme(NULL, newlineflag, listallflag);
+  if (argc == 1 || (argc == 2 && argv[1][0] == '-'))
+    printme(NULL, newlineflag, listallflag);
 
-    else if (argv[i][0] != "-")
+  else
+  {
+    for (i = 1; i < argc; i++)
     {
-      if (k > 0)
+      if (argv[i][0] != '-')
       {
-        printf("%s:\n", argv[i]);
-        k--;
+	if (k > 1)
+	  printf("%s:\n", argv[i]);
+
+	printme(argv[i], newlineflag, listallflag);
+	if (k > 1)
+	  printf("\n");
+
+	k--;
       }
-      printme(argv[i], newlineflag, listallflag);
-      if (k > 0)
-        printf("\n");
     }
   }
   return (0);
@@ -59,43 +63,51 @@ void printme(char *av, char newlineflag, char listallflag)
   int i;
   struct dirent *mydir_stream;
   DIR *dir;
-  char *dest[] = {""}, separator[] = "  ";
+  char *dest = "", *separator = "  ", *newpath;
 
   if (av != NULL)
-    dir = opendir(mall_strcat(".", av, "/"));
-
+  {
+    newpath = mall_strcat(".", av, "/");
+    dir = opendir(newpath);
+    free(newpath);
+  }
   else
     dir = opendir(".");
 
-  if (dir == NULL)
-    return (1);
-
-  if (newlineflag != "n")
+  if (newlineflag != 'n')
       separator = "\n";
 
   mydir_stream = readdir(dir);
   while (mydir_stream != NULL)
   {
-    if (listallflag == "n" && (mydir_stream->d_type == 4 || mydir_stream->d_type == 8))
-      arr_of_str(dest, mydir_stream->d_name);
-
-    else if (listallflag == "A" && mydir_stream->d_name != "." && mydir_stream->d_name != ".." )
-      arr_of_str(dest, mydir_stream->d_name);
-
-    else if (listallflag == "a")
-      arr_of_str(dest, mydir_stream->d_name);
-
+    if (listallflag == 'n' && (mydir_stream->d_type == 4 || mydir_stream->d_type == 8) && _strcmp(mydir_stream->d_name, ".") != 0 && _strcmp(mydir_stream->d_name, "..") != 0)
+    {
+      /* arr_of_str(dest, mydir_stream->d_name); */
+      dest = mall_strcat(dest, mydir_stream->d_name, separator);
+    }
+    else if (listallflag == 'A' && _strcmp(mydir_stream->d_name, ".") != 0 && _strcmp(mydir_stream->d_name, "..") != 0)
+    {
+      /* arr_of_str(dest, mydir_stream->d_name); */
+      dest = mall_strcat(dest, mydir_stream->d_name, separator);
+    }
+    else if (listallflag == 'a')
+    {
+      /* arr_of_str(dest, mydir_stream->d_name); */
+      dest = mall_strcat(dest, mydir_stream->d_name, separator);
+    }
     mydir_stream = readdir(dir);
   }
-  sorted_array(dest);
-  printf("%s", dest[0]);
+  for (i = _strlen(separator); dest[i] != '\0'; i++)
+    printf("%c", dest[i]);
+
+  /* sorted_array(dest); */
+  /** printf("%s", dest[0]);
   for (i = 1; dest[i] != NULL; i++)
   {
-    /* if (newlineflag == "l"){printf("")} */
+    if (newlineflag == "l"){printf("")}
     printf("%s%s", separator, dest[i]);
-  }
+  } */
   printf("\n");
-  free(newpath);
-  free_array(dest);
+  free(dest);
   closedir(dir);
 }

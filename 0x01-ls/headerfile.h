@@ -1,6 +1,7 @@
 #ifndef HEADERFILE_H
 #define HEADERFILE_H
 
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -18,7 +19,7 @@ char *_strcpy(char *dest, char *src);
 int _strcmp(char *s1, char *s2);
 /* readdir_to_str */
 char *mall_strcat(char *oldstr, char *newstr, char *separator);
-char *sorted_array(char *av[]);
+char **sorted_array(char *av[]);
 char **arr_of_str(char *arr[], char *newstr);
 void free_array(char *arr[]);
 /* main */

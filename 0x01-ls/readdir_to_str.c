@@ -50,8 +50,8 @@ char **sorted_array(char *av[])
 				tempstr = malloc(sizeof(char) * templen + 1);
 				if (tempstr == NULL)
 				{
+					free(tempstr);
 					return (NULL);
-					free(dest);
 				}
 				_strcpy(tempstr, av[j]);
 				_strcpy(av[j], av[j + 1]);
@@ -72,18 +72,18 @@ char **sorted_array(char *av[])
 
 char **arr_of_str(char *arr[], char *newstr)
 {
+  int newstrlen, itemcount = 0;
+  char *str_copied;
 
-	int newstrlen, itemcount;
-	char *str_copied, **ptr = arr;
-
-	newstrlen = _strlen(newstr);
-	for (itemcount = 0; arr[itemcount] != NULL; itemcount++)
-	{
-	}
-	str_copied = malloc(sizeof(char) * newstrlen + 1);
-	_strcpy(str_copied, newstr);
-	ptr[itemcount] = str_copied;
-	return (ptr);
+  newstrlen = _strlen(newstr);
+  for (; arr[itemcount] != NULL; itemcount++)
+  {
+  }
+  str_copied = malloc(sizeof(char) * newstrlen + 1);
+  arr[itemcount] = malloc(sizeof(char) * newstrlen + 1);
+  arr[itemcount] = _strcpy(str_copied, newstr);
+  printf("%s\n", arr[itemcount]);
+  return (arr);
 }
 
 /**
