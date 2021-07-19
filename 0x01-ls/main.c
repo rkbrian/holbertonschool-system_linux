@@ -62,10 +62,10 @@ int main(int argc, char *argv[])
 
 void printme(char *av, char newlineflag, char listallflag)
 {
-  int i;
+  int i = 0;
   struct dirent *dstream;
   DIR *dir;
-  char *dest = "", *separator = NULL, *newpath = NULL;
+  char *separator, *newpath = NULL;
 
   if (av != NULL)
   {
@@ -77,32 +77,30 @@ void printme(char *av, char newlineflag, char listallflag)
     dir = opendir(".");
 
   if (newlineflag == 'n')
-  {
-    separator = malloc(sizeof(char) * 3);
-    _strcat(separator, "  ");
-  }
+    separator = "  ";
   else
-  {
-    separator = malloc(sizeof(char) * 2);
-    _strcat(separator, "\n");
-  }
+    separator = "\n";
+
   dstream = readdir(dir);
   while (dstream != NULL)
   {
-    if (listallflag == 'n' && (dstream->d_type == 4 || dstream->d_type == 8) && _strcmp(dstream->d_name, ".") != 0 && _strcmp(dstream->d_name, "..") != 0)
-      dest = mall_strcat(dest, dstream->d_name, separator);
-    else if (listallflag == 'A' && _strcmp(dstream->d_name, ".") != 0 && _strcmp(dstream->d_name, "..") != 0)
-      dest = mall_strcat(dest, dstream->d_name, separator);
-    else if (listallflag == 'a')
-      dest = mall_strcat(dest, dstream->d_name, separator);
-
+    if ((listallflag == 'n' && (dstream->d_type == 4 || dstream->d_type == 8) && _strcmp(dstream->d_name, ".") != 0 && _strcmp(dstream->d_name, "..") != 0)
+	|| (listallflag == 'A' && _strcmp(dstream->d_name, ".") != 0 && _strcmp(dstream->d_name, "..") != 0) || (listallflag == 'a'))
+    {
+      if (i == 0)
+      {
+	printf("%s", dstream->d_name);
+	i++;
+      }
+      else
+	printf("%s%s", separator, dstream->d_name);
+    }
     dstream = readdir(dir);
   }
-  for (i = _strlen(separator); dest[i] != '\0'; i++)
-    printf("%c", dest[i]);
-  printf("\n");
-  free(dest);
-  /*while (separator != NULL)*/
-  free(separator);
   closedir(dir);
+  printf("\n");
 }
+
+/**
+ * void flaglong(char dashl)
+ */

@@ -13,12 +13,15 @@ char *mall_strcat(char *oldstr, char *newstr, char *separator)
 	int sublen = 0;
 	char *dest;
 
+	if (oldstr == NULL)
+	  oldstr = "";
+
 	sublen = _strlen(oldstr) + _strlen(separator) + _strlen(newstr);
 	dest = malloc(sizeof(char) * sublen + 1);
 	if (dest == NULL)
 	{
-		return (NULL);
 		free(dest);
+		return (NULL);
 	}
 	_strcat(dest, oldstr);
 	_strcat(dest, separator);
