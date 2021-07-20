@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 		}
 	}
 	if (argc == 1 || (argc == 2 && argv[1][0] == '-'))
-		printme(NULL, newlineflag, listallflag);
+		printme(".", newlineflag, listallflag);
 	else
 	{
 		for (i = 1; i < argc; i++)
@@ -70,7 +70,8 @@ void printme(char *av, char newlineflag, char aflag)
 	if (file_stat(av) == 'd')
 	{
 		dir = opendir(newpath = dir_selector(av));
-		free(newpath);
+		if (_strcmp(av, ".") != 0)
+			free(newpath);
 		dstr = readdir(dir);
 		while (dstr != NULL)
 		{
@@ -109,9 +110,8 @@ char *dir_selector(char *dirstr)
 {
 	char *newpath = NULL;
 
-	if (dirstr != NULL)
-		newpath = mall_strcat(".", dirstr, "/");
-	else
-		newpath = mall_strcat(".", dirstr, "");
+	if (_strcmp(dirstr, ".") == 0)
+		return (dirstr);
+	newpath = mall_strcat(".", dirstr, "/");
 	return (newpath);
 }
