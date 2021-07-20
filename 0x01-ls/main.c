@@ -55,49 +55,63 @@ int main(int argc, char *argv[])
  * printme - function to list the content of the current directory and more
  * @av: argument string
  * @newlineflag: flag to print new line
- * @listallflag: flag to list all or almost all
+ * @aflag: flag to list all or almost all
  */
 
-void printme(char *av, char newlineflag, char listallflag)
+void printme(char *av, char newlineflag, char aflag)
 {
 	int i = 0;
-	struct dirent *dstream;
+	struct dirent *dstr;
 	DIR *dir;
-	char *separator, *newpath = NULL;
+	char *sepa = "  ", *newpath;
 
-	if (av != NULL)
+	if (newlineflag != 'n')
+		sepa = "\n";
+	if (file_stat(av) == 'd')
 	{
-		newpath = mall_strcat(".", av, "/");
-		dir = opendir(newpath);
+		dir = opendir(newpath = dir_selector(av));
 		free(newpath);
-	}
-	else
-		dir = opendir(".");
-	if (newlineflag == 'n')
-		separator = "  ";
-	else
-		separator = "\n";
-	dstream = readdir(dir);
-	while (dstream != NULL)
-	{
-		if ((listallflag == 'n' && (dstream->d_type == 4
-					    || dstream->d_type == 8)
-		     && _strcmp(dstream->d_name, ".") != 0
-		     && _strcmp(dstream->d_name, "..") != 0)
-		    || (listallflag == 'A' && _strcmp(dstream->d_name, ".") != 0
-			&& _strcmp(dstream->d_name, "..") != 0)
-		    || (listallflag == 'a'))
+		dstr = readdir(dir);
+		while (dstr != NULL)
 		{
-			if (i == 0)
+			if ((aflag == 'n' && (dstr->d_type == 4
+					      || dstr->d_type == 8)
+			     && _strcmp(dstr->d_name, ".") != 0
+			     && _strcmp(dstr->d_name, "..") != 0)
+			    || (aflag == 'A' && _strcmp(dstr->d_name, ".") != 0
+				&& _strcmp(dstr->d_name, "..") != 0)
+			    || (aflag == 'a'))
 			{
-				printf("%s", dstream->d_name);
-				i++;
+				if (i == 0)
+				{
+					printf("%s", dstr->d_name);
+					i++;
+				}
+				else
+					printf("%s%s", sepa, dstr->d_name);
 			}
-			else
-				printf("%s%s", separator, dstream->d_name);
+			dstr = readdir(dir);
 		}
-		dstream = readdir(dir);
+		closedir(dir);
+		printf("\n");
 	}
-	closedir(dir);
-	printf("\n");
+	else if (file_stat(av) == 'd')
+		printf("%s\n", av);
+}
+
+/**
+ * dir_selector - select directory path for opendir
+ * @dirstr: dirctory string
+ * Return: path string
+ */
+
+char *dir_selector(char *dirstr)
+{
+	char *newpath = NULL;
+
+	if (dirstr != NULL)
+		newpath = mall_strcat(".", dirstr, "/");
+	else
+		newpath = mall_strcat(".", dirstr, "");
+	return (newpath);
 }
