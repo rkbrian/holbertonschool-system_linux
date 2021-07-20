@@ -20,7 +20,6 @@ int main(int argc, char *argv[])
       {
         if (argv[i][j] == '1' || argv[i][j] == 'l')
           newlineflag = argv[i][j];
-
         if (argv[i][j] == 'a' || argv[i][j] == 'A' )
           listallflag = argv[i][j];
       }
@@ -33,7 +32,6 @@ int main(int argc, char *argv[])
   }
   if (argc == 1 || (argc == 2 && argv[1][0] == '-'))
     printme(NULL, newlineflag, listallflag);
-
   else
   {
     for (i = 1; i < argc; i++)
@@ -100,7 +98,3 @@ void printme(char *av, char newlineflag, char listallflag)
   closedir(dir);
   printf("\n");
 }
-
-/**
- * void flaglong(char dashl)
- */
