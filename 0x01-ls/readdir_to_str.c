@@ -19,10 +19,9 @@ char *mall_strcat(char *oldstr, char *newstr, char *separator)
 	sublen = _strlen(oldstr) + _strlen(separator) + _strlen(newstr);
 	dest = malloc(sizeof(char) * sublen + 1);
 	if (dest == NULL)
-	{
-		free(dest);
 		return (NULL);
-	}
+
+	dest[0] = '\0';
 	_strcat(dest, oldstr);
 	_strcat(dest, separator);
 	_strcat(dest, newstr);
