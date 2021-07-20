@@ -4,7 +4,7 @@
  * main - function to list the content of the current directory and more
  * @argc: argument count
  * @argv: argument array
- * Retrun: 0
+ * Return: 0
  */
 
 int main(int argc, char *argv[])
