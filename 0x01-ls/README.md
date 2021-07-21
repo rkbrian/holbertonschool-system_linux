@@ -8,5 +8,3 @@
 ###   ls -a dir (flag handling all)
 ###   ls -A dir (flag handling all except . and ..)
 ###   ls -l dir (flag handling long list, complicated column)
-
-## Whiteboarding
