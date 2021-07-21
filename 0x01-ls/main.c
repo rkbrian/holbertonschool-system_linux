@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 		{
 			if (argv[i][0] != '-')
 			{
-				if (l > 1)
+				if (l > 1 && file_stat(argv[i]) != 'E')
 					printf("%s:\n", argv[i]);
 
 				printme(argv[i], newlineflag, aflag, argv[0]);
