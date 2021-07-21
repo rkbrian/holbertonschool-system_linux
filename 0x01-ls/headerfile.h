@@ -24,7 +24,7 @@ int _strcmp(char *s1, char *s2);
 char *mall_strcat(char *oldstr, char *newstr, char *separator);
 char file_stat(char *av);
 /* main */
-void printme(char *av, char newlineflag, char listallflag);
+void printme(char *av, char newlineflag, char listallflag, char *avzero);
 char *dir_selector(char *dirstr);
 
 #endif

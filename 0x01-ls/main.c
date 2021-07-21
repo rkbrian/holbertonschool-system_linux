@@ -10,7 +10,7 @@
 int main(int argc, char *argv[])
 {
 	int i, j, k = 0, l = 0;
-	char newlineflag = 'n', listallflag = 'n';
+	char newlineflag = 'n', aflag = 'n';
 
 	for (i = 1; i < argc; i++)
 	{
@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 				if (argv[i][j] == '1' || argv[i][j] == 'l')
 					newlineflag = argv[i][j];
 				if (argv[i][j] == 'a' || argv[i][j] == 'A')
-					listallflag = argv[i][j];
+					aflag = argv[i][j];
 			}
 		}
 		else
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 		}
 	}
 	if (argc == 1 || (argc == 2 && argv[1][0] == '-'))
-		printme(".", newlineflag, listallflag);
+		printme(".", newlineflag, aflag, argv[0]);
 	else
 	{
 		for (i = 1; i < argc; i++)
@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 				if (l > 1)
 					printf("%s:\n", argv[i]);
 
-				printme(argv[i], newlineflag, listallflag);
+				printme(argv[i], newlineflag, aflag, argv[0]);
 				if (k > 1)
 					printf("\n");
 			}
@@ -55,49 +55,52 @@ int main(int argc, char *argv[])
  * printme - function to list the content of the current directory and more
  * @av: argument string
  * @newlineflag: flag to print new line
- * @aflag: flag to list all or almost all
+ * @af: flag to list all or almost all
+ * @avzero: argv[0] "./hls" pass down
  */
 
-void printme(char *av, char newlineflag, char aflag)
+void printme(char *av, char newlineflag, char af, char *avzero)
 {
 	int i = 0;
-	struct dirent *dstr;
+	struct dirent *ds;
 	DIR *dir;
 	char *sepa = "  ", *newpath;
+	char *errmsgp = "%s: cannot open directory %s: Permission denied\n";
+	char *errmsgn = "%s: cannot access %s: No such file or directory\n";
 
 	if (newlineflag != 'n')
 		sepa = "\n";
 	if (file_stat(av) == 'd')
 	{
-		dir = opendir(newpath = dir_selector(av));
+		ds = readdir(dir = opendir(newpath = dir_selector(av)));
 		if (_strcmp(av, ".") != 0)
 			free(newpath);
-		dstr = readdir(dir);
-		while (dstr != NULL)
+		while (ds != NULL)
 		{
-			if ((aflag == 'n' && (dstr->d_type == 4
-					      || dstr->d_type == 8)
-			     && _strcmp(dstr->d_name, ".") != 0
-			     && _strcmp(dstr->d_name, "..") != 0)
-			    || (aflag == 'A' && _strcmp(dstr->d_name, ".") != 0
-				&& _strcmp(dstr->d_name, "..") != 0)
-			    || (aflag == 'a'))
+			if ((af == 'a') || (af == 'n' && ds->d_name[0] != '.'
+			     && (ds->d_type == 4 || ds->d_type == 8))
+			    || (af == 'A' && _strcmp(ds->d_name, ".") != 0
+				&& _strcmp(ds->d_name, "..") != 0))
 			{
 				if (i == 0)
 				{
-					printf("%s", dstr->d_name);
+					printf("%s", ds->d_name);
 					i++;
 				}
 				else
-					printf("%s%s", sepa, dstr->d_name);
+					printf("%s%s", sepa, ds->d_name);
 			}
-			dstr = readdir(dir);
+			ds = readdir(dir);
 		}
 		closedir(dir);
 		printf("\n");
 	}
-	else if (file_stat(av) == 'd')
+	else if (file_stat(av) == 'f')
 		printf("%s\n", av);
+	else if (file_stat(av) == 'E')
+		fprintf(stderr, errmsgn, avzero, av);
+	else if (file_stat(av) == 'e')
+		fprintf(stderr, errmsgp, avzero, av);
 }
 
 /**

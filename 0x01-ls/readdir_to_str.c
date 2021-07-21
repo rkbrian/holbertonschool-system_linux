@@ -38,23 +38,15 @@ char file_stat(char *av)
 {
 	char casecode = 'u';
 	struct stat my_stats;
-	char *errmsgp = "./hls: cannot open directory %s: Permission denied\n";
-	char *errmsgn = "./hls: cannot access %s: No such file or directory\n";
 
 	if (lstat(av, &my_stats) == -1)
-	{
-		fprintf(stderr, errmsgn, av);
-		casecode = 'e';
-	}
+		casecode = 'E';
 	else if (S_ISDIR(my_stats.st_mode))
 	{
 		if (my_stats.st_mode & S_IROTH)
 			casecode = 'd';
 		else
-		{
-			fprintf(stderr, errmsgp, av);
 			casecode = 'e';
-		}
 	}
 	else if (S_ISREG(my_stats.st_mode))
 		casecode = 'f';
