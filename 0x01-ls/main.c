@@ -25,9 +25,7 @@ int main(int argc, char *argv[])
 			}
 		}
 		else
-		{
 			l++, k++;
-		}
 	}
 	if (l == 0)
 		printme(".", newlineflag, aflag, argv[0]);
@@ -37,13 +35,13 @@ int main(int argc, char *argv[])
 		{
 			if (argv[i][0] != '-')
 			{
-				temp0 = argv[i - 1];
+				temp0 = argv[i + 1];
 				temp1 = argv[i];
-				if (k < l)
-					mul_arg(temp0, temp1);
 				if (l > 1 && file_stat(temp1) == 'd')
 					printf("%s:\n", temp1);
 				printme(temp1, newlineflag, aflag, argv[0]);
+				if (k > 1)
+					mul_arg(temp1, temp0);
 			}
 			k--;
 		}
