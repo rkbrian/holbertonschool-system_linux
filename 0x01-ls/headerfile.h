@@ -26,5 +26,6 @@ char file_stat(char *av);
 /* main */
 void printme(char *av, char newlineflag, char listallflag, char *avzero);
 char *dir_selector(char *dirstr);
+void xtraprint(char *av);
 
 #endif

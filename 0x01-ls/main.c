@@ -9,7 +9,7 @@
 
 int main(int argc, char *argv[])
 {
-	int i, j, k = 0, l = 0;
+	int i, j, l = 0;
 	char newlineflag = 'n', aflag = 'n';
 
 	for (i = 1; i < argc; i++)
@@ -25,12 +25,9 @@ int main(int argc, char *argv[])
 			}
 		}
 		else
-		{
-			k++;
 			l++;
-		}
 	}
-	if (argc == 1 || (argc == 2 && argv[1][0] == '-'))
+	if (l == 0)
 		printme(".", newlineflag, aflag, argv[0]);
 	else
 	{
@@ -38,14 +35,13 @@ int main(int argc, char *argv[])
 		{
 			if (argv[i][0] != '-')
 			{
+				if (file_stat(argv[i - 1]) == 'd'
+				    || file_stat(argv[i]) == 'd')
+					printf("\n");
 				if (l > 1 && file_stat(argv[i]) == 'd')
 					printf("%s:\n", argv[i]);
-
 				printme(argv[i], newlineflag, aflag, argv[0]);
-				if (k > 1)
-					printf("\n");
 			}
-			k--;
 		}
 	}
 	return (0);
@@ -64,17 +60,17 @@ void printme(char *av, char newlineflag, char af, char *avzero)
 	int i = 0;
 	struct dirent *ds;
 	DIR *dir;
-	char *sepa = "  ", *newpath;
-	char *errmsgp = "%s: cannot open directory %s: Permission denied\n";
-	char *errmsgn = "%s: cannot access %s: No such file or directory\n";
+	char *s = "  ";
+	char *p = "%s: cannot open directory %s: Permission denied\n";
+	char *en = "%s: cannot access %s: No such file or directory\n", *newpa;
 
 	if (newlineflag != 'n')
-		sepa = "\n";
+		s = "\n";
 	if (file_stat(av) == 'd')
 	{
-		ds = readdir(dir = opendir(newpath = dir_selector(av)));
+		ds = readdir(dir = opendir(newpa = dir_selector(av)));
 		if (_strcmp(av, ".") != 0)
-			free(newpath);
+			free(newpa);
 		while (ds != NULL)
 		{
 			if ((af == 'a') || (af == 'n' && ds->d_name[0] != '.'
@@ -88,19 +84,19 @@ void printme(char *av, char newlineflag, char af, char *avzero)
 					i++;
 				}
 				else
-					printf("%s%s", sepa, ds->d_name);
+					printf("%s%s", s, ds->d_name);
 			}
 			ds = readdir(dir);
 		}
 		closedir(dir);
-		printf("\n");
+		if (i != 0)
+			printf("\n");
 	}
-	else if (file_stat(av) == 'f')
-		printf("%s\n", av);
 	else if (file_stat(av) == 'E')
-		fprintf(stderr, errmsgn, avzero, av);
+		fprintf(stderr, en, avzero, av);
 	else if (file_stat(av) == 'e')
-		fprintf(stderr, errmsgp, avzero, av);
+		fprintf(stderr, p, avzero, av);
+	xtraprint(av);
 }
 
 /**
@@ -117,4 +113,15 @@ char *dir_selector(char *dirstr)
 		return (dirstr);
 	newpath = mall_strcat(".", dirstr, "/");
 	return (newpath);
+}
+
+/**
+ * xtraprint - print file name
+ * @av: file name
+ */
+
+void xtraprint(char *av)
+{
+	if (file_stat(av) == 'f')
+		printf("%s\n", av);
 }
