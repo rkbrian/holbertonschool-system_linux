@@ -9,7 +9,7 @@
 
 int main(int argc, char *argv[])
 {
-	int i, j, l = 0;
+	int i, j, k = 0, l = 0;
 	char newlineflag = 'n', aflag = 'n';
 
 	for (i = 1; i < argc; i++)
@@ -25,7 +25,10 @@ int main(int argc, char *argv[])
 			}
 		}
 		else
+		{
 			l++;
+			k++;
+		}
 	}
 	if (l == 0)
 		printme(".", newlineflag, aflag, argv[0]);
@@ -35,13 +38,14 @@ int main(int argc, char *argv[])
 		{
 			if (argv[i][0] != '-')
 			{
-				if (file_stat(argv[i - 1]) == 'd'
-				    || file_stat(argv[i]) == 'd')
+				if (k != l && (file_stat(argv[i - 1]) == 'd'
+				     || file_stat(argv[i]) == 'd'))
 					printf("\n");
 				if (l > 1 && file_stat(argv[i]) == 'd')
 					printf("%s:\n", argv[i]);
 				printme(argv[i], newlineflag, aflag, argv[0]);
 			}
+			k--;
 		}
 	}
 	return (0);
