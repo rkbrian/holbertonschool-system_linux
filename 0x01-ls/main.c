@@ -38,9 +38,8 @@ int main(int argc, char *argv[])
 		{
 			if (argv[i][0] != '-')
 			{
-				if (k != l && (file_stat(argv[i - 1]) == 'd'
-				     || file_stat(argv[i]) == 'd'))
-					printf("\n");
+				if (k < l)
+					mul_arg(argv[i - 1], argv[i]);
 				if (l > 1 && file_stat(argv[i]) == 'd')
 					printf("%s:\n", argv[i]);
 				printme(argv[i], newlineflag, aflag, argv[0]);
@@ -128,4 +127,16 @@ void xtraprint(char *av)
 {
 	if (file_stat(av) == 'f')
 		printf("%s\n", av);
+}
+
+/**
+ * mul_arg - print spacing between args
+ * @a0: 1st arg
+ * @a1: 2nd arg
+ */
+
+void mul_arg(char *a0, char *a1)
+{
+	if (file_stat(a0) == 'd' || file_stat(a1) == 'd')
+		printf("\n");
 }

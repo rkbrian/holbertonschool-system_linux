@@ -27,5 +27,6 @@ char file_stat(char *av);
 void printme(char *av, char newlineflag, char listallflag, char *avzero);
 char *dir_selector(char *dirstr);
 void xtraprint(char *av);
+void mul_arg(char *a0, char *a1);
 
 #endif
