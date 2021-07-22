@@ -31,3 +31,16 @@
 
 ## 2: Handle multiple file descriptors.
 ### when called with -1 you should free everything and reset all your static variables
+
+## Allowed Functions and System Calls
+### - read
+### - write
+### - malloc
+### - realloc
+### - free
+### - strcpy
+### - strncpy
+### - strcat
+### - strdup
+### - memset
+### - memcpy
