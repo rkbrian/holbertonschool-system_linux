@@ -248,10 +248,15 @@ void xtraprint(char *av)
 void mul_arg(char *a0, char *a1)
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	if (file_stat(a0) == 'd' || file_stat(a1) == 'd')
 		printf("\n");
 =======
         if (file_stat(a0) == 'd' || file_stat(a1) == 'd')
                 printf("\n");
 >>>>>>> 056eed321c16250475f861adae99fce385de1e8d
+=======
+    if (file_stat(a0) == 'd' || file_stat(a1) == 'd')
+        printf("\n");
+>>>>>>> 6ba4178e5d491d279bc79eb0a01d6963420b5633
 }
