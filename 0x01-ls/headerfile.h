@@ -9,6 +9,9 @@
 #include <errno.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <pwd.h>
+#include <grp.h>
+#include <time.h>
 
 /**
  * prototypes for static libraries
@@ -28,5 +31,8 @@ void printme(char *av, char newlineflag, char listallflag, char *avzero);
 char *dir_selector(char *dirstr);
 void xtraprint(char *av);
 void mul_arg(char *a0, char *a1);
+/* long_listing */
+void long_listing(char *av, char *path);
+void show_permission(int permnum);
 
 #endif
