@@ -7,7 +7,8 @@
  */
 void race_state(int *id, size_t size)
 {
-    static car_laps **unknown_car = NULL;
+    static car_laps *unknown_car = NULL;
+    car_laps *head;
     size_t lapkeeper = 0;
 
     if (size > 0)
@@ -15,18 +16,25 @@ void race_state(int *id, size_t size)
         if (id != NULL)
         {
             for (; lapkeeper < size; lapkeeper++)
-                create_car(id);
+            {
+                head = create_car(&unknown_car, id[lapkeeper + 1]);
+                printf("Car %d joined the race\n", head->newcar_number);
+            }
         }
         else
+            return;
     }
-    printf("Race state:\n");
-    while (!= NULL)
+    else if (size == 0)
+        free(carnum);
+
+    if (lapkeeper == size)
+        printf("Race state:\n");
+    for (unknown_car != NULL)
     {
         ;
         printf("Car %d [%d laps]")
     }
-    if (size == 0)
-        free(carnum);
+    
     
     ;
 }
@@ -46,7 +54,6 @@ car_laps *create_car(int newcar_number)
     newcar->car_number = newcar_number;
     newcar->lapkeeper = 0;
     newcar = newcar->next;
-    printf("Car %d joined the race\n", newcar_number);
     return (newcar);
 }
 
@@ -59,7 +66,7 @@ car_laps *add_lap(car_laps **runcar, int runcar_number)
 {
     car_laps *new_lap;
 
-    if (*runcar = NULL)
+    if (*runcar = NULL) /*  */
         return create_car(runcar_number);
     while (new_lap != NULL)
     {
