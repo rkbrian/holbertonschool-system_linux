@@ -141,6 +141,6 @@ void xtraprint(char *av)
 
 void mul_arg(char *a0, char *a1)
 {
-        if (file_stat(a0) == 'd' || file_stat(a1) == 'd')
-                printf("\n");
+    if (file_stat(a0) == 'd' || file_stat(a1) == 'd')
+        printf("\n");
 }
