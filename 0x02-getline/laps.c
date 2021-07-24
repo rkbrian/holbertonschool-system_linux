@@ -7,13 +7,17 @@
  */
 void race_state(int *id, size_t size)
 {
-    struct *car_join, *add_lap;
-    static size_t lapkeeper = 0;
+    static car_laps **unknown_car = NULL;
+    size_t lapkeeper = 0;
 
-    car_join = create_car(id);
-    if ()
+    if (size > 0)
     {
-        printf("Car %d joined the race\n", carnum);
+        if (id != NULL)
+        {
+            for (; lapkeeper < size; lapkeeper++)
+                create_car(id);
+        }
+        else
     }
     printf("Race state:\n");
     while (!= NULL)
@@ -23,6 +27,7 @@ void race_state(int *id, size_t size)
     }
     if (size == 0)
         free(carnum);
+    
     ;
 }
 
@@ -31,17 +36,37 @@ void race_state(int *id, size_t size)
  * @car_number: id number of the new car
  * Return: new car struct or null
  */
-car_laps create_car(int car_number)
+car_laps *create_car(int newcar_number)
 {
-    ;
+    car_laps *newcar;
+
+    newcar = malloc(sizeof(car_laps));
+    if (newcar == NULL)
+        return (NULL);
+    newcar->car_number = newcar_number;
+    newcar->lapkeeper = 0;
+    newcar = newcar->next;
+    printf("Car %d joined the race\n", newcar_number);
+    return (newcar);
 }
 
 /**
- * create_car - create a new car struct
+ * add_lap - create a new car struct
  * @car_number: id number of the new car
  * Return: new car struct or null
  */
-car_laps add_lap(int car_number, int )
+car_laps *add_lap(car_laps **runcar, int runcar_number)
 {
-    ;
+    car_laps *new_lap;
+
+    if (*runcar = NULL)
+        return create_car(runcar_number);
+    while (new_lap != NULL)
+    {
+        new_lap->car_number = runcar_number;
+        new_lap->lapkeeper++;
+        new_lap = new_lap->next;
+    }
+
+    printf("Car %d joined the race\n", id[size]);
 }
