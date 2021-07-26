@@ -8,32 +8,31 @@
 void race_state(int *id, size_t size)
 {
 	static car_laps *carnum;
-	/* car_laps *current = NULL; */
+	car_laps *current; /* node pointer for printing laps */
 	size_t laps = 0;
 
 	if (size > 0)
 	{
-		if (id != NULL)
+		if (id)
 		{
 			for (; laps < size; laps++)
-			{
-				laps++;
 				add_lap(&carnum, id[laps]);
+			printf("Race state:\n");
+			if (carnum)
+			{
+				current = carnum;
+				while (current != NULL)
+				{
+					printf("Car %d [%d laps]\n", current->car_number, current->lapkeeper);
+					current = current->next;
+				}
 			}
-			printf("Race state:\n"), laps = 0;
-			printf("Car %d [%d laps]\n", carnum->car_number, carnum->lapkeeper);
 		}
 		else
 			return;
 	}
 	else if (size == 0)
 		free_struct(carnum);
-/** current = carnum;
-	while (current != NULL)
-	{
-		add_lap(current, laps);
-		current = current->next;
-		}*/
 }
 
 /**
@@ -50,7 +49,7 @@ car_laps *create_car(int newcar_number)
 		return (NULL);
 	newcar->car_number = newcar_number;
 	newcar->lapkeeper = 0;
-	newcar = newcar->next;
+	newcar->next = NULL;
 	printf("Car %d joined the race\n", newcar_number);
 	return (newcar);
 }
@@ -61,13 +60,13 @@ car_laps *create_car(int newcar_number)
  * @carnum: id number of the car
  * Return: new car struct or null
  */
-car_laps **add_lap(car_laps *car, int carnum)
+car_laps *add_lap(car_laps **car, int carnum)
 {
 	car_laps *current = NULL, *newcar = NULL, *tmp = NULL;
 
-	if (car == NULL) /* everything starts here */
-		return (car = create_car(carnum));
-	current = car;
+	if (*car == NULL) /* everything starts here */
+		return (*car = create_car(carnum));
+	current = *car;
 	while (current != NULL)
 	{
 		if (current->car_number == carnum) /* current car number exists in the lap-adding list*/
@@ -75,20 +74,22 @@ car_laps **add_lap(car_laps *car, int carnum)
 			current->lapkeeper++;
 			return (current);
 		}
-		else /* no miscall in the logic before, means a new car is in */
+		else if (current->car_number > carnum) /* no miscall in the logic before, means a new car is in */
 		{
 			newcar = create_car(carnum);
 			/* tmp node stores the new car, then sort the pointing */
-			if (tmp == NULL && current->car_number > carnum)
-				car = newcar;
+			if (tmp == NULL)
+				*car = newcar;
 			else
 				tmp->next = newcar;
 			newcar->next = current;
-			tmp = NULL;
 			return (newcar);
 		}
+		tmp = current;
 		current = current->next;
 	}
+	newcar = create_car(carnum);
+	tmp->next = newcar;
 	return (newcar);
 }
 
@@ -102,6 +103,15 @@ void free_struct(car_laps *da_list)
 
 	if (da_list == NULL)
 		return;
+	/** current = *da_list;
+	while (current != NULL)
+	{
+		temp_node = current;
+		current = current->next;
+		free(temp_node);
+	}
+	*da_list = NULL; */
+
 	while (da_list != NULL)
 	{
 		temp_node = da_list->next;

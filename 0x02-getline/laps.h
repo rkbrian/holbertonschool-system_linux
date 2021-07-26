@@ -18,8 +18,7 @@ typedef struct car_info {
 
 void race_state(int *id, size_t size);
 car_laps *create_car(int newcar_number);
-car_laps **add_lap(car_laps *car, int carnum);
+car_laps *add_lap(car_laps **car, int carnum);
 void free_struct(car_laps *da_list);
-
 
 #endif
