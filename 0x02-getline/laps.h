@@ -7,14 +7,18 @@
 #include <string.h>
 
 /**
- * prototypes for laps
+ * struct car_info - struct with racing car info, integer contents only
+ * @car_number: race car number
+ * @lapkeeper: number to keep total laps of the car in the race
+ * @next: linked list pointer to the next node
  */
-
-typedef struct car_info {
-    int car_number;
-    int lapkeeper;
-    struct car_info *next;
+typedef struct car_info
+{
+	int car_number;
+	int lapkeeper;
+	struct car_info *next;
 } car_laps;
+
 
 void race_state(int *id, size_t size);
 car_laps *create_car(int newcar_number);

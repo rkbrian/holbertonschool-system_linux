@@ -8,7 +8,8 @@
 void race_state(int *id, size_t size)
 {
 	static car_laps *carnum;
-	car_laps *current; /* node pointer for printing laps */
+	/* current: node pointer for printing laps */
+	car_laps *current;
 	size_t laps = 0;
 
 	if (size > 0)
@@ -69,12 +70,14 @@ car_laps *add_lap(car_laps **car, int carnum)
 	current = *car;
 	while (current != NULL)
 	{
-		if (current->car_number == carnum) /* current car number exists in the lap-adding list*/
+		/* current car number exists in the lap-adding list*/
+		if (current->car_number == carnum)
 		{
 			current->lapkeeper++;
 			return (current);
 		}
-		else if (current->car_number > carnum) /* no miscall in the logic before, means a new car is in */
+		/* no miscall in the logic before, means a new car is in */
+		else if (current->car_number > carnum)
 		{
 			newcar = create_car(carnum);
 			/* tmp node stores the new car, then sort the pointing */
@@ -103,15 +106,6 @@ void free_struct(car_laps *da_list)
 
 	if (da_list == NULL)
 		return;
-	/** current = *da_list;
-	while (current != NULL)
-	{
-		temp_node = current;
-		current = current->next;
-		free(temp_node);
-	}
-	*da_list = NULL; */
-
 	while (da_list != NULL)
 	{
 		temp_node = da_list->next;
