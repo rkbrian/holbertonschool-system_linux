@@ -9,12 +9,18 @@
 #include <string.h>
 
 
-
 /**
- * prototypes for static libraries
+ * struct textmem - struct with texts of a file, string contents
+ * @textline: text of a line
+ * @next: linked list pointer to the next node
  */
+typedef struct text_mem
+{
+	char *textline;
+	struct text_mem *next;
+} filetext;
 
 char *_getline(const int fd);
-char *continue_read(char *buffer, int linemem, int laststop);
+filetext *continue_read(char *buffer, int linemem, int laststop, char *readtext);
 
 #endif
