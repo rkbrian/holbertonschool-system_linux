@@ -15,11 +15,9 @@ char *_getline(const int fd)
 		current = static_texts;
 		if (current == NULL)
 			return (NULL);
-		while (current != NULL)
+		while (current)
 		{
 			temp_node = current->next;
-			/* if (current->textline) */
-			/* free(current->textline); */
 			if (current->buffer)
 				free(current->buffer);
 			free(current);
@@ -50,14 +48,14 @@ filetext *text_list(filetext **static_texts, int fd)
 		return (newtext);
 	}
 	current = *static_texts;
-	while (current != NULL)
+	while (current)
 	{
 		if (current->fd == fd)
-			return (current); /* static_texts copy, textline to be changed in _getline */
+			return (current);
 		else if (current->fd > fd)
 		{
 			newtext = new_node(fd), newtext->next = current;
-			if (tmp != NULL)
+			if (tmp)
 				tmp->next = newtext;
 			return (newtext);
 		}
@@ -77,6 +75,7 @@ filetext *text_list(filetext **static_texts, int fd)
 filetext *new_node(int fd)
 {
 	filetext *newtext;
+
 	newtext = malloc(sizeof(filetext));
 	if (newtext == NULL)
 		return (NULL);
@@ -94,25 +93,23 @@ filetext *new_node(int fd)
 char *continue_read(filetext *texts)
 {
 	char *textline = NULL;
-	int laststop, i_diff = 0;
+	int laststop = texts->linemem, i_diff = 0;
 
 	if (texts->buffer == NULL) /* making buffer, once for all */
 	{
 		texts->buffer = malloc(sizeof(char) * (READ_SIZE + 1));
 		if (texts->buffer == NULL)
 			return (NULL);
-		memset(texts->buffer, 0, sizeof(char) * (READ_SIZE + 1)); /* initialize buffer */
+		memset(texts->buffer, 0, sizeof(char) * (READ_SIZE + 1)); /* initialize */
 		if (read(texts->fd, texts->buffer, READ_SIZE) == -1)
 			return (NULL);
-		texts->linemem = 0;
 	}
-	laststop = texts->linemem;
 	for (; texts->buffer[texts->linemem] != '\n'
 		     && texts->buffer[texts->linemem] != '\0' && texts->linemem < READ_SIZE;)
 		texts->linemem++;
 	if (texts->linemem == READ_SIZE)
 		return (buffalo_string(texts, laststop));
-	if (texts->buffer[texts->linemem] == '\n') /* if stopped at new line, normal case */
+	if (texts->buffer[texts->linemem] == '\n') /* if stopped at new line */
 	{
 		textline = malloc(sizeof(char) * (texts->linemem - laststop + 1));
 		if (textline == NULL)
