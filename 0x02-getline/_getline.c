@@ -93,11 +93,11 @@ filetext *new_node(int fd)
 char *continue_read(filetext *texts)
 {
 	char *textline = NULL;
-	int laststop = texts->linemem, i_diff = 0;
+	int laststop = texts->linemem, i_diff = 0, j = texts->linemem;
 
 	if (texts->buffer == NULL) /* making buffer, once for all */
 	{
-		texts->linemem = 0, laststop = 0;
+		texts->linemem = 0, laststop = 0, j = 0;
 		texts->buffer = malloc(sizeof(char) * (READ_SIZE + 1));
 		if (texts->buffer == NULL)
 			return (NULL);
@@ -105,9 +105,8 @@ char *continue_read(filetext *texts)
 		if (read(texts->fd, texts->buffer, READ_SIZE) == -1)
 			return (NULL);
 	}
-	for (; texts->buffer[texts->linemem] != '\n'
-		     && texts->buffer[texts->linemem] != '\0' && texts->linemem < READ_SIZE;)
-		texts->linemem++;
+	for (; texts->buffer[j] != '\n' && texts->buffer[j] != '\0' && j < READ_SIZE;)
+		texts->linemem++, j++;
 	if (texts->linemem == READ_SIZE)
 		return (buffalo_string(texts, laststop));
 	if (texts->buffer[texts->linemem] == '\n') /* if stopped at new line */
@@ -126,7 +125,7 @@ char *continue_read(filetext *texts)
 			textline = malloc(sizeof(char) * (texts->linemem - laststop + 1));
 			if (textline == NULL)
 				return (NULL);
-			for (; laststop < texts->linemem; laststop++)
+			for (; laststop < texts->linemem; laststop++, i_diff++)
 				textline[i_diff] = texts->buffer[laststop];
 			textline[i_diff] = '\0';
 		}
