@@ -12,15 +12,24 @@
 /**
  * struct textmem - struct with texts of a file, string contents
  * @textline: text of a line
+ * @buffer: 
+ * @fd: file description
+ * @linemem: the current end of text to be read
  * @next: linked list pointer to the next node
  */
 typedef struct text_mem
 {
 	char *textline;
+    char *buffer;
+    int fd;
+    int linemem;
 	struct text_mem *next;
 } filetext;
 
 char *_getline(const int fd);
-filetext *continue_read(char *buffer, int linemem, int laststop, char *readtext);
+filetext *text_list(filetext **static_texts, int fd);
+filetext *new_node(int fd);
+char *continue_read(filetext *texts);
+char *buffalo_string(filetext *texts, int laststop);
 
 #endif

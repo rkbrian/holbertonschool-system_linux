@@ -7,61 +7,168 @@
  */
 char *_getline(const int fd)
 {
-	static char *buffer;
-	char *readtext;
-	static int linemem;
-	int laststop;
+    static filetext *static_texts;
+    filetext *current, *temp_node;
 
-	if (buffer == NULL) /* making buffer, this action is once for all */
-	{
-		buffer = malloc(sizeof(char) * READ_SIZE);
-		if (buffer == NULL)
-			return (NULL);
-		memset(buffer, 0, sizeof(char) * READ_SIZE); /* initializing buffer */
-		if (read(fd, buffer, READ_SIZE) == -1)
-			return (NULL);
-	}
+    if (fd == -1)
+    {
+        current = static_texts;
+    	if (current == NULL)
+		    return;
+	    while (current != NULL)
+	    {
+		    temp_node = current->next;
+            free(current->textline);
+            free(current->buffer);
+		    free(current);
+		    current = temp_node;
+	    }
+        return (NULL);
+    }
+    current = text_list(&static_texts, fd);
+    if (current == NULL)
+        return (NULL);
+    return (continue_read(current));
+}
 
-	laststop = linemem;
-	for (; buffer[linemem] != '\n' && buffer[linemem] != '\0'; linemem++)
-	{
-	}
-	if (buffer[linemem] == '\n') /* if stopped at new line, normal case */
-	{
-		continue_read(buffer, linemem, laststop, readtext);
-		laststop = linemem;
-		linemem++; /* memory count skip a space for null byte */
-	}
-	else if (buffer[linemem] == '\0') /* if stopped at the middle of the line */
-	{
-		if (linemem > laststop)
-		{
-			continue_read(buffer, linemem, laststop, readtext);
-			laststop = linemem;
-		}
-		free(buffer);
-		buffer = NULL;
-	}
-	return (readtext);
+/**
+ * text_list - function to make a linked list of texts
+ * @static_texts: static linked lists to store file lines of each fd
+ * @fd: file descriptor
+ * Return: linked list of texts
+ */
+filetext *text_list(filetext **static_texts, int fd)
+{
+    filetext *current, *newtext = NULL, *tmp = NULL;
+
+    if (*static_texts == NULL)
+        return (*static_texts = new_node(fd));
+    current = *static_texts;
+    while (current != NULL)
+    {
+        if (current->fd == fd)
+            return (current); /* static_texts copy, textline to be changed in _getline */
+        else if (current->fd > fd)
+        {
+            newtext = new_node(fd), newtext->next = current;
+            if (tmp != NULL)
+                tmp->next = newtext;
+            return (newtext);
+        }
+        tmp = current;
+        current = current->next;
+    }
+    newtext = new_node(fd);
+    tmp->next = newtext;
+    return (newtext);
+}
+
+/**
+ * new_node - make a new node with given parameter
+ * @fd: file descriptor
+ * Return: new node
+ */
+filetext *new_node(int fd)
+{
+    filetext *newtext;
+    newtext = malloc(sizeof(filetext));
+    if (newtext == NULL)
+        return (NULL);
+    newtext->buffer = NULL;
+    newtext->fd = fd;
+    newtext->next = NULL;
+    return (newtext);
 }
 
 /**
  * continue_read - read through everything in a line and return
- * @buffer: buffer pass down
- * @linemem: the current end of text to be read
- * @laststop: the current start of text been read, also the total size read
- * @readtext: return string pointer
+ * @texts: current node pass down
  * Return: the text been read
  */
-char *continue_read(char *buffer, int linemem, int laststop, char *readtext)
+char *continue_read(filetext *texts)
 {
-	int i_diff = 0;
+	int laststop = texts->linemem, i_diff = 0;
 
-	readtext = malloc(sizeof(char) * (linemem - laststop + 1));
-	if (readtext == NULL)
-		return (NULL);
-	for (; laststop < linemem; laststop++)
-		readtext[i_diff] = buffer[laststop];
-	readtext[i_diff] = '\0';
-	return (readtext);
+	if (texts->buffer == NULL) /* making buffer, once for all */
+	{
+		texts->buffer = malloc(sizeof(char) * (READ_SIZE + 1));
+		if (texts->buffer == NULL)
+			return (NULL);
+		memset(texts->buffer, 0, sizeof(char) * (READ_SIZE + 1)); /* initialize buffer */
+		if (read(texts->fd, texts->buffer, READ_SIZE) == -1)
+			return (NULL);
+	}
+	for (; texts->buffer[texts->linemem] != '\n'
+        && texts->buffer[texts->linemem] != '\0' && texts->linemem < READ_SIZE;)
+    	texts->linemem++;
+    if (texts->linemem == READ_SIZE)
+        return (buffalo_string(texts, laststop));
+	if (texts->buffer[texts->linemem] == '\n') /* if stopped at new line, normal case */
+	{
+		texts->textline = malloc(sizeof(char) * (texts->linemem - laststop + 1));
+        if (texts->textline == NULL)
+    	    return (NULL);
+	    for (; laststop < texts->linemem; laststop++)
+	        texts->textline[i_diff] = texts->buffer[laststop];
+        texts->textline[i_diff] = '\0', texts->linemem++; /* mem count for null byte */
+	}
+	else if (texts->buffer[texts->linemem] == '\0') /* case stop in the middle */
+	{
+		if (texts->linemem > laststop)
+		{
+			texts->textline = malloc(sizeof(char) * (texts->linemem - laststop + 1));
+    	    if (texts->textline == NULL)
+	    	    return (NULL);
+	        for (; laststop < texts->linemem; laststop++)
+		        texts->textline[i_diff] = texts->buffer[laststop];
+	        texts->textline[i_diff] = '\0';
+		}
+		free(texts->buffer), texts->buffer = NULL; /* end of file */
+	}
+	return (texts->textline);
+}
+
+/**
+ * buffalo_string - read texts and clear buffer when reaching buffer limit
+ * @texts: current node pass down
+ * @laststop: the starting point for the new text reading
+ * Return: the text been read
+ */
+char *buffalo_string(filetext *texts, int laststop)
+{
+    char *buffalo = NULL, *tmp = NULL;
+    int i, j;
+
+    if (laststop == texts->linemem)
+        buffalo = NULL;
+    else
+    {
+        buffalo = malloc(sizeof(char) * (texts->linemem - laststop + 1));
+        if (buffalo == NULL)
+            return (NULL);
+        for (i = 0; i < (texts->linemem - laststop); i++)
+            buffalo[i] = texts->buffer[laststop + i];
+        buffalo[i] = '\0';
+    }
+    free(texts->buffer), texts->buffer = NULL;
+    tmp = continue_read(texts);
+    if (tmp == NULL)
+    {
+        if (buffalo)
+            free(buffalo);
+        if (texts->buffer)
+            free(texts->buffer);
+        return (NULL);
+    }
+    for (j = 0; tmp[j] != '\0'; j++)
+    {
+    }
+    if (buffalo)
+    {
+        buffalo = realloc(buffalo, i + j + 1);
+        strcat(buffalo, tmp), free(tmp);
+    }
+    else
+        buffalo = tmp;
+    return (buffalo);
 }
