@@ -97,6 +97,7 @@ char *continue_read(filetext *texts)
 
 	if (texts->buffer == NULL) /* making buffer, once for all */
 	{
+		texts->linemem = 0, laststop = 0;
 		texts->buffer = malloc(sizeof(char) * (READ_SIZE + 1));
 		if (texts->buffer == NULL)
 			return (NULL);
