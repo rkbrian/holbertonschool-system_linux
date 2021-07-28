@@ -10,19 +10,17 @@
 
 
 /**
- * struct textmem - struct with texts of a file, string contents
- * @textline: text of a line
- * @buffer: 
+ * struct text_mem - struct with texts of a file, string contents
+ * @buffer: buffer
  * @fd: file description
  * @linemem: the current end of text to be read
  * @next: linked list pointer to the next node
  */
 typedef struct text_mem
 {
-	char *textline;
-    char *buffer;
-    int fd;
-    int linemem;
+	char *buffer;
+	int fd;
+	int linemem;
 	struct text_mem *next;
 } filetext;
 
