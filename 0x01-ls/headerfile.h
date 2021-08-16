@@ -32,7 +32,7 @@ char *dir_selector(char *dirstr);
 void xtraprint(char *av);
 void mul_arg(char *a0, char *a1);
 /* long_listing */
-void long_listing(char *av, char *path);
-void show_permission(int permnum);
+/* void long_listing(char *av, char *path); */
+/* void show_permission(int permnum); */
 
 #endif
