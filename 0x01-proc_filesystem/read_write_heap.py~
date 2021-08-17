@@ -1,0 +1,43 @@
+#!/usr/bin/python3
+"""
+For function to rewrite a process
+"""
+import sys
+
+
+"""def read_write_heap(*args)"""
+"""python3 -c 'print(__import__("my_module").my_function.__doc__)'"""
+
+if len(sys.argv) < 3:
+    raise TypeError("too few arguments")
+elif len(sys.argv) > 3:
+    raise TypeError("too many arguments")
+
+try:
+    pid = int(sys.argv[1])
+except:
+    raise ValueError
+
+search_string = str(sys.argv[2])
+replace_string = str(sys.argv[3])
+map_file_str = "/proc/{}/maps".format(pid)
+print("[*] maps: {}".format(map_file_str))
+mem_file_str = "/proc/{}/mem".format(pid)
+print("[*] mem: {}".format(mem_file_str))
+
+try:
+    with open(map_file_str, mode="r") as map_file
+except IOError:
+    print("can not open file {}".format(map_file_str))
+    sys.exit(1)
+
+for read_line in map_file:
+    phrase = read_line.split(' ')
+memory_address = phrase[0]
+permissions = phrase[1]
+offset = phrase[2]
+inode = phrase[4]
+pathname = phrase[-1][:-1]
+    if phrase[-1][:-1] != "[heap]":
+        continue
+

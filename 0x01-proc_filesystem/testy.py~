@@ -1,0 +1,5 @@
+#!/usr/bin/python3
+
+import sys
+
+print("{}".format(sys.arg[3]))
