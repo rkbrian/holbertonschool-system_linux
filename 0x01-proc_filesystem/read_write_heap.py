@@ -1,20 +1,20 @@
 #!/usr/bin/python3
 """
-Find and rewrite an ongoing process in the heap, with
-given pid, string to be searched, and replace string
+Module to find and rewrite an ongoing process in the heap,
+with given pid, string to be searched, and replace string.
 
 Usage: read_write_heap.py pid search_string replace_string
 - where pid is the pid of the running process
 - and strings are ASCII
-The script should look only in the heap of the process
-Output: you can print whatever you think is interesting
+The script should look only in the heap of the process.
+Output: you can print whatever you think is interesting.
 On usage error, print an error message on stdout and exit
-  with status code 1
+  with status code 1.
 """
 import sys
 
 
-"""Checking inputs correctness"""
+# Checking inputs correctness
 if len(sys.argv) < 4:
     raise TypeError("too few arguments")
     sys.exit(1)
@@ -37,7 +37,7 @@ print("[*] maps: {}".format(map_file_str))
 mem_file_str = "/proc/{}/mem".format(pid)
 print("[*] mem: {}".format(mem_file_str))
 
-"""Attempt to open map and access"""
+# Attempt to open map and access
 try:
     map_file = open(map_file_str, mode='r')
 except:
@@ -63,7 +63,7 @@ if permissions[0] != 'r' or permissions[1] != 'w':
     map_file.close()
     exit(1)
 
-"""Check format correctness and address ranges in hexadecimal"""
+# Check format correctness and address ranges in hexadecimal
 addresses = memory_address.split("-")
 if len(addresses) != 2:
     print("wrong address format")
@@ -78,7 +78,7 @@ except:
     map_file.close()
     exit(1)
 
-"""Attempt to open memory and access"""
+# Attempt to open memory and access
 try:
     mem_file = open(mem_file_str, mode='rb+')
 except:
@@ -86,7 +86,7 @@ except:
     map_file.close()
     exit(1)
 
-"""Seek() method to find the line in heap and read heap, search string"""
+# Seek() method to find the line in heap and read heap, search string
 mem_file.seek(head_addr)
 heap = mem_file.read(tail_addr - head_addr)
 try:
@@ -98,7 +98,7 @@ except:
     mem_file.close()
     exit(1)
 
-"""Replace the string"""
+# Replace the string
 if len(replace_string) > h_index:
     raise ValueError("replace string is too long")
     map_file.close()
