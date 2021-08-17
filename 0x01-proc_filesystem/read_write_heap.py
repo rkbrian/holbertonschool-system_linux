@@ -3,7 +3,7 @@
 Module to find and rewrite an ongoing process in the heap,
 with given pid, string to be searched, and replace string.
 
-Usage: read_write_heap.py pid search_string replace_string
+Usage: ./read_write_heap.py pid search_string replace_string
 - where pid is the pid of the running process
 - and strings are ASCII
 The script should look only in the heap of the process.
@@ -11,27 +11,30 @@ Output: you can print whatever you think is interesting.
 On usage error, print an error message on stdout and exit
   with status code 1.
 """
+
+
 import sys
 
 
+def usage_error_exit():
+    """Print usage error and exit"""
+    print("Usage:{} pid search_string replace_string".format(sys.argv[0]))
+    sys.exit(1)
+
 # Checking inputs correctness
-if len(sys.argv) < 4:
-    raise TypeError("too few arguments")
-    sys.exit(1)
-elif len(sys.argv) > 4:
-    raise TypeError("too many arguments")
-    sys.exit(1)
+if len(sys.argv) != 4:
+    usage_error_exit()
+search_string = str(sys.argv[2])
+replace_string = str(sys.argv[3])
+if (search_string == "") or (replace_string == ""):
+    usage_error_exit()
 try:
     pid = int(sys.argv[1])
     if pid <= 0:
-        raise TypeError("{} is not a valid pid".format(sys.argv[1]))
-        sys.exit(1)
+        usage_error_exit()
 except:
-    raise TypeError("{} is not a valid pid".format(sys.argv[1]))
-    sys.exit(1)
+    usage_error_exit()
 
-search_string = str(sys.argv[2])
-replace_string = str(sys.argv[3])
 map_file_str = "/proc/{}/maps".format(pid)
 print("[*] maps: {}".format(map_file_str))
 mem_file_str = "/proc/{}/mem".format(pid)
