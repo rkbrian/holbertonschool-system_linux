@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 # Stop a Bash script that displays text indefinitely.
 
-pkill -9 Holberton
+kill "$(pgrep -f "Holberton")"
