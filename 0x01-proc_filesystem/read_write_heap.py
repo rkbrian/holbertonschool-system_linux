@@ -1,5 +1,16 @@
 #!/usr/bin/python3
-"""Module for unction to rewrite an ongoing process"""
+"""
+Find and rewrite an ongoing process in the heap, with
+given pid, string to be searched, and replace string
+
+Usage: read_write_heap.py pid search_string replace_string
+- where pid is the pid of the running process
+- and strings are ASCII
+The script should look only in the heap of the process
+Output: you can print whatever you think is interesting
+On usage error, print an error message on stdout and exit
+  with status code 1
+"""
 import sys
 
 
