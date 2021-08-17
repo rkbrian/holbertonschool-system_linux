@@ -26,7 +26,7 @@ if len(sys.argv) != 4:
     usage_error_exit()
 search_string = str(sys.argv[2])
 replace_string = str(sys.argv[3])
-if (search_string == "") or (replace_string == ""):
+if search_string == "":
     usage_error_exit()
 try:
     pid = int(sys.argv[1])
@@ -34,7 +34,6 @@ try:
         usage_error_exit()
 except:
     usage_error_exit()
-
 map_file_str = "/proc/{}/maps".format(pid)
 print("[*] maps: {}".format(map_file_str))
 mem_file_str = "/proc/{}/mem".format(pid)
@@ -94,12 +93,12 @@ mem_file.seek(head_addr)
 heap = mem_file.read(tail_addr - head_addr)
 try:
     h_index = heap.index(bytes(search_string, "ASCII"))
-    print("[*] Found '{}' at {}".format(search_string, h_index))
-except:
-    raise Exception("can not find {}".format(search_string))
+except Exception:
+    print("can not find {}".format(search_string))
     map_file.close()
     mem_file.close()
     exit(1)
+print("[*] Found '{}' at {}".format(search_string, h_index))
 
 # Replace the string
 if len(replace_string) > h_index:
