@@ -73,8 +73,8 @@ if len(addresses) != 2:
     map_file.close()
     exit(1)
 try:
-    head_addr = int(addresses[0])
-    tail_addr = int(addresses[1])
+    head_addr = int(addresses[0], 16)
+    tail_addr = int(addresses[1], 16)
     print("[*] Addr start [{}] | end [{}]".format(head_addr, tail_addr))
 except:
     raise ValueError("wrong address value")
