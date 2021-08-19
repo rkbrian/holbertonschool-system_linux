@@ -15,3 +15,6 @@ and strings are ASCII
 The script should look only in the heap of the process
 Output: you can print whatever you think is interesting
 On usage error, print an error message on stdout and exit with status code 1
+
+## 1. Blog Post
+https://docs.google.com/document/d/1qOUckG_7rBiNT2cWNPdwitUfzLPIWvhG/edit?usp=sharing&ouid=110860371606464415133&rtpof=true&sd=true
