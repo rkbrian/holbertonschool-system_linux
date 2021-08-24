@@ -5,10 +5,14 @@
 # OBJ: the .o files, not listed
 # NAME: the name of the executable
 
-CC = gcc
-SRC = main.c holberton.c
+CC = gcc -Wall -Werror -Wextra -pedantic
+SRC = 
 OBJ = $(SRC:.c=.o)
 NAME = holberton
 
 
-all: 
+all: $(NAME)
+
+clean:
+	rm $(NAME)
+.PHONY: all clean $()

@@ -7,6 +7,14 @@
 #define EI_MAG3 'F'
 #define BUFFALO 32
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <string.h>
+
 /**
  * struct elf_header - database for the elf header
  * @e_magic: varable 1, the sequence constitutes the ELF magic number
@@ -64,7 +72,7 @@ enum elf_id
 	EI_OSABI = 7, /* OS property */
 	EI_ABIVERSION = 8, /* OS property */
 	EI_PAD = 9  /* Padding */
-}
+};
 
 elf_hdr create_fileinfo(char *filename);
 
