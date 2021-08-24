@@ -11,11 +11,11 @@ FILEC = 2-hreadelf.c print_set_3.c
 RM = rm -rf
 
 0-hreadelf: $(FILEA)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $^ -o $@
 1-hreadelf: $(FILEB)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $^ -o $@
 2-hreadelf: $(FILEC)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $^ -o $@
 clean:
 	$(RM) *~ $(FILEA) $(FILEB) $(FILEC)
 .PHONY: clean 0-hreadelf 1-hreadelf 2-hreadelf

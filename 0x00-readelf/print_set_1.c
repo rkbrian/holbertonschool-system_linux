@@ -21,8 +21,8 @@ void print_head(elf_hdr *elf_head)
  */
 void print_h_magic16(elf_hdr *elf_head)
 {
-        int i;
-        iron_man **armors;
+	int i, j = elf_head->machine;
+	iron_man armors = default_machine;
 
 	printf("  Class:                             ");
 	if (elf_head->e_class == 1)
@@ -45,15 +45,15 @@ void print_h_magic16(elf_hdr *elf_head)
 	printf("%s\n", abi_list(elf_head));
 	printf("  ABI Version:                       ");
 	printf("%d\n", elf_head->abi_v);
-        printf("%s\n", type_list(elf_head));
-        for (i = 0; i < 100; i++)
-        {
-                if (elf_head->machine == armors.war_machine[i].id)
-                {
-                        printf("%s\n", armors.war_machine[i].abi_name);
-                        break;
-                }
-        }
+	printf("%s\n", type_list(elf_head));
+	for (i = 0; i < 100; i++)
+	{
+		if (j == armors.war_machine[i].id)
+		{
+			printf("%s\n", armors.war_machine[i].abi_name);
+			break;
+		}
+	}
 }
 
 /**
@@ -63,7 +63,7 @@ void print_h_magic16(elf_hdr *elf_head)
  */
 char *abi_list(elf_hdr *elf_head)
 {
-        int i;
+	int i;
 	abyss billy[] = {
 		{0, "System V"},
 		{1, "HP-UX"},
@@ -85,12 +85,12 @@ char *abi_list(elf_hdr *elf_head)
 		{18, "Stratus Technologies OpenVOS"}
 	};
 
-        for (i = 0; i < 19; i++)
-        {
-                if (elf_head->abi_name == billy[i].id)
-                        return (billy[i].abi_name);
-        }
-        return ("Architecture-specific value range");
+	for (i = 0; i < 19; i++)
+	{
+		if (elf_head->abi_name == billy[i].id)
+			return (billy[i].abi_name);
+	}
+	return ("Architecture-specific value range");
 }
 
 /**
@@ -100,19 +100,19 @@ char *abi_list(elf_hdr *elf_head)
  */
 char *type_list(elf_hdr *elf_head)
 {
-        int i;
-        abyss tea_party[] = {
+	int i, j = elf_head->type;
+	abyss tea_party[] = {
 		{0, "NONE (Unknown file)"},
 		{1, "REL (Relocatable file)"},
-                {2, "EXEC (Executable file)"},
-                {3, "DYN (Shared object file)"},
-                {4, "CORE (Core file)"}
-        }; /* this format is borrowed from abi list for type list */
+		{2, "EXEC (Executable file)"},
+		{3, "DYN (Shared object file)"},
+		{4, "CORE (Core file)"}
+	}; /* this format is borrowed from abi list for type list */
 
-        for (i = 0; i < 5; i++)
-        {
-                if (elf_head->type == tea_party[i].id)
-                        return (tea_party[i].abi_name);
-        }
-        return ("LOOS (Operating system-specific");
+	for (i = 0; i < 5; i++)
+	{
+		if (j == tea_party[i].id)
+			return (tea_party[i].abi_name);
+	}
+	return ("LOOS (Operating system-specific");
 }
