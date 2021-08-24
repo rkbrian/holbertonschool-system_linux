@@ -74,7 +74,7 @@ typedef struct abi_list
 
 /**
  * struct machine_list
- * 
+ * @war_machine: machine names as many as Iron Man's armors
  */
 typedef struct machine_list
 {

@@ -13,7 +13,6 @@ void print_head(elf_hdr *elf_head)
 		printf("%02x ", elf_head->e_magic[i]);
 	printf("\n");
 	print_h_magic16(elf_head);
-
 }
 
 /**
@@ -22,6 +21,9 @@ void print_head(elf_hdr *elf_head)
  */
 void print_h_magic16(elf_hdr *elf_head)
 {
+        int i;
+        iron_man **armors;
+
 	printf("  Class:                             ");
 	if (elf_head->e_class == 1)
 		printf("ELF32\n");
@@ -44,7 +46,14 @@ void print_h_magic16(elf_hdr *elf_head)
 	printf("  ABI Version:                       ");
 	printf("%d\n", elf_head->abi_v);
         printf("%s\n", type_list(elf_head));
-
+        for (i = 0; i < 100; i++)
+        {
+                if (elf_head->machine == armors.war_machine[i].id)
+                {
+                        printf("%s\n", armors.war_machine[i].abi_name);
+                        break;
+                }
+        }
 }
 
 /**
@@ -74,9 +83,9 @@ char *abi_list(elf_hdr *elf_head)
 		{16, "Fenix OS"},
 		{17, "CloudABI"},
 		{18, "Stratus Technologies OpenVOS"}
-		};
+	};
 
-        for (i = 0; i < 18; i++)
+        for (i = 0; i < 19; i++)
         {
                 if (elf_head->abi_name == billy[i].id)
                         return (billy[i].abi_name);
@@ -98,7 +107,7 @@ char *type_list(elf_hdr *elf_head)
                 {2, "EXEC (Executable file)"},
                 {3, "DYN (Shared object file)"},
                 {4, "CORE (Core file)"}
-                }; /* this format is borrowed from abi list for type list */
+        }; /* this format is borrowed from abi list for type list */
 
         for (i = 0; i < 5; i++)
         {
