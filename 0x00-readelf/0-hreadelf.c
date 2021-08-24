@@ -40,7 +40,7 @@ elf_hdr create_fileinfo(char *filename)
 
 	fd = open(filename, O_RDWR);
 	if (fd < 0)
-		return(NULL);
+		return (NULL);
 	fr = read(filename, buffer, BUFFALO);
 	if (fr < 0)
 		return (NULL);
@@ -67,7 +67,7 @@ elf_hdr create_fileinfo(char *filename)
 	Legolas->size_sec_h = buffer[25]; /* to be confirmed */
 	Legolas->num_sec_h = buffer[26]; /* to be confirmed */
 	Legolas->sec_h_str_index = buffer[27]; /* to be confirmed */
-	
+
 	return (Legolas);
 }
 

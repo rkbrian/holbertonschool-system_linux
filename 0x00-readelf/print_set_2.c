@@ -17,7 +17,7 @@ void print_head(elf_hdr elf_head)
 }
 
 /**
- * print_h_class - function to print elf file header class
+ * print_head - function to print elf file header
  * @elf_head: struct database of the elf file
  */
 void print_h_class(elf_hdr elf_head)

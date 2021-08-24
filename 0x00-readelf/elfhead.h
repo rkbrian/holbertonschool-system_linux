@@ -60,6 +60,19 @@ typedef struct elf_header
 	uint16_t sec_h_str_index;
 } elf_hdr;
 
+/**
+ * enum elf_id - Identification Indexes, e_ident
+ * @EI_MAG0: file identification
+ * @EI_MAG1: file identification
+ * @EI_MAG2: file identification
+ * @EI_MAG3: file identification
+ * @EI_CLASS: file class
+ * @EI_DATA: data encoding
+ * @EI_VERSION: file version
+ * @EI_OSABI: operating system/ABI identification
+ * @EI_ABIVERSION: ABI version
+ * @EI_PAD: start of padding bytes
+ */
 enum elf_id
 {
 	EI_MAG0 = 0, /* 0x7F */
@@ -80,7 +93,7 @@ int magic_check(elf_hdr elf_head);
 /* print set 1 */
 void print_head(elf_hdr elf_head);
 void print_h_class(elf_hdr elf_head);
-
+/* print set 2 */
 
 
 
