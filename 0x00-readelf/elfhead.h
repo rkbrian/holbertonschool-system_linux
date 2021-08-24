@@ -74,6 +74,17 @@ enum elf_id
 	EI_PAD = 9  /* Padding */
 };
 
+/* Prototypes: 0-hreadelf */
 elf_hdr create_fileinfo(char *filename);
+int magic_check(elf_hdr elf_head);
+/* print set 1 */
+void print_head(elf_hdr elf_head);
+void print_h_class(elf_hdr elf_head);
+
+
+
+
+
+
 
 #endif /* ELFHEAD_H */
