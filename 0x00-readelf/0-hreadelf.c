@@ -51,11 +51,12 @@ elf_hdr create_fileinfo(char *filename)
 		Legolas->e_magic[i] = buffer[i];
 	Legolas->e_class = buffer[4];
 	Legolas->e_data = buffer[5];
-	Legolas->abi_name = buffer[6];
-	Legolas->abi_v = buffer[7];
+	Legolas->e_version = buffer[6];
+	Legolas->abi_name = buffer[7];
+	Legolas->abi_v = buffer[8];
 	Legolas->type = buffer[16];
 	Legolas->machine = buffer[17]; /* to be confirmed */
-	Legolas->version =  buffer[18]; /* to be confirmed */
+	Legolas->version = Legolas->e_version;
 	for (i = 0; i < 4; i++)
 		Legolas->entry_addr[i] = buffer[24 + i];
 	Legolas->start_pro_h = buffer[19]; /* to be confirmed */
@@ -67,7 +68,7 @@ elf_hdr create_fileinfo(char *filename)
 	Legolas->size_sec_h = buffer[25]; /* to be confirmed */
 	Legolas->num_sec_h = buffer[26]; /* to be confirmed */
 	Legolas->sec_h_str_index = buffer[27]; /* to be confirmed */
-
+	close(filename);
 	return (Legolas);
 }
 
@@ -76,7 +77,7 @@ elf_hdr create_fileinfo(char *filename)
  * @elf_head: struct database of the elf file
  * Return: 0 if no error, 1 if error
  */
-int magic_check(elf_hdr elf_head)
+int magic_check(elf_hdr *elf_head)
 {
 	if (elf_head->e_magic[EI_MAG0] != EI_MAG0)
 	{

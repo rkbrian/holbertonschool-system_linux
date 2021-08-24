@@ -1,18 +1,21 @@
 # nameof the executable: 0-hreadelf, 1-hreadelf, 2-hreadelf
-# rules: all
 # CC: the compiler to be used
-# SRC: the .c files listed
-# OBJ: the .o files, not listed
-# NAME: the name of the executable
+# CFLAGS: -Wall -Werror -Wextra -pedantic
+# rules: all
 
-CC = gcc -Wall -Werror -Wextra -pedantic
-SRC = 
-OBJ = $(SRC:.c=.o)
-NAME = holberton
+CC = gcc
+CFLAGS = -Wall -Werror -Wextra -pedantic 
+FILEA = 0-hreadelf.c print_set_1.c
+FILEB = 1-hreadelf.c print_set_2.c
+FILEC = 2-hreadelf.c print_set_3.c
+RM = rm -rf
 
-
-all: $(NAME)
-
+0-hreadelf: $(FILEA)
+	$(CC) $(CFLAGS) $< -o $@
+1-hreadelf: $(FILEB)
+	$(CC) $(CFLAGS) $< -o $@
+2-hreadelf: $(FILEC)
+	$(CC) $(CFLAGS) $< -o $@
 clean:
-	rm $(NAME)
-.PHONY: all clean $()
+	$(RM) *~ $(FILEA) $(FILEB) $(FILEC)
+.PHONY: clean 0-hreadelf 1-hreadelf 2-hreadelf
