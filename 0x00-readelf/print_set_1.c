@@ -8,6 +8,13 @@ void print_head(elf_hdr *elf_head)
 {
 	int i;
 
+	if (magic_check(elf_head) > 0)
+	{
+		dprintf(STDERR_FILENO,
+			"Error: Not an ELF file - it has the wrong magic bytes at the start\n");
+		exit(98);
+	}
+	printf("ELF Header:\n");
 	printf("  Magic:   ");
 	for (i = 0; i < 16; i++)
 		printf("%02x ", elf_head->e_magic[i]);
@@ -62,9 +69,9 @@ char *abi_list(elf_hdr *elf_head)
 {
 	int i;
 	abyss billy[] = {
-		{0, "System V"},
+		{0, "Unix - System V"},
 		{1, "HP-UX"},
-		{2, "NetBSD"},
+		{2, "Unix - NetBSD"},
 		{3, "Linux"},
 		{4, "GNU Hurd"},
 		{6, "Solaris"},

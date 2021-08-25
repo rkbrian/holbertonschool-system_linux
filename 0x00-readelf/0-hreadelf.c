@@ -15,15 +15,6 @@ int main(int argc, char **argv)
 		dprintf(STDERR_FILENO, "Usage: 0-hreadelf elf_filename\n"), exit(98);
 	filename = argv[1];
 	create_fileinfo(Legolas, filename);
-	if (Legolas == NULL)
-		dprintf(STDERR_FILENO, "Error: Cannot read from file\n"), exit(98);
-	if (magic_check(Legolas) > 0)
-	{
-		dprintf(STDERR_FILENO,
-		"Error: Not an ELF file - it has the wrong magic bytes at the start\n");
-		exit(98);
-	}
-	print_head(Legolas);
 	return (0);
 }
 
@@ -46,15 +37,12 @@ void create_fileinfo(elf_hdr *Legolas, char *filename)
 		return;
 	Legolas = malloc(sizeof(elf_hdr));
 	if (Legolas == NULL)
-		return;
+		dprintf(STDERR_FILENO, "Error: Cannot read from file\n"), exit(98);
 	for (i = 0; i < 16; i++)
 		Legolas->e_magic[i] = buffer[i];
-	Legolas->e_class = buffer[4];
-	Legolas->e_data = buffer[5];
-	Legolas->e_version = buffer[6];
-	Legolas->abi_name = buffer[7];
-	Legolas->abi_v = buffer[8];
-	Legolas->type = buffer[16];
+	Legolas->e_class = buffer[4], Legolas->e_data = buffer[5];
+	Legolas->e_version = buffer[6], Legolas->abi_name = buffer[7];
+	Legolas->abi_v = buffer[8], Legolas->type = buffer[16];
 	Legolas->machine = buffer[17]; /* to be confirmed */
 	Legolas->version = Legolas->e_version;
 	for (i = 0; i < 4; i++)
@@ -69,6 +57,9 @@ void create_fileinfo(elf_hdr *Legolas, char *filename)
 	Legolas->num_sec_h = buffer[26]; /* to be confirmed */
 	Legolas->sec_h_str_index = buffer[27]; /* to be confirmed */
 	close(fd);
+	if (Legolas == NULL)
+		dprintf(STDERR_FILENO, "Error: Cannot read from file\n"), exit(98);
+	print_head(Legolas);
 }
 
 /**
@@ -156,7 +147,7 @@ char *war_machine(elf_hdr *elf_head)
  * entree_dressing - function to return machine name selected
  * @elf_head: struct database of the elf file
  */
-void *entree_dressing(elf_hdr *elf_head)
+void entree_dressing(elf_hdr *elf_head)
 {
 	if (elf_head->entry_addr[3] != 0)
 		printf("%x", elf_head->entry_addr[3]);
