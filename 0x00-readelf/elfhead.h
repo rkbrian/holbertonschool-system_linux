@@ -84,7 +84,7 @@ typedef struct abi_list
 void create_fileinfo(elf_hdr *Legolas, char *filename);
 int magic_check(elf_hdr *elf_head);
 char *war_machine(elf_hdr *elf_head);
-void walternate(elf_hdr *Legolas);
+void walternate(elf_hdr *Legolas, char *buffer);
 /* print set 1 */
 void print_head(elf_hdr *elf_head);
 void print_to_entry(elf_hdr *elf_head);

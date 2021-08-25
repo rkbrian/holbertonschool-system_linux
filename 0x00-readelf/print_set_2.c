@@ -2,24 +2,26 @@
 
 /**
  * indie_game - function to print endianness
- * @indigo: array of numbers, big endian
- * @byte_size: array length, 4 or 8
+ * @elf_head: struct database of the elf file
  */
-void indie_game(elf_hdr elf_head)
+void indie_game(elf_hdr *elf_head)
 {
-	int i, pro_sum = 0, sec_sum = 0;
+	int i, print_helper, p_sum = 0, s_sum = 0;
 
 	if (elf_head->j == 1)
 	{
 		for (i = 3; i >= 0; i--)
 		{
 			if (elf_head->entry_addrl[i] != 0)
-				printf("%x", elf_head->entry_addrl[i]);
+			{
+				print_helper = elf_head->entry_addrl[i];
+				printf("%x", print_helper);
+			}
 		}
 		for (i = 3; i >= 0; i--)
 		{
-			pro_sum = (256 * pro_sum) + elf_head->start_pro_hl[i]);
-			sec_sum = (256 * sec_sum) + elf_head->start_sec_hl[i]);
+			p_sum = (256 * p_sum) + elf_head->start_pro_hl[i];
+			s_sum = (256 * s_sum) + elf_head->start_sec_hl[i];
 		}
 	}
 	else if (elf_head->j == 2)
@@ -27,17 +29,20 @@ void indie_game(elf_hdr elf_head)
 		for (i = 7; i >= 0; i--)
 		{
 			if (elf_head->entry_addrh[i] != 0)
-				printf("%x", elf_head->entry_addrh[i]);
+			{
+				print_helper = elf_head->entry_addrh[i];
+				printf("%x", print_helper);
+			}
 		}
 		for (i = 8; i >= 0; i--)
 		{
-			pro_sum = (256 * pro_sum) + elf_head->start_pro_hh[i]);
-			sec_sum = (256 * sec_sum) + elf_head->start_sec_hh[i]);
+			p_sum = (256 * p_sum) + elf_head->start_pro_hh[i];
+			s_sum = (256 * s_sum) + elf_head->start_sec_hh[i];
 		}
 	}
 	printf("\n");
-	printf("  Start of program headers:          %d (bytes into file)\n", pro_sum);
-	printf("  Start of section headers:          %d (bytes into file)\n", sec_sum);
+	printf("  Start of program headers:          %d (bytes into file)\n", p_sum);
+	printf("  Start of section headers:          %d (bytes into file)\n", s_sum);
 }
 
 /**

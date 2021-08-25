@@ -44,7 +44,7 @@ void create_fileinfo(elf_hdr *Legolas, char *filename)
 	Legolas->e_version = buffer[6], Legolas->abi_name = buffer[7];
 	Legolas->abi_v = buffer[8], Legolas->type = buffer[16];
 	Legolas->machine = buffer[18], Legolas->version = buffer[20];
-	walternate(Legolas), j = Legolas->j;
+	walternate(Legolas, buffer), j = Legolas->j;
 	Legolas->flags = buffer[24 + (j * 12)]; /* to be confirmed */
 	Legolas->size_eh = buffer[28 + (j * 12)]; /* to be confirmed */
 	Legolas->size_pro_h = buffer[30 + (j * 12)]; /* to be confirmed */
@@ -139,8 +139,9 @@ char *war_machine(elf_hdr *elf_head)
 /**
  * walternate - choose whether store 32-bit or 64-bit variables
  * @Legolas: struct database of the elf file
+ * @buffer: buffer
  */
-void walternate(elf_hdr *Legolas)
+void walternate(elf_hdr *Legolas, char *buffer)
 {
 	int i;
 
