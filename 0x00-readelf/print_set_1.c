@@ -76,7 +76,7 @@ char *abi_list(elf_hdr *elf_head)
 		{2, "Unix - NetBSD"},
 		{3, "Linux"},
 		{4, "GNU Hurd"},
-		{6, "Solaris"},
+		{6, "Unix - Solaris"},
 		{7, "AIX"},
 		{8, "IRIX"},
 		{9, "FreeBSD"},
