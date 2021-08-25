@@ -19,14 +19,15 @@ void print_head(elf_hdr *elf_head)
 	for (i = 0; i < 16; i++)
 		printf("%02x ", elf_head->e_magic[i]);
 	printf("\n");
-	print_h_magic16(elf_head);
+	print_to_entry(elf_head);
+        print_to_shstrndx(elf_head);
 }
 
 /**
- * print_h_magic16 - function to print E_IDENT info (1st 16 numbers)
+ * print_to_entry - to print E_IDENT, type, machine, version and entry info
  * @elf_head: struct database of the elf file
  */
-void print_h_magic16(elf_hdr *elf_head)
+void print_to_entry(elf_hdr *elf_head)
 {
 	printf("  Class:                             ");
 	if (elf_head->e_class == 1)
@@ -57,7 +58,8 @@ void print_h_magic16(elf_hdr *elf_head)
 	if (elf_head->e_version == 1)
 		printf("0x1\n");
 	printf("  Entry point address:               0x");
-	entree_dressing(elf_head);
+	indie_game(elf_head);
+        print_to_shstrndx(elf_head);
 }
 
 /**

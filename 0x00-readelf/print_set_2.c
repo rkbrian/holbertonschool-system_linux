@@ -1,32 +1,63 @@
 #include "elfhead.h"
 
 /**
- * print_head - function to print elf file header
- * @elf_head: struct database of the elf file
+ * indie_game - function to print endianness
+ * @indigo: array of numbers, big endian
+ * @byte_size: array length, 4 or 8
  */
-void print_head(elf_hdr elf_head)
+void indie_game(elf_hdr elf_head)
 {
-	int i;
+	int i, pro_sum = 0, sec_sum = 0;
 
-	printf("  Magic:   ");
-	for (i = 0; i < 16; i++)
-		printf("%02x ", elf_head->e_magic[i]);
+	if (elf_head->j == 1)
+	{
+		for (i = 3; i >= 0; i--)
+		{
+			if (elf_head->entry_addrl[i] != 0)
+				printf("%x", elf_head->entry_addrl[i]);
+		}
+		for (i = 3; i >= 0; i--)
+		{
+			pro_sum = (256 * pro_sum) + elf_head->start_pro_hl[i]);
+			sec_sum = (256 * sec_sum) + elf_head->start_sec_hl[i]);
+		}
+	}
+	else if (elf_head->j == 2)
+	{
+		for (i = 7; i >= 0; i--)
+		{
+			if (elf_head->entry_addrh[i] != 0)
+				printf("%x", elf_head->entry_addrh[i]);
+		}
+		for (i = 8; i >= 0; i--)
+		{
+			pro_sum = (256 * pro_sum) + elf_head->start_pro_hh[i]);
+			sec_sum = (256 * sec_sum) + elf_head->start_sec_hh[i]);
+		}
+	}
 	printf("\n");
-	print_h_class(elf_head);
-
+	printf("  Start of program headers:          %d (bytes into file)\n", pro_sum);
+	printf("  Start of section headers:          %d (bytes into file)\n", sec_sum);
 }
 
 /**
- * print_head - function to print elf file header
+ * print_to_shstrndx - function to print section and program header tables
  * @elf_head: struct database of the elf file
  */
-void print_h_class(elf_hdr elf_head)
+void print_to_shstrndx(elf_hdr *elf_head)
 {
-	printf("  Class:                             ");
-	if (elf_head->e_magic[4] == 1)
-		printf("ELF32\n");
-	else if (elf_head->e_magic[4] == 2)
-		printf("ELF64\n");
-	else if (elf_head->e_magic[4] == 0)
-		printf("ELFNONE\n");
+	printf("  Flags:                             ");
+	printf("0x%x\n", elf_head->flags);
+	printf("  Size of this header:               ");
+	printf("%d (bytes)\n", elf_head->size_eh);
+	printf("  Size of program headers:           ");
+	printf("%d (bytes)\n", elf_head->size_pro_h);
+	printf("  Number of program headers:         ");
+	printf("%d\n", elf_head->num_pro_h);
+	printf("  Size of section headers:           ");
+	printf("%d (bytes)\n", elf_head->size_sec_h);
+	printf("  Number of section headers:         ");
+	printf("%d\n", elf_head->num_sec_h);
+	printf("  Section header string table index: ");
+	printf("%d\n", elf_head->sec_h_str_index);
 }

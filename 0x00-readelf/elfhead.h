@@ -5,7 +5,7 @@
 #define EI_MAG1 'E'
 #define EI_MAG2 'L'
 #define EI_MAG3 'F'
-#define BUFFALO 32
+#define BUFFALO 64
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,6 +18,7 @@
 
 /**
  * struct elf_header - database for the elf header
+ * @j: byte size flag, 1 for 32-bit, 2 for 64-bit
  * @e_magic: varable 1, the sequence constitutes the ELF magic number
  * @e_class: varable 2, elf file class
  * @e_data: varable 3, elf file data
@@ -27,9 +28,12 @@
  * @type: varable 7, type
  * @machine: varable 8, machine
  * @version: varable 9, elf file version
- * @entry_addr: varable 10, entry point address
- * @start_pro_h: varable 11, start of program headers
- * @start_sec_h: varable 12, start of section headers
+ * @entry_addrl: varable 10, entry point address for 32-bit
+ * @entry_addrh: varable 10, entry point address 64-bit
+ * @start_pro_hl: varable 11, start of program headers 32-bit
+ * @start_pro_hh: varable 11, start of program headers 64-bit
+ * @start_sec_hl: varable 12, start of section headers 32-bit
+ * @start_sec_hh: varable 12, start of section headers 64-bit
  * @flags: varable 13, flags
  * @size_h: varable 14, size of this header
  * @size_pro_h: varable 15, size of program headers
@@ -40,6 +44,7 @@
  */
 typedef struct elf_header
 {
+	int j;
 	uint8_t e_magic[16];
 	int e_class;
 	int e_data;
@@ -49,11 +54,14 @@ typedef struct elf_header
 	uint32_t type;
 	uint32_t machine;
 	uint32_t version;
-	uint32_t entry_addr[4];
-	uint32_t start_pro_h;
-	uint32_t start_sec_h;
+	uint32_t *entry_addrl;
+	uint64_t *entry_addrh;
+	uint32_t *start_pro_hl;
+	uint64_t *start_pro_hh;
+	uint32_t *start_sec_hl;
+	uint64_t *start_sec_hh;
 	uint32_t flags;
-	uint16_t size_h;
+	uint16_t size_eh;
 	uint16_t size_pro_h;
 	uint16_t num_pro_h;
 	uint16_t size_sec_h;
@@ -76,13 +84,14 @@ typedef struct abi_list
 void create_fileinfo(elf_hdr *Legolas, char *filename);
 int magic_check(elf_hdr *elf_head);
 char *war_machine(elf_hdr *elf_head);
-void entree_dressing(elf_hdr *elf_head);
+void walternate(elf_hdr *Legolas);
 /* print set 1 */
 void print_head(elf_hdr *elf_head);
-void print_h_magic16(elf_hdr *elf_head);
+void print_to_entry(elf_hdr *elf_head);
 char *abi_list(elf_hdr *elf_head);
 char *type_list(elf_hdr *elf_head);
 /* print set 2 */
-
+void indie_game(elf_hdr *elf_head);
+void print_to_shstrndx(elf_hdr *elf_head);
 
 #endif /* ELFHEAD_H */

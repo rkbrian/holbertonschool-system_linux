@@ -4,9 +4,9 @@
 # rules: all
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -pedantic 
-FILEA = 0-hreadelf.c print_set_1.c
-FILEB = 1-hreadelf.c print_set_2.c
+CFLAGS = -Wall -Werror -Wextra -pedantic
+FILEA = 0-hreadelf.c print_set_1.c print_set_2.c
+FILEB = 1-hreadelf.c
 FILEC = 2-hreadelf.c print_set_3.c
 RM = rm -rf
 
