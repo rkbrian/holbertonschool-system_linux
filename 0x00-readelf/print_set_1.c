@@ -49,8 +49,8 @@ void print_h_magic16(elf_hdr *elf_head)
 	printf("  Version:                           ");
 	if (elf_head->e_version == 1)
 		printf("0x1\n");
-	printf("  Entry point address:               ");
-	printf("%s\n", war_machine(elf_head));
+	printf("  Entry point address:               0x");
+	entree_dressing(elf_head);
 }
 
 /**
@@ -110,56 +110,6 @@ char *type_list(elf_hdr *elf_head)
 	{
 		if (j == tea_party[i].id)
 			return (tea_party[i].abi_name);
-	}
-	return ("LOOS (Operating system-specific");
-}
-
-/**
- * war_machine - function to return machine name selected
- * @elf_head: struct database of the elf file
- */
-char *war_machine(elf_hdr *elf_head)
-{
-	int i, j = elf_head->machine;
-	abyss iron_man[] = {{0, "No machine"}, {1, "AT&T WE 32100"}, {2, "Sparc"},
-			    {3, "Intel 80386"}, {4, "Motorola 68000"}, {5, "Motorola 88000"},
-			    {7, "Intel 80860"}, {8, "MIPS I Architecture"},
-			    {9, "IBM System/370 Processor"}, {10, "MIPS RS3000 Little-endian"},
-			    {15, "Hewlett-Packard PA-RISC"}, {17, "Fujitsu VPP500"},
-			    {18, "Enhanced instruction set Sparc"}, {19, "Intel 80960"},
-			    {20, "PowerPC"}, {21, "64-bit PowerPC"},
-			    {22, "IBM System/390 Processor"}, {36, "NEC V800"},
-			    {37, "Fujitsu FR20"}, {38, "TRW RH-32"}, {39, "Motorola RCE"},
-			    {40, "Advanced RISC Machines ARM"}, {41, "Digital Alpha"},
-			    {42, "Hitachi SH"}, {43, "Sparc Version 9"},
-			    {44, "Siemens TriCore embedded processor"},
-			    {45, "Argonaut RISC Core, Argonaut Technologies Inc."}, 
-			    {46, "Hitachi H8/300"}, {47, "Hitachi H8/300H"}, {48, "Hitachi H8S"},
-			    {49, "Hitachi H8/500"}, {50, "Intel IA-64 processor architecture"},
-			    {51, "Stanford MIPS-X"}, {52, "Motorola ColdFire"},
-			    {53, "Motorola M68HC12"}, {54, "Fujitsu MMA Multimedia Accelerator"},
-			    {55, "Siemens PCP"}, {56, "Sony nCPU embedded RISC processor"},
-			    {57, "Denso NDR1 microprocessor"},
-			    {58, "Motorola Star*Core processor"}, {59, "Toyota ME16 processor"},
-			    {60, "STMicroelectronics ST100 processor"},
-			    {61, "Advanced Logic Corp. TinyJ embedded processor family"},
-			    {62, "Advanced Micro Devices X86-64"}, {63, "Sony DSP Processor"},
-			    {64, "Digital Equipment Corp. PDP-10"},
-			    {65, "Digital Equipment Corp. PDP-11"},
-			    {66, "Siemens FX66 microcontroller"},
-			    {67, "STMicroelectronics ST9+ 8/16 bit microcontroller"},
-			    {68, "STMicroelectronics ST7 8-bit microcontroller"},
-			    {69, "Motorola MC68HC16 Microcontroller"},
-			    {70, "Motorola MC68HC11 Microcontroller"},
-			    {71, "Motorola MC68HC08 Microcontroller"},
-			    {72, "Motorola MC68HC05 Microcontroller"}, {73, "Silicon Graphics SVx"},
-			    {74, "STMicroelectronics ST19 8-bit microcontroller"}
-	}; /* Iron Man surely has lots of armors */
-
-	for (i = 0; i < 75; i++)
-	{
-		if (j == iron_man[i].id)
-			return (iron_man[i].abi_name);
 	}
 	return ("LOOS (Operating system-specific");
 }

@@ -75,6 +75,8 @@ typedef struct abi_list
 /* Prototypes: 0-hreadelf */
 void create_fileinfo(elf_hdr *Legolas, char *filename);
 int magic_check(elf_hdr *elf_head);
+char *war_machine(elf_hdr *elf_head);
+char *entree_dressing(elf_hdr *elf_head);
 /* print set 1 */
 void print_head(elf_hdr *elf_head);
 void print_h_magic16(elf_hdr *elf_head);
