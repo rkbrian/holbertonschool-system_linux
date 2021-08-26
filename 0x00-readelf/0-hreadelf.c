@@ -151,17 +151,17 @@ void walternate(elf_hdr *Legolas, char *buffer)
 		if (Legolas->entry_addrl == NULL)
 			return;
 		for (i = 0; i < 4; i++)
-			Legolas->entry_addrl[i] = buffer[24 + i]; /* to be confirmed */
+			Legolas->entry_addrl[i] = buffer[24 + i], printf("ENTRY ADDR %d\n", (int) Legolas->entry_addrl[i]); /* to be confirmed */
 		Legolas->start_pro_hl = malloc(sizeof(uint32_t) * 4);
 		if (Legolas->start_pro_hl == NULL)
 			return;
 		for (i = 0; i < 4; i++)
-			Legolas->start_pro_hl[i] = buffer[24 + (Legolas->j * 4) + i];
+			Legolas->start_pro_hl[i] = buffer[24 + (Legolas->j * 4) + i], printf("START PRO %d\n", (int) Legolas->start_pro_hl[i]);
 		Legolas->start_sec_hl = malloc(sizeof(uint32_t) * 4);
 		if (Legolas->start_sec_hl == NULL)
 			return;
 		for (i = 0; i < 4; i++)
-			Legolas->start_sec_hl[i] = buffer[24 + (Legolas->j * 8) + i];
+			Legolas->start_sec_hl[i] = buffer[24 + (Legolas->j * 8) + i], printf("START SEC %d\n", (int) Legolas->start_sec_hl[i]);
 	}
 	else if (Legolas->e_class == 2)
 	{

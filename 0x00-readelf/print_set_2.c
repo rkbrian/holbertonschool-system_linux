@@ -6,34 +6,33 @@
  */
 void indie_game(elf_hdr *elf_head)
 {
-	int i, j = 0, p_helper, p_sum = 0, s_sum = 0;
+	int i, j = 0, p_helper, p_sum = 0, s_sum = 0, end_i, k, pro_h, sec_h;
 
-	if (elf_head->j == 1)
+	if (elf_head->e_data == 1) /* little endian, digit position reverse */
+		i = (4 * elf_head->j) - 1, end_i = -1, k = -1;
+	else if (elf_head->e_data == 2) /* big endian, digit position in order */
+		i = 0, end_i = 4 * elf_head->j, k = 1;
+	while (i != end_i)
 	{
-		for (i = 3; i >= 0; i--)
+		if (elf_head->j == 1)
 		{
-			if (elf_head->entry_addrl[i] != 0)
-				p_helper = elf_head->entry_addrl[i], printf("%02x", p_helper), j++;
+			p_helper = elf_head->entry_addrl[i];
+			pro_h = elf_head->start_pro_hl[i];
+			sec_h = elf_head->start_sec_hl[i];
 		}
-		for (i = 3; i >= 0; i--)
+		else if (elf_head->j == 2)
 		{
-			p_sum = (256 * p_sum) + elf_head->start_pro_hl[i];
-			s_sum = (256 * s_sum) + elf_head->start_sec_hl[i];
+			p_helper = elf_head->entry_addrh[i];
+			pro_h = elf_head->start_pro_hh[i];
+			sec_h = elf_head->start_sec_hh[i];
 		}
-	}
-	else if (elf_head->j == 2)
-	{
-		for (i = 7; i >= 0; i--)
-		{
-			if (elf_head->entry_addrh[i] != 0)
-				p_helper = elf_head->entry_addrh[i], printf("%02x", p_helper), j++;
-		}
-		for (i = 7; i >= 0; i--)
-		{
-			p_sum = (256 * p_sum) + elf_head->start_pro_hh[i];
-			s_sum = (256 * s_sum) + elf_head->start_sec_hh[i];
-			/* printf("LOOK AT ME: %02x\n", p_helper = elf_head->start_sec_hh[i]); */
-		}
+		if (j > 0)
+			printf("%02x", p_helper), j++;
+		else if (p_helper != 0)
+			printf("%x", p_helper), j++;
+		p_sum = (256 * p_sum) + pro_h;
+		s_sum = (256 * s_sum) + sec_h;
+		i = i + k;
 	}
 	if (j == 0)
 		printf("0");
