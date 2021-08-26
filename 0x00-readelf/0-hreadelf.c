@@ -15,6 +15,14 @@ int main(int argc, char **argv)
 		dprintf(STDERR_FILENO, "Usage: 0-hreadelf elf_filename\n"), exit(98);
 	filename = argv[1];
 	create_fileinfo(Legolas, filename);
+	if (Legolas->start_pro_hh)
+		free(Legolas->start_pro_hh);
+	if (Legolas->start_pro_hl)
+		free(Legolas->start_pro_hl);
+	if (Legolas->start_sec_hh)
+		free(Legolas->start_sec_hh);
+	if (Legolas->start_sec_hl)
+		;
 	return (0);
 }
 
