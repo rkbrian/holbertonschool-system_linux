@@ -145,7 +145,7 @@ char *war_machine(elf_hdr *elf_head)
  * @Legolas: struct database of the elf file
  * @buffer: buffer
  */
-void walternate(elf_hdr *Legolas, char *buffer)
+void walternate(elf_hdr *Legolas, unsigned char *buffer)
 {
 	int i;
 
