@@ -173,12 +173,12 @@ void walternate(elf_hdr *Legolas, char *buffer)
 		Legolas->start_pro_hh = malloc(sizeof(uint64_t) * 8);
 		if (Legolas->start_pro_hh == NULL)
 			return;
-		for (i = 0; i < 4; i++)
+		for (i = 0; i < 8; i++)
 			Legolas->start_pro_hh[i] = buffer[24 + (Legolas->j * 4) + i];
 		Legolas->start_sec_hh = malloc(sizeof(uint64_t) * 8);
 		if (Legolas->start_sec_hh == NULL)
 			return;
-		for (i = 0; i < 4; i++)
+		for (i = 0; i < 8; i++)
 			Legolas->start_sec_hh[i] = buffer[24 + (Legolas->j * 8) + i];
 	}
 }
