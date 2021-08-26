@@ -88,7 +88,7 @@ void walternate(elf_hdr *Legolas, char *buffer);
 /* print set 1 */
 void print_head(elf_hdr *elf_head);
 void print_to_entry(elf_hdr *elf_head);
-char *abi_list(elf_hdr *elf_head);
+void abi_list(elf_hdr *elf_head);
 char *type_list(elf_hdr *elf_head);
 /* print set 2 */
 void indie_game(elf_hdr *elf_head);

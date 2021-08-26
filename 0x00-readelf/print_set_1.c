@@ -47,7 +47,7 @@ void print_to_entry(elf_hdr *elf_head)
 	if (elf_head->e_version == 1)
 		printf("1 (current)\n");
 	printf("  OS/ABI:                            ");
-	printf("%s\n", abi_list(elf_head));
+	abi_list(elf_head);
 	printf("  ABI Version:                       ");
 	printf("%d\n", elf_head->abi_v);
 	printf("  Type:                              ");
@@ -65,9 +65,8 @@ void print_to_entry(elf_hdr *elf_head)
 /**
  * abi_list - function to return abi name selected
  * @elf_head: struct database of the elf file
- * Return: abi name string
  */
-char *abi_list(elf_hdr *elf_head)
+void abi_list(elf_hdr *elf_head)
 {
 	int i;
 	abyss billy[] = {
@@ -94,9 +93,12 @@ char *abi_list(elf_hdr *elf_head)
 	for (i = 0; i < 19; i++)
 	{
 		if (elf_head->abi_name == billy[i].id)
-			return (billy[i].abi_name);
+		{
+			printf("%s\n", billy[i].abi_name);
+			return;
+		}
 	}
-	return ("Architecture-specific value range");
+	printf("<unknown: %d>\n", elf_head->abi_name);
 }
 
 /**

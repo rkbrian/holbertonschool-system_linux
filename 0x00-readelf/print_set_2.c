@@ -6,17 +6,14 @@
  */
 void indie_game(elf_hdr *elf_head)
 {
-	int i, print_helper, p_sum = 0, s_sum = 0;
+	int i, j = 0, p_helper, p_sum = 0, s_sum = 0;
 
 	if (elf_head->j == 1)
 	{
 		for (i = 3; i >= 0; i--)
 		{
-			if (elf_head->entry_addrl[i] != 00)
-			{
-				print_helper = elf_head->entry_addrl[i];
-				printf("%x", print_helper);
-			}
+			if (elf_head->entry_addrl[i] != 0)
+				p_helper = elf_head->entry_addrl[i], printf("%x", p_helper), j++;
 		}
 		for (i = 3; i >= 0; i--)
 		{
@@ -28,11 +25,8 @@ void indie_game(elf_hdr *elf_head)
 	{
 		for (i = 7; i >= 0; i--)
 		{
-			if (elf_head->entry_addrh[i] != 00)
-			{
-				print_helper = elf_head->entry_addrh[i];
-				printf("%x", print_helper);
-			}
+			if (elf_head->entry_addrh[i] != 0)
+				p_helper = elf_head->entry_addrh[i], printf("%x", p_helper), j++;
 		}
 		for (i = 8; i >= 0; i--)
 		{
@@ -40,6 +34,8 @@ void indie_game(elf_hdr *elf_head)
 			s_sum = (256 * s_sum) + elf_head->start_sec_hh[i];
 		}
 	}
+	if (j == 0)
+		printf("0");
 	printf("\n");
 	printf("  Start of program headers:          %d (bytes into file)\n", p_sum);
 	printf("  Start of section headers:          %d (bytes into file)\n", s_sum);
