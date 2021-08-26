@@ -181,4 +181,6 @@ void walternate(elf_hdr *Legolas, char *buffer)
 		for (i = 0; i < 8; i++)
 			Legolas->start_sec_hh[i] = buffer[24 + (Legolas->j * 8) + i];
 	}
+	else
+		Legolas->j = 0;
 }

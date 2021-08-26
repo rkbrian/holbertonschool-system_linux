@@ -61,4 +61,17 @@ void print_to_shstrndx(elf_hdr *elf_head)
 	printf("%d\n", elf_head->num_sec_h);
 	printf("  Section header string table index: ");
 	printf("%d\n", elf_head->sec_h_str_index);
+	if (elf_head->j == 1)
+	{
+		free(elf_head->entry_addrl);
+		free(elf_head->start_pro_hl);
+		free(elf_head->start_sec_hl);
+	}
+	else if (elf_head->j == 2)
+	{
+		free(elf_head->entry_addrh);
+		free(elf_head->start_pro_hh);
+		free(elf_head->start_sec_hh);
+	}
+	free(elf_head);
 }

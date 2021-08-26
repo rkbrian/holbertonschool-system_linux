@@ -20,7 +20,6 @@ void print_head(elf_hdr *elf_head)
 		printf("%02x ", elf_head->e_magic[i]);
 	printf("\n");
 	print_to_entry(elf_head);
-	print_to_shstrndx(elf_head);
 }
 
 /**
