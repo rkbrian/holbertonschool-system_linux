@@ -109,7 +109,7 @@ char *type_list(elf_hdr *elf_head)
 {
 	int i, j = elf_head->type;
 	abyss tea_party[] = {
-		{0, "NONE (Unknown file)"},
+		{0, "EXEC (Executable file)"}, /* was NONE (Unknown file) */
 		{1, "REL (Relocatable file)"},
 		{2, "EXEC (Executable file)"},
 		{3, "DYN (Shared object file)"},

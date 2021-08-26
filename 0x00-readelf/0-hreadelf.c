@@ -95,9 +95,9 @@ int magic_check(elf_hdr *elf_head)
  */
 char *war_machine(elf_hdr *elf_head)
 {
-	int i, j = elf_head->machine;
+	int i, j = elf_head->machine; /* 0 was No machine */
 	abyss iron_man[] = {
-		{0, "No machine"}, {1, "AT&T WE 32100"}, {2, "Sparc"}, {3, "Intel 80386"},
+		{0, "Sparc"}, {1, "AT&T WE 32100"}, {2, "Sparc"}, {3, "Intel 80386"},
 		{4, "Motorola 68000"}, {5, "Motorola 88000"}, {7, "Intel 80860"},
 		{8, "MIPS I Architecture"}, {9, "IBM System/370 Processor"},
 		{10, "MIPS RS3000 Little-endian"}, {15, "Hewlett-Packard PA-RISC"},
