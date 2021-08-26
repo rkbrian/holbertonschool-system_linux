@@ -175,7 +175,10 @@ void walternate(elf_hdr *Legolas, char *buffer)
 		if (Legolas->entry_addrh == NULL)
 			return;
 		for (i = 0; i < 8; i++)
+		{
 			Legolas->entry_addrh[i] = buffer[24 + i]; /* to be confirmed */
+			printf("LOOK AT ME: %d\n", buffer[24 + i]);
+		}
 		Legolas->start_pro_hh = malloc(sizeof(uint64_t) * 8);
 		if (Legolas->start_pro_hh == NULL)
 			return;
