@@ -21,8 +21,6 @@ int main(int argc, char **argv)
 		free(Legolas->start_pro_hl);
 	if (Legolas->start_sec_hh)
 		free(Legolas->start_sec_hh);
-	if (Legolas->start_sec_hl)
-		;
 	return (0);
 }
 
