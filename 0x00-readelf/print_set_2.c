@@ -10,11 +10,11 @@ void indie_game(elf_hdr *elf_head)
 
 	if (elf_head->e_data == 1) /* little endian, digit position reverse */
 		i = (4 * elf_head->j) - 1, end_i = -1, k = -1;
-	else if (elf_head->e_data > 1) /* big endian, digit position in order */
+	else if (elf_head->e_data == 2) /* big endian, digit position in order */
 		i = 0, end_i = 4 * elf_head->j, k = 1;
 	while (i != end_i)
 	{
-		if (elf_head->j <= 1)
+		if (elf_head->j == 1)
 		{
 			p_helper = elf_head->entry_addrl[i];
 			pro_h = elf_head->start_pro_hl[i], sec_h = elf_head->start_sec_hl[i];

@@ -25,7 +25,7 @@ int main(int argc, char **argv)
  */
 void create_fileinfo(elf_hdr *Legolas, char *filename)
 {
-	int i, j = 1;
+	int i, j = 1, z = 0;
 	ssize_t fd, fr;
 	char buffer[BUFFALO];
 
@@ -41,17 +41,20 @@ void create_fileinfo(elf_hdr *Legolas, char *filename)
 	for (i = 0; i < 16; i++)
 		Legolas->e_magic[i] = buffer[i];
 	Legolas->e_class = buffer[4], Legolas->e_data = buffer[5];
+	Legolas->j = Legolas->e_class;
 	Legolas->e_version = buffer[6], Legolas->abi_name = buffer[7];
 	Legolas->abi_v = buffer[8], Legolas->type = buffer[16];
+	if (Legolas->type == 0)
+		z = 1;
 	Legolas->machine = buffer[18], Legolas->version = buffer[20];
 	walternate(Legolas, buffer), j = Legolas->j;
 	Legolas->flags = buffer[24 + (j * 12)]; /* to be confirmed */
-	Legolas->size_eh = buffer[28 + (j * 12)]; /* to be confirmed */
-	Legolas->size_pro_h = buffer[30 + (j * 12)]; /* to be confirmed */
-	Legolas->num_pro_h = buffer[32 + (j * 12)]; /* to be confirmed */
-	Legolas->size_sec_h = buffer[34 + (j * 12)]; /* to be confirmed */
-	Legolas->num_sec_h = buffer[36 + (j * 12)]; /* to be confirmed */
-	Legolas->sec_h_str_index = buffer[38 + (j * 12)]; /* to be confirmed */
+	Legolas->size_eh = buffer[28 + (j * 12) + z]; /* to be confirmed */
+	Legolas->size_pro_h = buffer[30 + (j * 12) + z]; /* to be confirmed */
+	Legolas->num_pro_h = buffer[32 + (j * 12) + z]; /* to be confirmed */
+	Legolas->size_sec_h = buffer[34 + (j * 12) + z]; /* to be confirmed */
+	Legolas->num_sec_h = buffer[36 + (j * 12) + z]; /* to be confirmed */
+	Legolas->sec_h_str_index = buffer[38 + (j * 12) + z]; /* to be confirmed */
 	close(fd);
 	if (Legolas == NULL)
 		dprintf(STDERR_FILENO, "Error: Cannot read from file\n"), exit(98);
@@ -145,9 +148,9 @@ void walternate(elf_hdr *Legolas, char *buffer)
 {
 	int i;
 
-	if (Legolas->e_class == 1)
+	if (Legolas->j == 1)
 	{
-		Legolas->j = 1, Legolas->entry_addrl = malloc(sizeof(uint32_t) * 4);
+		Legolas->entry_addrl = malloc(sizeof(uint32_t) * 4);
 		if (Legolas->entry_addrl == NULL)
 			return;
 		for (i = 0; i < 4; i++)
@@ -163,9 +166,9 @@ void walternate(elf_hdr *Legolas, char *buffer)
 		for (i = 0; i < 4; i++)
 			Legolas->start_sec_hl[i] = buffer[24 + (Legolas->j * 8) + i];
 	}
-	else if (Legolas->e_class == 2)
+	else if (Legolas->j == 2)
 	{
-		Legolas->j = 2, Legolas->entry_addrh = malloc(sizeof(uint64_t) * 8);
+		Legolas->entry_addrh = malloc(sizeof(uint64_t) * 8);
 		if (Legolas->entry_addrh == NULL)
 			return;
 		for (i = 0; i < 8; i++)
@@ -181,6 +184,4 @@ void walternate(elf_hdr *Legolas, char *buffer)
 		for (i = 0; i < 8; i++)
 			Legolas->start_sec_hh[i] = buffer[24 + (Legolas->j * 8) + i];
 	}
-	else
-		Legolas->j = 0;
 }
