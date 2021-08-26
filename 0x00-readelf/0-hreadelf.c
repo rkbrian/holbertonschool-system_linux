@@ -27,7 +27,7 @@ void create_fileinfo(elf_hdr *Legolas, char *filename)
 {
 	int i, j = 1, z = 0;
 	ssize_t fd, fr;
-	char buffer[BUFFALO];
+	unsigned char buffer[BUFFALO];
 
 	fd = open(filename, O_RDWR);
 	if (fd < 0)
