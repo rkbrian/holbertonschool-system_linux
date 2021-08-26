@@ -80,66 +80,11 @@ typedef struct abi_list
 	char *abi_name;
 } abyss;
 
-/**
- * struct elf32_s_hdr - database for 32-bit elf section header
- * @sh_name: name of the section
- * @sh_type: type of the header
- * @sh_flags: attributes of the section
- * @sh_addr: virtual address of the section in memory
- * @sh_offset: offset of the section in the file image
- * @sh_size: size in bytes of the section in the file image
- * @sh_link: section index of an associated section
- * @sh_info: extra information about the section
- * @sh_addr_align: required alignment of the section
- * @sh_entsize: size in bytes of each entry
- */
-typedef struct elf32_s_hdr
-{
-	uint32_t sh_name; /* byte size 4 */
-	uint32_t sh_type; /* byte size 4 */
-	uint32_t sh_flags; /* byte size 4 */
-	uint32_t sh_addr; /* byte size 4 */
-	uint32_t sh_offset; /* byte size 4 */
-	uint32_t sh_size; /* byte size 4 */
-	uint32_t sh_link; /* byte size 4 */
-	uint32_t sh_info; /* byte size 4 */
-	uint32_t sh_addr_align; /* byte size 4 */
-	uint32_t sh_entsize; /* byte size 4 */
-} elf32_sh;
-
-/**
- * struct elf64_s_hdr - database for 64-bit elf section header
- * @sh_name: name of the section
- * @sh_type: type of the header
- * @sh_flags: attributes of the section
- * @sh_addr: virtual address of the section in memory
- * @sh_offset: offset of the section in the file image
- * @sh_size: size in bytes of the section in the file image
- * @sh_link: section index of an associated section
- * @sh_info: extra information about the section
- * @sh_addr_align: required alignment of the section
- * @sh_entsize: size in bytes of each entry
- */
-typedef struct elf64_s_hdr
-{
-	uint32_t sh_name; /* byte size 4 */
-	uint32_t sh_type; /* byte size 4 */
-	uint64_t sh_flags; /* byte size 8 */
-	uint64_t sh_addr; /* byte size 8 */
-	uint64_t sh_offset; /* byte size 8 */
-	uint64_t sh_size; /* byte size 8 */
-	uint32_t sh_link; /* byte size 4 */
-	uint32_t sh_info; /* byte size 4 */
-	uint64_t sh_addr_align; /* byte size 8 */
-	uint64_t sh_entsize; /* byte size 8 */
-} elf64_sh;
-
-
 /* Prototypes: 0-hreadelf */
 void create_fileinfo(elf_hdr *Legolas, char *filename);
 int magic_check(elf_hdr *elf_head);
 char *war_machine(elf_hdr *elf_head);
-void walternate(elf_hdr *Legolas, char *buffer);
+void walternate(elf_hdr *Legolas, unsigned char *buffer);
 /* print set 1 */
 void print_head(elf_hdr *elf_head);
 void print_to_entry(elf_hdr *elf_head);
