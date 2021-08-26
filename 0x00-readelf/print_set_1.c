@@ -97,7 +97,7 @@ void abi_list(elf_hdr *elf_head)
 			return;
 		}
 	}
-	printf("<unknown: %d>\n", elf_head->abi_name);
+	printf("<unknown: %x>\n", elf_head->abi_name);
 }
 
 /**
