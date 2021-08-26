@@ -31,7 +31,8 @@ void print_saxon(elf_hdr *elf_head)
 		else
 			printf("  [%d] ");
 		for (j = 0; j < 5; j++)
-			printf("  [%d] ");
+			name
+			printf("%s");
 	}
 }
 

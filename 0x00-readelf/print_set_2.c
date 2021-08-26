@@ -6,7 +6,8 @@
  */
 void indie_game(elf_hdr *elf_head)
 {
-	int i, j = 0, p_helper, p_sum = 0, s_sum = 0, end_i, k, pro_h, sec_h;
+	int i, j = 0, psum = 0, ssum = 0, end_i, k, pro_h, sec_h;
+	unsigned int p_helper;
 
 	if (elf_head->e_data == 1) /* little endian, digit position reverse */
 		i = (4 * elf_head->j) - 1, end_i = -1, k = -1;
@@ -27,18 +28,17 @@ void indie_game(elf_hdr *elf_head)
 		if (pro_h < 0)
 			pro_h = pro_h + 256;
 		if (sec_h < 0)
-			sec_h = sec_h + 256;
+			sec_h = sec_h + 256; /* if (p_helper > 256)p_helper = p_helper + 256; */
 		if (j > 0)
 			printf("%02x", p_helper), j++;
-		else if ((p_helper != 0) && (p_helper != 256))
+		else if (p_helper != 0)
 			printf("%x", p_helper), j++;
-		p_sum = (256 * p_sum) + pro_h, s_sum = (256 * s_sum) + sec_h, i = i + k;
+		psum = (256 * psum) + pro_h, ssum = (256 * ssum) + sec_h, i = i + k;
 	}
 	if (j == 0)
 		printf("0");
-	printf("\n");
-	printf("  Start of program headers:          %d (bytes into file)\n", p_sum);
-	printf("  Start of section headers:          %d (bytes into file)\n", s_sum);
+	printf("\n  Start of program headers:          %d (bytes into file)\n", psum);
+	printf("  Start of section headers:          %d (bytes into file)\n", ssum);
 }
 
 /**

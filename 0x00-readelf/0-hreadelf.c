@@ -43,10 +43,11 @@ void create_fileinfo(elf_hdr *Legolas, char *filename)
 	Legolas->e_class = buffer[4], Legolas->e_data = buffer[5];
 	Legolas->j = Legolas->e_class;
 	Legolas->e_version = buffer[6], Legolas->abi_name = buffer[7];
-	Legolas->abi_v = buffer[8], Legolas->type = buffer[16];
-	if (Legolas->type == 0)
+	Legolas->abi_v = buffer[8];
+	if (buffer[16] == 0)
 		z = 1;
-	Legolas->machine = buffer[18], Legolas->version = buffer[20];
+	Legolas->type = buffer[16 + z];
+	Legolas->machine = buffer[18 + z], Legolas->version = buffer[20];
 	walternate(Legolas, buffer), j = Legolas->j;
 	Legolas->flags = buffer[24 + (j * 12)]; /* to be confirmed */
 	Legolas->size_eh = buffer[28 + (j * 12) + z]; /* to be confirmed */
@@ -100,7 +101,7 @@ char *war_machine(elf_hdr *elf_head)
 {
 	int i, j = elf_head->machine; /* 0 was No machine */
 	abyss iron_man[] = {
-		{0, "Sparc"}, {1, "AT&T WE 32100"}, {2, "Sparc"}, {3, "Intel 80386"},
+		{0, "No machine"}, {1, "AT&T WE 32100"}, {2, "Sparc"}, {3, "Intel 80386"},
 		{4, "Motorola 68000"}, {5, "Motorola 88000"}, {7, "Intel 80860"},
 		{8, "MIPS I Architecture"}, {9, "IBM System/370 Processor"},
 		{10, "MIPS RS3000 Little-endian"}, {15, "Hewlett-Packard PA-RISC"},
