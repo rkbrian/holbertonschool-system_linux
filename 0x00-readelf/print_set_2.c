@@ -28,10 +28,11 @@ void indie_game(elf_hdr *elf_head)
 			if (elf_head->entry_addrh[i] != 0)
 				p_helper = elf_head->entry_addrh[i], printf("%02x", p_helper), j++;
 		}
-		for (i = 8; i >= 0; i--)
+		for (i = 7; i >= 0; i--)
 		{
 			p_sum = (256 * p_sum) + elf_head->start_pro_hh[i];
 			s_sum = (256 * s_sum) + elf_head->start_sec_hh[i];
+			/* printf("LOOK AT ME: %02x\n", p_helper = elf_head->start_sec_hh[i]); */
 		}
 	}
 	if (j == 0)
