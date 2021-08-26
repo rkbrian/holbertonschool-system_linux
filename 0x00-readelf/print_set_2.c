@@ -17,22 +17,22 @@ void indie_game(elf_hdr *elf_head)
 		if (elf_head->j == 1)
 		{
 			p_helper = elf_head->entry_addrl[i];
-			pro_h = elf_head->start_pro_hl[i];
-			sec_h = elf_head->start_sec_hl[i];
+			pro_h = elf_head->start_pro_hl[i], sec_h = elf_head->start_sec_hl[i];
 		}
 		else if (elf_head->j == 2)
 		{
 			p_helper = elf_head->entry_addrh[i];
-			pro_h = elf_head->start_pro_hh[i];
-			sec_h = elf_head->start_sec_hh[i];
+			pro_h = elf_head->start_pro_hh[i], sec_h = elf_head->start_sec_hh[i];
 		}
+		if (pro_h < 0)
+			pro_h = pro_h + 256;
+		if (sec_h < 0)
+			sec_h = sec_h + 256;
 		if (j > 0)
 			printf("%02x", p_helper), j++;
 		else if (p_helper != 0)
 			printf("%x", p_helper), j++;
-		p_sum = (256 * p_sum) + pro_h;
-		s_sum = (256 * s_sum) + sec_h;
-		i = i + k;
+		p_sum = (256 * p_sum) + pro_h, s_sum = (256 * s_sum) + sec_h, i = i + k;
 	}
 	if (j == 0)
 		printf("0");

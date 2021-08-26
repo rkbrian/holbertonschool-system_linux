@@ -6,8 +6,8 @@
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -pedantic
 FILEA = 0-hreadelf.c print_set_1.c print_set_2.c
-FILEB = 1-hreadelf.c sec_print_1.c sec_print_2.c
-FILEC = 2-hreadelf.c pro_print_1.c pro_print_2.c
+FILEB = 1-hreadelf.c 0-hreadelf.c sec_print_1.c sec_print_2.c
+FILEC = 2-hreadelf.c 0-hreadelf.c pro_print_1.c pro_print_2.c
 RM = rm -rf
 
 0-hreadelf: $(FILEA)

@@ -15,6 +15,7 @@ int main(int argc, char **argv)
 		dprintf(STDERR_FILENO, "Usage: 0-hreadelf elf_filename\n"), exit(98);
 	filename = argv[1];
 	create_fileinfo(Legolas, filename);
+	print_head(Legolas);
 	return (0);
 }
 
@@ -55,7 +56,6 @@ void create_fileinfo(elf_hdr *Legolas, char *filename)
 	close(fd);
 	if (Legolas == NULL)
 		dprintf(STDERR_FILENO, "Error: Cannot read from file\n"), exit(98);
-	print_head(Legolas);
 }
 
 /**
