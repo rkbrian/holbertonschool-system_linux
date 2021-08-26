@@ -14,12 +14,12 @@ void indie_game(elf_hdr *elf_head)
 		i = 0, end_i = 4 * elf_head->j, k = 1;
 	while (i != end_i)
 	{
-		if (elf_head->j == 1)
+		if (elf_head->j <= 1)
 		{
 			p_helper = elf_head->entry_addrl[i];
 			pro_h = elf_head->start_pro_hl[i], sec_h = elf_head->start_sec_hl[i];
 		}
-		else if (elf_head->j > 1)
+		else
 		{
 			p_helper = elf_head->entry_addrh[i];
 			pro_h = elf_head->start_pro_hh[i], sec_h = elf_head->start_sec_hh[i];
