@@ -69,12 +69,12 @@ void abi_list(elf_hdr *elf_head)
 {
 	int i;
 	abyss billy[] = {
-		{0, "Unix - System V"},
+		{0, "UNIX - System V"},
 		{1, "HP-UX"},
-		{2, "Unix - NetBSD"},
+		{2, "UNIX - NetBSD"},
 		{3, "Linux"},
 		{4, "GNU Hurd"},
-		{6, "Unix - Solaris"},
+		{6, "UNIX - Solaris"},
 		{7, "AIX"},
 		{8, "IRIX"},
 		{9, "FreeBSD"},

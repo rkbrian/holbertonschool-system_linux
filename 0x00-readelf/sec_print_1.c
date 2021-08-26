@@ -7,8 +7,8 @@
 void print_saxon(elf_hdr *elf_head)
 {
 	int i, j, nsh;
-        char *name = "                   ", *type = "                ";
-        char *addr = "0000000000000000 ", *offs = "000000 ";
+	char *name = "                   ", *type = "                ";
+	char *addr = "0000000000000000 ", *offs = "000000 ";
 
 	if (magic_check(elf_head) > 0)
 	{
@@ -16,22 +16,23 @@ void print_saxon(elf_hdr *elf_head)
 			"Error: Not an ELF file - it has the wrong magic bytes at the start\n");
 		exit(98);
 	}
-        nsh = elf_head->num_sec_h;
+	nsh = elf_head->num_sec_h;
 	printf("There are %d section headers, starting at offset 0x", nsh);
-        print_start(elf_head), printf(":\n\nSection Headers:\n");
-        printf("  [Nr] Name              Type            ");
-        if (elf_head->j == 1)
-                printf("Addr     Off    Size   ES Flg Lk Inf Al\n");
-        else if (elf_head->j == 2)
-                printf("Address          Off    Size   ES Flg Lk Inf Al\n");
-        for (i = 0; i < nsh; i++)
-        {
-                if (i < 10)
-                        printf("  [ %d] ");
-                else
-                        printf("  [%d] ");
-                for (j = 0; j < )
-        }
+	print_start(elf_head), printf(":\n\nSection Headers:\n");
+	printf("  [Nr] Name              Type            ");
+	if (elf_head->j == 1)
+		printf("Addr     Off    Size   ES Flg Lk Inf Al\n");
+	else if (elf_head->j == 2)
+		printf("Address          Off    Size   ES Flg Lk Inf Al\n");
+	for (i = 0; i < nsh; i++)
+	{
+		if (i < 10)
+			printf("  [ %d] ");
+		else
+			printf("  [%d] ");
+		for (j = 0; j < 5; j++)
+			printf("  [%d] ");
+	}
 }
 
 /**
@@ -40,7 +41,7 @@ void print_saxon(elf_hdr *elf_head)
  */
 void print_start(elf_hdr *elf_head)
 {
-        int i, j = 0, p_helper, end_i, k;
+	int i, j = 0, p_helper, end_i, k;
 
 	if (elf_head->e_data == 1) /* little endian, digit position reverse */
 		i = (4 * elf_head->j) - 1, end_i = -1, k = -1;
