@@ -15,12 +15,6 @@ int main(int argc, char **argv)
 		dprintf(STDERR_FILENO, "Usage: 0-hreadelf elf_filename\n"), exit(98);
 	filename = argv[1];
 	create_fileinfo(Legolas, filename);
-	if (Legolas->start_pro_hh)
-		free(Legolas->start_pro_hh);
-	if (Legolas->start_pro_hl)
-		free(Legolas->start_pro_hl);
-	if (Legolas->start_sec_hh)
-		free(Legolas->start_sec_hh);
 	return (0);
 }
 
@@ -175,10 +169,7 @@ void walternate(elf_hdr *Legolas, char *buffer)
 		if (Legolas->entry_addrh == NULL)
 			return;
 		for (i = 0; i < 8; i++)
-		{
 			Legolas->entry_addrh[i] = buffer[24 + i]; /* to be confirmed */
-			printf("LOOK AT ME: %d\n", buffer[24 + i]);
-		}
 		Legolas->start_pro_hh = malloc(sizeof(uint64_t) * 8);
 		if (Legolas->start_pro_hh == NULL)
 			return;

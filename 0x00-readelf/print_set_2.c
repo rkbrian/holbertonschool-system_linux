@@ -13,7 +13,7 @@ void indie_game(elf_hdr *elf_head)
 		for (i = 3; i >= 0; i--)
 		{
 			if (elf_head->entry_addrl[i] != 0)
-				p_helper = elf_head->entry_addrl[i], printf("%x", p_helper), j++;
+				p_helper = elf_head->entry_addrl[i], printf("%02x", p_helper), j++;
 		}
 		for (i = 3; i >= 0; i--)
 		{
@@ -26,7 +26,7 @@ void indie_game(elf_hdr *elf_head)
 		for (i = 7; i >= 0; i--)
 		{
 			if (elf_head->entry_addrh[i] != 0)
-				p_helper = elf_head->entry_addrh[i], printf("%x", p_helper), j++;
+				p_helper = elf_head->entry_addrh[i], printf("%02x", p_helper), j++;
 		}
 		for (i = 8; i >= 0; i--)
 		{
