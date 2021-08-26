@@ -15,7 +15,6 @@ int main(int argc, char **argv)
 		dprintf(STDERR_FILENO, "Usage: 0-hreadelf elf_filename\n"), exit(98);
 	filename = argv[1];
 	create_fileinfo(Legolas, filename);
-	print_head(Legolas);
 	return (0);
 }
 
@@ -56,6 +55,7 @@ void create_fileinfo(elf_hdr *Legolas, char *filename)
 	close(fd);
 	if (Legolas == NULL)
 		dprintf(STDERR_FILENO, "Error: Cannot read from file\n"), exit(98);
+	print_head(Legolas);
 }
 
 /**
@@ -151,17 +151,17 @@ void walternate(elf_hdr *Legolas, char *buffer)
 		if (Legolas->entry_addrl == NULL)
 			return;
 		for (i = 0; i < 4; i++)
-			Legolas->entry_addrl[i] = buffer[24 + i], printf("ENTRY ADDR %d\n", (int) Legolas->entry_addrl[i]); /* to be confirmed */
+			Legolas->entry_addrl[i] = buffer[24 + i];
 		Legolas->start_pro_hl = malloc(sizeof(uint32_t) * 4);
 		if (Legolas->start_pro_hl == NULL)
 			return;
 		for (i = 0; i < 4; i++)
-			Legolas->start_pro_hl[i] = buffer[24 + (Legolas->j * 4) + i], printf("START PRO %d\n", (int) Legolas->start_pro_hl[i]);
+			Legolas->start_pro_hl[i] = buffer[24 + (Legolas->j * 4) + i];
 		Legolas->start_sec_hl = malloc(sizeof(uint32_t) * 4);
 		if (Legolas->start_sec_hl == NULL)
 			return;
 		for (i = 0; i < 4; i++)
-			Legolas->start_sec_hl[i] = buffer[24 + (Legolas->j * 8) + i], printf("START SEC %d\n", (int) Legolas->start_sec_hl[i]);
+			Legolas->start_sec_hl[i] = buffer[24 + (Legolas->j * 8) + i];
 	}
 	else if (Legolas->e_class == 2)
 	{
