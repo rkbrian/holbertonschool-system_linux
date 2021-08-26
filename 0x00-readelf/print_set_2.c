@@ -30,7 +30,7 @@ void indie_game(elf_hdr *elf_head)
 			sec_h = sec_h + 256;
 		if (j > 0)
 			printf("%02x", p_helper), j++;
-		else if ((p_helper != 0) || (p_helper != 256))
+		else if ((p_helper != 0) && (p_helper != 256))
 			printf("%x", p_helper), j++;
 		p_sum = (256 * p_sum) + pro_h, s_sum = (256 * s_sum) + sec_h, i = i + k;
 	}
