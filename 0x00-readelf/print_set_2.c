@@ -7,7 +7,7 @@
 void indie_game(elf_hdr *elf_head)
 {
 	int i, j = 0, psum = 0, ssum = 0, end_i, k, pro_h, sec_h;
-	unsigned int p_helper;
+	/* unsigned int p_helper; */
 
 	if (elf_head->e_data == 1) /* little endian, digit position reverse */
 		i = (4 * elf_head->j) - 1, end_i = -1, k = -1;
@@ -17,22 +17,27 @@ void indie_game(elf_hdr *elf_head)
 	{
 		if (elf_head->j == 1)
 		{
-			p_helper = elf_head->entry_addrl[i];
+			/* p_helper = elf_head->entry_addrl[i]; */
+			if (j > 0)
+				printf("%02x", elf_head->entry_addrl[i]), j++;
+			else if (elf_head->entry_addrl[i] != 0)
+				printf("%x", elf_head->entry_addrl[i]), j++;
 			pro_h = elf_head->start_pro_hl[i], sec_h = elf_head->start_sec_hl[i];
 		}
 		else
 		{
-			p_helper = elf_head->entry_addrh[i];
+			/* p_helper = elf_head->entry_addrh[i]; */
+			if (j > 0)
+				printf("%02x", elf_head->entry_addrh[i]), j++;
+			else if (elf_head->entry_addrh[i] != 0)
+				printf("%x", elf_head->entry_addrh[i]), j++;
 			pro_h = elf_head->start_pro_hh[i], sec_h = elf_head->start_sec_hh[i];
 		}
 		if (pro_h < 0)
 			pro_h = pro_h + 256;
 		if (sec_h < 0)
 			sec_h = sec_h + 256; /* if (p_helper > 256)p_helper = p_helper + 256; */
-		if (j > 0)
-			printf("%02x", p_helper), j++;
-		else if (p_helper != 0)
-			printf("%x", p_helper), j++;
+		/* if (j > 0)printf("%02x", p_helper), j++; else if (p_helper != 0)printf("%x", p_helper), j++; */
 		psum = (256 * psum) + pro_h, ssum = (256 * ssum) + sec_h, i = i + k;
 	}
 	if (j == 0)
