@@ -4,9 +4,9 @@
  * print_saxon - function to print elf file section header
  * @elf_head: struct database of the elf file
  */
-void print_saxon(elf32_sh *elf_head)
+void print_saxon(elf32_hdr *elf_head)
 {
-	int i, j, nsh;
+	int nsh; /*i, j*/
 	char *name = "                   ", *type = "                ";
 	char *addr = "0000000000000000 ", *offs = "000000 ";
 
@@ -20,17 +20,18 @@ void print_saxon(elf32_sh *elf_head)
 	printf("There are %d section headers, starting at offset 0x", nsh);
 	print_shoff(elf_head), printf(":\n\nSection Headers:\n");
 	printf("  [Nr] Name              Type            ");
-	if (elf_head->j == 1)
+	if (elf_head->e_class == 1)
 		printf("Addr     Off    Size   ES Flg Lk Inf Al\n");
-	else if (elf_head->j == 2)
+	else if (elf_head->e_class == 2)
 		printf("Address          Off    Size   ES Flg Lk Inf Al\n");
+	printf("%s%s%s%s\n", name, type, addr, offs);
 }
 
 /**
  * print_shoff - print the address of the start of section headers
  * @elf_head: struct database of the elf file
  */
-void print_shoff(elf_hdr *elf_head)
+void print_shoff(elf32_hdr *elf_head)
 {
 	int i, j = 0, end_i, k;
 
@@ -40,21 +41,21 @@ void print_shoff(elf_hdr *elf_head)
 		i = 0, end_i = 4 * elf_head->j, k = 1;
 	while (i != end_i)
 	{
-		if (elf_head->j == 1)
-                {
-        		if (j > 0)
-	        		printf("%02x", elf_head->start_sec_hl[i]), j++;
-		        else if (elf_head->start_sec_hl[i] != 0)
-			        printf("%x", elf_head->start_sec_hl[i]), j++;
-                }
-		else if (elf_head->j == 2)
-                {
-                	if (j > 0)
-                                printf("%02x", elf_head->start_sec_hh[i]), j++;
+		if (elf_head->e_class == 1)
+		{
+			if (j > 0)
+				printf("%02x", elf_head->start_sec_hl[i]), j++;
+			else if (elf_head->start_sec_hl[i] != 0)
+				printf("%x", elf_head->start_sec_hl[i]), j++;
+		}
+		else if (elf_head->e_class == 2)
+		{
+			if (j > 0)
+				printf("%02x", elf_head->start_sec_hh[i]), j++;
 			else if (elf_head->start_sec_hh[i] != 0)
-                                printf("%x", elf_head->start_sec_hh[i]), j++;
-                }
-                i = i + k;
+				printf("%x", elf_head->start_sec_hh[i]), j++;
+		}
+		i = i + k;
 	}
 }
 

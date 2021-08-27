@@ -225,12 +225,11 @@ typedef struct elf_header
 } elf_hdr;
 
 /* 1-hreadelf */
-void create_saxon(elf32_sh *saxon, char *filename);
-void create_simpleinfo(elf_hdr *Legolas, char *filename);
+void create_saxon(elf32_hdr *myself, int endian, char *filename);
 
 /* section header print set 1 */
-void print_saxon(elf_hdr *elf_head);
-void print_shoff(elf_hdr *elf_head)
+void print_saxon(elf32_hdr *elf_head);
+void print_shoff(elf32_hdr *elf_head);
 int magic_check(elf32_hdr *elf_head);
 
 #endif /* SECHEAD_H */
