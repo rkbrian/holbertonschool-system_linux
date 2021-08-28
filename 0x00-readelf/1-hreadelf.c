@@ -45,13 +45,16 @@ void create_saxon(elf32_hdr *myself, int endian, char *filename)
 	FILE *elf_file = NULL;
 	elf32_sh *saxon = NULL; /* elf64_sh *sanction = NULL; */
 	uint idx;
-	int tmp_e_class;
+	long int tmp_offset;
 
-	(void) endian;
 	elf_file = fopen(filename, "r+");
 	fread(&myself, 1, sizeof(elf32_hdr), elf_file);
 	/* note: read section name string table, read the header first */
-	fseek(elf_file, (myself->start_sec_hl + myself->sec_h_str_index * sizeof(elf32_hdr)), SEEK_SET);
+	if (endian == 1)
+		tmp_offset = myself->start_sec_hl[0] + myself->sec_h_str_index * sizeof(elf32_hdr);
+	else if (endian == 2)
+		tmp_offset = myself->start_sec_hl[3] + myself->sec_h_str_index * sizeof(elf32_hdr);
+	fseek(elf_file, tmp_offset, SEEK_SET);
 	fread(&saxon, 1, sizeof(elf32_sh), elf_file);
 	/* read the section, string data */
 	sect_names = malloc(saxon->sh_size);
@@ -62,15 +65,19 @@ void create_saxon(elf32_hdr *myself, int endian, char *filename)
 
 	/* print_saxon(myself); */
 	/* read all section headers */
-	for (idx = 0; idx < myself.e_shnum; idx++)
+	for (idx = 0; idx < myself->num_sec_h; idx++)
 	{
 		const char *name = "";
 
-		fseek(elf_file, myself->start_sec_hl + idx * sizeof(elf32_hdr), SEEK_SET);
+		if (endian == 1)
+			tmp_offset = myself->start_sec_hl[0] + idx * sizeof(elf32_hdr);
+		else if (endian == 2)
+			tmp_offset = myself->start_sec_hl[3] + idx * sizeof(elf32_hdr);
+		fseek(elf_file, tmp_offset, SEEK_SET);
 		fread(&saxon, 1, sizeof(elf32_hdr), elf_file);
 
 		/* print section name */
-		if (saxon.sh_name)
+		if (saxon->sh_name)
 			name = sect_names + saxon->sh_name;
 		printf("%2u %s\n", idx, name);
 	}

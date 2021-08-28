@@ -36,25 +36,15 @@ void print_shoff(elf32_hdr *elf_head)
 	int i, j = 0, end_i, k;
 
 	if (elf_head->e_data == 1) /* little endian, digit position reverse */
-		i = (4 * elf_head->j) - 1, end_i = -1, k = -1;
+		i = (4 * elf_head->e_class) - 1, end_i = -1, k = -1;
 	else if (elf_head->e_data == 2) /* big endian, digit position in order */
-		i = 0, end_i = 4 * elf_head->j, k = 1;
+		i = 0, end_i = 4 * elf_head->e_class, k = 1;
 	while (i != end_i)
 	{
-		if (elf_head->e_class == 1)
-		{
-			if (j > 0)
-				printf("%02x", elf_head->start_sec_hl[i]), j++;
-			else if (elf_head->start_sec_hl[i] != 0)
-				printf("%x", elf_head->start_sec_hl[i]), j++;
-		}
-		else if (elf_head->e_class == 2)
-		{
-			if (j > 0)
-				printf("%02x", elf_head->start_sec_hh[i]), j++;
-			else if (elf_head->start_sec_hh[i] != 0)
-				printf("%x", elf_head->start_sec_hh[i]), j++;
-		}
+		if (j > 0)
+			printf("%02x", elf_head->start_sec_hl[i]), j++;
+		else if (elf_head->start_sec_hl[i] != 0)
+			printf("%x", elf_head->start_sec_hl[i]), j++;
 		i = i + k;
 	}
 }
