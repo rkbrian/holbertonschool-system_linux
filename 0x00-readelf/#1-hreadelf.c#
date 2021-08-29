@@ -63,10 +63,10 @@ void create_saxon(elf32_hdr *myself, int endian, char *filename)
 	}
 	printf("myself->sec_h_str_index, little endian: %ld\n", tmp_offset);
 	tmp_offset = tmp_offset + myself->sec_h_str_index * sizeof(elf32_hdr), printf("endian: %d\n", endian);
-
 	fseek(elf_file, tmp_offset, SEEK_SET);
 	printf("tmp_offset %ld\n", tmp_offset);
-        fread(&saxon, sizeof(elf32_sh), 1, elf_file);
+
+        fread(saxon, sizeof(elf32_sh), 1, elf_file);
 	printf("here now");
         /* read the section, string data */
         sect_names = malloc(saxon->sh_size);
