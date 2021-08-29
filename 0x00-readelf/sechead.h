@@ -40,25 +40,25 @@
  */
 typedef struct elf32_header
 {
-	uint8_t e_magic[4];
-	uint8_t e_class;
-	uint8_t e_data;
-	uint8_t e_version;
-	uint8_t abi_name;
-	uint8_t abi_v[8]; /* 0: version; 1-7: EI_PAD */
-	uint16_t type;
-	uint16_t machine;
-	uint32_t version;
-	uint32_t entry_addrl[4];
-	uint32_t start_pro_hl[4];
-	uint32_t start_sec_hl[4];
-	uint32_t flags;
-	uint16_t size_eh;
-	uint16_t size_pro_h;
-	uint16_t num_pro_h;
-	uint16_t size_sec_h;
-	uint16_t num_sec_h;
-	uint16_t sec_h_str_index;
+        uint8_t e_magic[4];
+        uint8_t e_class;
+        uint8_t e_data;
+        uint8_t e_version;
+        uint8_t abi_name;
+        uint8_t abi_v[8]; /* 0: version; 1-7: EI_PAD */
+        uint16_t type;
+        uint16_t machine;
+        uint32_t version;
+        uint32_t entry_addrl[4];
+        uint32_t start_pro_hl[4];
+        uint32_t start_sec_hl[4];
+        uint32_t flags;
+        uint16_t size_eh;
+        uint16_t size_pro_h;
+        uint16_t num_pro_h;
+        uint16_t size_sec_h;
+        uint16_t num_sec_h;
+        uint16_t sec_h_str_index;
 } elf32_hdr;
 
 /**
@@ -85,25 +85,25 @@ typedef struct elf32_header
  */
 typedef struct elf64_header
 {
-	uint8_t e_magic[4];
-	uint8_t e_class;
-	uint8_t e_data;
-	uint8_t e_version;
-	uint8_t abi_name;
-	uint8_t abi_v[8]; /* 0: version; 1-7: EI_PAD */
-	uint16_t type;
-	uint16_t machine;
-	uint32_t version;
-	uint64_t entry_addrh[8];
-	uint64_t start_pro_hh[8];
-	uint64_t start_sec_hh[8];
-	uint32_t flags;
-	uint16_t size_eh;
-	uint16_t size_pro_h;
-	uint16_t num_pro_h;
-	uint16_t size_sec_h;
-	uint16_t num_sec_h;
-	uint16_t sec_h_str_index;
+        uint8_t e_magic[4];
+        uint8_t e_class;
+        uint8_t e_data;
+        uint8_t e_version;
+        uint8_t abi_name;
+        uint8_t abi_v[8]; /* 0: version; 1-7: EI_PAD */
+        uint16_t type;
+        uint16_t machine;
+        uint32_t version;
+        uint64_t entry_addrh[8];
+        uint64_t start_pro_hh[8];
+        uint64_t start_sec_hh[8];
+        uint32_t flags;
+        uint16_t size_eh;
+        uint16_t size_pro_h;
+        uint16_t num_pro_h;
+        uint16_t size_sec_h;
+        uint16_t num_sec_h;
+        uint16_t sec_h_str_index;
 } elf64_hdr;
 
 /**
@@ -113,8 +113,8 @@ typedef struct elf64_header
  */
 typedef struct abi_list
 {
-	int id;
-	char *abi_name;
+        int id;
+        char *abi_name;
 } abyss;
 
 /**
@@ -132,16 +132,16 @@ typedef struct abi_list
  */
 typedef struct elf32_s_hdr
 {
-	uint32_t sh_name; /* byte size 4 */
-	uint32_t sh_type; /* byte size 4 */
-	uint32_t sh_flags; /* byte size 4 */
-	uint32_t sh_addr; /* byte size 4 */
-	uint32_t sh_offset; /* byte size 4 */
-	uint32_t sh_size; /* byte size 4 */
-	uint32_t sh_link; /* byte size 4 */
-	uint32_t sh_info; /* byte size 4 */
-	uint32_t sh_addr_align; /* byte size 4 */
-	uint32_t sh_entsize; /* byte size 4 */
+        uint32_t sh_name; /* byte size 4 */
+        uint32_t sh_type; /* byte size 4 */
+        uint32_t sh_flags; /* byte size 4 */
+        uint32_t sh_addr; /* byte size 4 */
+        uint32_t sh_offset; /* byte size 4 */
+        uint32_t sh_size; /* byte size 4 */
+        uint32_t sh_link; /* byte size 4 */
+        uint32_t sh_info; /* byte size 4 */
+        uint32_t sh_addr_align; /* byte size 4 */
+        uint32_t sh_entsize; /* byte size 4 */
 } elf32_sh;
 
 /**
@@ -159,16 +159,16 @@ typedef struct elf32_s_hdr
  */
 typedef struct elf64_s_hdr
 {
-	uint32_t sh_name; /* byte size 4 */
-	uint32_t sh_type; /* byte size 4 */
-	uint64_t sh_flags; /* byte size 8 */
-	uint64_t sh_addr; /* byte size 8 */
-	uint64_t sh_offset; /* byte size 8 */
-	uint64_t sh_size; /* byte size 8 */
-	uint32_t sh_link; /* byte size 4 */
-	uint32_t sh_info; /* byte size 4 */
-	uint64_t sh_addr_align; /* byte size 8 */
-	uint64_t sh_entsize; /* byte size 8 */
+        uint32_t sh_name; /* byte size 4 */
+        uint32_t sh_type; /* byte size 4 */
+        uint64_t sh_flags; /* byte size 8 */
+        uint64_t sh_addr; /* byte size 8 */
+        uint64_t sh_offset; /* byte size 8 */
+        uint64_t sh_size; /* byte size 8 */
+        uint32_t sh_link; /* byte size 4 */
+        uint32_t sh_info; /* byte size 4 */
+        uint64_t sh_addr_align; /* byte size 8 */
+        uint64_t sh_entsize; /* byte size 8 */
 } elf64_sh;
 
 /**
@@ -199,29 +199,29 @@ typedef struct elf64_s_hdr
  */
 typedef struct elf_header
 {
-	int j;
-	uint8_t e_magic[16];
-	int e_class;
-	int e_data;
-	int e_version;
-	int abi_name;
-	int abi_v;
-	uint32_t type;
-	uint32_t machine;
-	uint32_t version;
-	uint32_t *entry_addrl;
-	uint64_t *entry_addrh;
-	uint32_t *start_pro_hl;
-	uint64_t *start_pro_hh;
-	uint32_t *start_sec_hl;
-	uint64_t *start_sec_hh;
-	uint32_t flags;
-	uint16_t size_eh;
-	uint16_t size_pro_h;
-	uint16_t num_pro_h;
-	uint16_t size_sec_h;
-	uint16_t num_sec_h;
-	uint16_t sec_h_str_index;
+        int j;
+        uint8_t e_magic[16];
+        int e_class;
+        int e_data;
+        int e_version;
+        int abi_name;
+        int abi_v;
+        uint32_t type;
+        uint32_t machine;
+        uint32_t version;
+        uint32_t *entry_addrl;
+        uint64_t *entry_addrh;
+        uint32_t *start_pro_hl;
+        uint64_t *start_pro_hh;
+        uint32_t *start_sec_hl;
+        uint64_t *start_sec_hh;
+        uint32_t flags;
+        uint16_t size_eh;
+        uint16_t size_pro_h;
+        uint16_t num_pro_h;
+        uint16_t size_sec_h;
+        uint16_t num_sec_h;
+        uint16_t sec_h_str_index;
 } elf_hdr;
 
 /* 1-hreadelf */
