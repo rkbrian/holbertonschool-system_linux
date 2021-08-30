@@ -8,11 +8,10 @@
  */
 int main(int argc, char **argv)
 {
+	FILE *elf_file = NULL;
 	char *filename = NULL;
 	elf32_hdr *myself = malloc(sizeof(elf32_hdr));
 	/* elf64_hdr *myshelf = NULL; */
-	/* elf32_sh *saxon = NULL; */
-	/* elf64_sh *sanction = NULL; */
 	ssize_t fd, fr;
 	unsigned char buffer[BUFFALO];
 	int tmp_e_class, endian;
@@ -29,7 +28,11 @@ int main(int argc, char **argv)
 	tmp_e_class = buffer[4], endian = buffer[5], close(fd);
 
 	if (tmp_e_class == 1)
-		create_saxon(myself, endian, filename);
+	{
+		elf_file = fopen(filename, "r+");
+		fread(myself, sizeof(elf32_hdr), 1, elf_file);
+		print_saxon(myself, endian, elf_file);
+	}
 	/* else if (tmp_e_class == 2)create_sanction(myshelf, endian, filename); */
 	return (0);
 }
@@ -38,59 +41,59 @@ int main(int argc, char **argv)
  * create_saxon - function to create elf section header info for 32-bit
  * @myself: struct database of the elf header file
  * @endian: struct database of the elf section file
- * @filename: file name
+ * @elf_file: elf file
  */
-void create_saxon(elf32_hdr *myself, int endian, char *filename)
+void create_saxon(elf32_hdr *myself, int endian, FILE *elf_file)
 {
-        char *sect_names = NULL;
-        FILE *elf_file = NULL;
-        elf32_sh *saxon = malloc(sizeof(elf32_sh)); /* elf64_sh *sanction = NULL; */
-        uint idx;
-        long int tmp_offset;
-	int i, sec_h;
+	char *sect_names = NULL;
+	const char *name;
+	elf32_sh *saxon = NULL; /* elf64_sh *sanction = NULL; */
+	uint idx;
+	long int tmp_offset = 0;
+	int i, end_i, k, sec_h;
 
-        elf_file = fopen(filename, "r+");
-        fread(myself, sizeof(elf32_hdr), 1, elf_file);
-        /* note: read section name string table, read the header first */
+	printf("%lu\n", sizeof(elf32_sh));
+	/* note: read section name string table, read the header first */
 	tmp_offset = 0;
-	for (i = 3; i >= 0; i--)
+	if (endian == 1) /* little endian, digit position reverse */
+		i = 3, end_i = -1, k = -1;
+	else if (endian == 2)
+		i = 0, end_i = 4, k = 1;
+	for (; i != end_i; i = i + k)
 	{
-		printf("%02x\n", myself->start_sec_hl[i]);
 		sec_h = myself->start_sec_hl[i];
 		if (sec_h < 0)
 			sec_h = sec_h + 256;
 		tmp_offset = (tmp_offset * 256) + sec_h;
 	}
 	printf("myself->sec_h_str_index, little endian: %ld\n", tmp_offset);
-	tmp_offset = tmp_offset + myself->sec_h_str_index * sizeof(elf32_hdr), printf("endian: %d\n", endian);
+	tmp_offset = tmp_offset + sizeof(elf32_sh);
+	for (idx = 1; idx < myself->num_sec_h; idx++)
+	{
+		saxon = malloc(sizeof(elf32_sh));
+		if (saxon == NULL)
+			return;
+		/* printf("tmp_offset before fseek %ld, ", tmp_offset); */
+		fseek(elf_file, tmp_offset, SEEK_SET);
+		/* printf("after fseek %ld\n", tmp_offset); */
 
-	fseek(elf_file, tmp_offset, SEEK_SET);
-	printf("tmp_offset %ld\n", tmp_offset);
-        fread(&saxon, sizeof(elf32_sh), 1, elf_file);
-	printf("here now");
-        /* read the section, string data */
-        sect_names = malloc(saxon->sh_size);
-        if (sect_names == NULL)
-                return;
-        fseek(elf_file, saxon->sh_offset, SEEK_SET); /* seek_set: start of a file*/
-        fread(sect_names, 1, saxon->sh_size, elf_file);
-
-        /* print_saxon(myself); */
-        /* read all section headers */
-        for (idx = 0; idx < myself->num_sec_h; idx++)
-        {
-                const char *name = "";
-
-                if (endian == 1)
-                        tmp_offset = myself->start_sec_hl[0] + idx * sizeof(elf32_hdr);
-                else if (endian == 2)
-                        tmp_offset = myself->start_sec_hl[3] + idx * sizeof(elf32_hdr);
-                fseek(elf_file, tmp_offset, SEEK_SET);
-                fread(&saxon, 1, sizeof(elf32_hdr), elf_file);
-
-                /* print section name */
-                if (saxon->sh_name)
-                        name = sect_names + saxon->sh_name;
-                printf("%2u %s\n", idx, name);
-        }
+		fread(saxon, sizeof(elf32_sh), 1, elf_file);
+		/* read the section, string data */
+		sect_names = malloc(saxon->sh_size);
+		if (sect_names == NULL)
+			return;
+		fseek(elf_file, saxon->sh_offset, SEEK_SET); /* seek_set: start of a file*/
+		fread(sect_names, saxon->sh_size, 1, elf_file);
+		name = "";
+		/* read all section headers */
+		/* print section name */
+		if (saxon->sh_name)
+			name = sect_names + saxon->sh_name;
+		printf("[%2u] %s\n", idx, name);
+		tmp_offset = tmp_offset + sizeof(elf32_sh);
+	}
+	printf("Key to Flags:\n");
+	printf("  W (write), A (alloc), X (execute), M (merge), S (strings)\n");
+	printf("  I (info), L (link order), G (group), T (TLS), E (exclude), x (unknown)\n");
+	printf("  O (extra OS processing required) o (OS specific), p (processor specific)\n");
 }

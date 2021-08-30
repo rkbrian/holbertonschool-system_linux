@@ -3,19 +3,15 @@
 /**
  * print_saxon - function to print elf file section header
  * @elf_head: struct database of the elf file
+ * @endian: struct database of the elf section file
+ * @elf_file: elf file
  */
-void print_saxon(elf32_hdr *elf_head)
+void print_saxon(elf32_hdr *elf_head, int endian, FILE *elf_file)
 {
         int nsh; /*i, j*/
         char *name = "                   ", *type = "                ";
         char *addr = "0000000000000000 ", *offs = "000000 ";
 
-        if (magic_check(elf_head) > 0)
-        {
-                dprintf(STDERR_FILENO,
-                        "Error: Not an ELF file - it has the wrong magic bytes at the start\n");
-                exit(98);
-        }
         nsh = elf_head->num_sec_h;
         printf("There are %d section headers, starting at offset 0x", nsh);
         print_shoff(elf_head), printf(":\n\nSection Headers:\n");
@@ -25,6 +21,7 @@ void print_saxon(elf32_hdr *elf_head)
         else if (elf_head->e_class == 2)
                 printf("Address          Off    Size   ES Flg Lk Inf Al\n");
         printf("%s%s%s%s\n", name, type, addr, offs);
+	create_saxon(elf_head, endian, elf_file);
 }
 
 

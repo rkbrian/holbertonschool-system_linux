@@ -49,9 +49,9 @@ typedef struct elf32_header
 	uint16_t type;
 	uint16_t machine;
 	uint32_t version;
-	uint8_t entry_addrl[4]; /* unit8_t?? */
-	uint8_t start_pro_hl[4]; /* unit8_t?? */
-	uint8_t start_sec_hl[4]; /* unit8_t?? 00*256^3 02*256^2 c9*256 f0    182768 */
+	uint8_t entry_addrl[4];
+	uint8_t start_pro_hl[4];
+	uint8_t start_sec_hl[4];
 	uint32_t flags;
 	uint16_t size_eh;
 	uint16_t size_pro_h;
@@ -94,9 +94,9 @@ typedef struct elf64_header
 	uint16_t type;
 	uint16_t machine;
 	uint32_t version;
-	uint64_t entry_addrh[8]; /* unit8_t?? */
-	uint64_t start_pro_hh[8]; /* unit8_t?? */
-	uint64_t start_sec_hh[8]; /* unit8_t?? */
+	uint8_t entry_addrh[8];
+	uint8_t start_pro_hh[8];
+	uint8_t start_sec_hh[8];
 	uint32_t flags;
 	uint16_t size_eh;
 	uint16_t size_pro_h;
@@ -225,10 +225,10 @@ typedef struct elf_header
 } elf_hdr;
 
 /* 1-hreadelf */
-void create_saxon(elf32_hdr *myself, int endian, char *filename);
+void create_saxon(elf32_hdr *myself, int endian, FILE *elf_file);
 
 /* section header print set 1 */
-void print_saxon(elf32_hdr *elf_head);
+void print_saxon(elf32_hdr *elf_head, int endian, FILE *elf_file);
 void print_shoff(elf32_hdr *elf_head);
 int magic_check(elf32_hdr *elf_head);
 
