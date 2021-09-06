@@ -13,9 +13,9 @@ asm_strlen:
 .L2:
 	mov	edx, DWORD [rbp-4]	; index number saved to the top regular gpr
 	mov	rax, QWORD [rbp-24]	; str comes in
-	add	rax, rdx	; null byte comes after
-	movzx	eax, BYTE DWORD [rax]	; get the byte size of str ptr
-	test	al, al	; compare with null byte in rax
+	add	rax, rdx	; scan each element when index increases
+	movzx	eax, BYTE DWORD [rax]	; byte dword ptr to get the char
+	test	al, al	; flag setting only
 	jne	.L3	; call L3 for not equal to null byte
 	jmp	.L4	; call L4 for case meet, exit loop
 .L4:
