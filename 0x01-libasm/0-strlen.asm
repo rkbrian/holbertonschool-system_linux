@@ -4,7 +4,7 @@ BITS 64
 	SECTION .text	; this section stores code
 asm_strlen:
 	push	rbp ; push rbp register to stack
-	mov	rbp, rsp	; move rsp register content to rbp register 
+	mov	rbp, rsp	; move rsp register content to rbp register
 	mov	QWORD [rbp-24], rdi	; copy given str ptr dest to local rbp 24
 	mov	DWORD [rbp-4], 0	; initialize index, null terminator if unused
 	jmp	.L2
