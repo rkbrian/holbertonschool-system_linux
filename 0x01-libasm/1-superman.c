@@ -7,7 +7,7 @@
 
 #define S1  "Holberton School"
 #define S2  ""
-#define S3  "Holberton Socool"
+#define S3  "Holberton Schooz"
 
 /**
  * main - Program entry point
