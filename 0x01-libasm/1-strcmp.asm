@@ -10,9 +10,9 @@ asm_strcmp:	; setup & variables init
 	jmp	.L2			; char comparison loop
 .L3:		; the if statement in the loop, jump out for diff of 2 strs
 	mov	rax, QWORD [rbp-8]	; str1 saved to the top regular gpr
-	movzx	edx, BYTE [rax]		; str1 byte dword ptr to get the char
+	movzx	edx, BYTE [rax]		; str1 byte qword ptr to get the char
 	mov	rax, QWORD [rbp-16]	; str2 comes in
-	movzx	eax, BYTE [rax]		; str2 byte dword ptr to get the char
+	movzx	eax, BYTE [rax]		; str2 byte qword ptr to get the char
 	cmp	dl, al			; comparison between str1 and str2 chars
 	jne	.L4			; if not the same char, break
 	inc	DWORD [rbp-8]		; str1 index increment for next char
