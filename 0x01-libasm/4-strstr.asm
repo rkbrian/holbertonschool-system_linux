@@ -1,9 +1,8 @@
 BITS 64
-	global asm_strchr	; export for external files
+	global asm_strstr	; export for external files
 	extern main		; import main file
-	; unused: SECTION .data this section stores data .LC0: .string ""
 	SECTION .text		; this section stores code
-asm_strchr:	; setup & variables init
+asm_strstr:	; setup & variables init
 	push	rbp
 	mov	rbp, rsp		; function start
 	mov	QWORD [rbp-16], rdi	; copy given str ptr dest to local rbp 8
