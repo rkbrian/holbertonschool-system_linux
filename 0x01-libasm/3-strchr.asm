@@ -31,6 +31,7 @@ asm_strchr:	; setup & variables init
 	movzx	eax, BYTE DWORD [rax]	; byte dword ptr to get the char
 	test	al, al			; flag setting only
 	jne	.L3			; call L3 for not equal to null byte
+	mov	eax, 0			; return 0 as ptr to 0 is null ptr
 .L5:		; end the function
 	pop	rbp			; end the function
 	ret
