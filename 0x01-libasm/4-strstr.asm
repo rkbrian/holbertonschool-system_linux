@@ -5,9 +5,12 @@ BITS 64
 asm_strstr:	; setup & variables init
 	push	rbp
 	mov	rbp, rsp		; function start
-	mov	QWORD [rbp-16], rdi	; copy given str1 ptr dest to local rbp
-	mov	QWORD [rbp-16], rdi	; copy given str2 ptr dest to local rbp
-	mov	eax, esi		; make a char ptr to store the target char
+	mov	QWORD [rbp-16], rdi	; copy haystack ptr dest to local rbp
+	mov	QWORD [rbp-24], rsi	; copy needle ptr dest to local rbp
+	mov	rax, QWORD [rbp-24]	; return haystack when needle is null byte
+	
+
+	
 	mov	BYTE [rbp-24], al	; copy given char ptr dest to local rbp 12
 	mov	DWORD [rbp-8], 0	; initialize index, null terminator if unused
 	jmp	.L2			; char search loop

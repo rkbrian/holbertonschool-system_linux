@@ -31,7 +31,9 @@ asm_strchr:	; setup & variables init
 	movzx	eax, BYTE DWORD [rax]	; byte dword ptr to get the char
 	test	al, al			; flag setting only
 	jne	.L3			; call L3 for not equal to null byte
-	mov	edx, DWORD [rbp-4]	; return ptr to the end of the string
+	cmp	BYTE [rbp-16], 0	; compare given char with null byte
+	jne	.L5			; if not equal, end the function
+	mov	edx, DWORD [rbp-4]	; now index is at str's end, return null byte
 	mov	rax, QWORD [rbp-12]
 	add	rax, rdx
 .L5:		; end the function
