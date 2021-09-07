@@ -11,6 +11,12 @@
 - How to pass parameters to a function
 - How to retrieve parameters
 
+## Compilation and usage examples
+gcc -Wall -Wextra -Werror -pedantic -g3 -c -o 0-main.o 0-main.c
+nasm -f elf64 -o 0-strlen.o 0-strlen.asm
+gcc -o 0-strlen 0-main.o 0-strlen.o
+./0-strlen
+
 ## 0. strlen
 Write a copycat of the function strlen(3), in x86-64 Assembly
 - Prototype when used in C: size_t asm_strlen(const char *str);
