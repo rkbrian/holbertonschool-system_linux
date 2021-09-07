@@ -5,7 +5,8 @@ BITS 64
 asm_strstr:	; setup & variables init
 	push	rbp
 	mov	rbp, rsp		; function start
-	mov	QWORD [rbp-16], rdi	; copy given str ptr dest to local rbp 8
+	mov	QWORD [rbp-16], rdi	; copy given str1 ptr dest to local rbp
+	mov	QWORD [rbp-16], rdi	; copy given str2 ptr dest to local rbp
 	mov	eax, esi		; make a char ptr to store the target char
 	mov	BYTE [rbp-24], al	; copy given char ptr dest to local rbp 12
 	mov	DWORD [rbp-8], 0	; initialize index, null terminator if unused

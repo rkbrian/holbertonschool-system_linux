@@ -6,9 +6,9 @@ BITS 64
 asm_strchr:	; setup & variables init
 	push	rbp
 	mov	rbp, rsp	; function start
-	mov	QWORD [rbp-12], rdi	; copy given str ptr dest to local rbp 8
+	mov	QWORD [rbp-12], rdi	; copy given str ptr dest to local rbp
 	mov	eax, esi		; make a char ptr to store the target char
-	mov	BYTE [rbp-16], al	; copy given char ptr dest to local rbp 12
+	mov	BYTE [rbp-16], al	; copy given char ptr dest to local rbp
 	mov	DWORD [rbp-4], 0	; initialize index, null terminator if unused
 	jmp	.L2			; char search loop
 .L3:		; check current str char, if equal to target char, return char ptr
@@ -31,7 +31,9 @@ asm_strchr:	; setup & variables init
 	movzx	eax, BYTE DWORD [rax]	; byte dword ptr to get the char
 	test	al, al			; flag setting only
 	jne	.L3			; call L3 for not equal to null byte
-	mov	eax, 0			; return 0 as ptr to 0 is null ptr
+	mov	edx, DWORD [rbp-4]	; return ptr to the end of the string
+	mov	rax, QWORD [rbp-12]
+	add	rax, rdx
 .L5:		; end the function
 	pop	rbp			; end the function
 	ret
