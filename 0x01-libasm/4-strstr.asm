@@ -64,7 +64,7 @@ asm_strstr:	; setup & variables init
 	sub	eax, 1
 	cmp	DWORD [rbp-8], eax 	; if j reaches the end
 	jne	.L14
-	mov	edx, DWORD [rbp-4]	; save i
+	mov	eax, DWORD [rbp-4]	; save i
 	sub	eax, DWORD [rbp-16]	; i - nel
 	mov	edx, eax		; save the start of sub string found
 	mov	rax, QWORD [rbp-24]     ; haystack comes in
