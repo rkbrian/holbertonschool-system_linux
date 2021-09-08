@@ -12,8 +12,11 @@ asm_memcpy:
 .L3:	; loop content
 	mov	rax, QWORD [rbp-16]	; load src str
 	movzx	edx, BYTE DWORD [rax]	; byte dword src ptr to get the char
+	
 	mov	rax, QWORD [rbp-8]	; load dest str, prepare to overwrite char
 	mov	BYTE [rax], dl		; save copy of src char into dest address
+	mov	BYTE [rbp-8], al		; work?
+	
 	inc	QWORD [rbp-16]		; move ptr to next char in src
 	inc	QWORD [rbp-8]		; move ptr to next char in dest
 	dec	DWORD [rbp-20]		; range decrement
