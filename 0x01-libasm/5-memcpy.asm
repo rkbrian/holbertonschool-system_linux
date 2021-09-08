@@ -5,25 +5,21 @@ BITS 64
 asm_memcpy:
 	push	rbp 			; push rbp register to stack
 	mov	rbp, rsp		; move rsp register content to rbp register
-	mov	QWORD [rbp-16], rdi	; copy dest string to local rbp
-	mov	QWORD [rbp-24], rsi	; copy src string to local rbp
-	mov	DWORD [rbp-28], edx	; copy int n to local rbp
-	mov	DWORD [rbp-4], 0	; initialize index, null terminator if unused
+	mov	QWORD [rbp-8], rdi	; copy dest string to local rbp
+	mov	QWORD [rbp-16], rsi	; copy src string to local rbp
+	mov	DWORD [rbp-20], edx	; copy int n to local rbp
 	jmp	.L2
 .L3:	; loop content
-	mov	edx, DWORD [rbp-4]	; load index
-	mov	rax, QWORD [rbp-24]	; load src str
-	add	rax, rdx		; scan src char when index increases
-	mov	ecx, DWORD [rbp-4]	; load index again for dest str
-	mov	rdx, QWORD [rbp-16]	; load dest str
-	add	rdx, rcx		; scan dest char when index increases
-	movzx	eax, BYTE DWORD [rax]	; byte dword src ptr to get the char
-	mov	BYTE [rdx], al		; save copy of src char into dest address 
-	inc	DWORD [rbp-4]		; increment of 1 in the loop
+	mov	rax, QWORD [rbp-16]	; load src str
+	movzx	edx, BYTE DWORD [rax]	; byte dword src ptr to get the char
+	mov	rax, QWORD [rbp-8]	; load dest str, prepare to overwrite char
+	mov	BYTE [rax], dl		; save copy of src char into dest address
+	inc	QWORD [rbp-16]		; move ptr to next char in src
+	inc	QWORD [rbp-8]		; move ptr to next char in dest
+	dec	DWORD [rbp-20]		; range decrement
 .L2:	; loop limit and return
-	mov	eax, DWORD [rbp-4]	; load index
-	cmp	eax, QWORD [rbp-28]	; compare index with limit n
-	jb	.L3	 		; if index is below n, loop
-	mov	rax, QWORD [rbp-16]	; return mem-copied dest
+	cmp	QWORD [rbp-20], 0	; compare index with 0
+	jne	.L3	 		; if n > 0, loop
+	nop				; break
 	pop	rbp	; end the function
 	ret

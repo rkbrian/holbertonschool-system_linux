@@ -19,7 +19,7 @@ int main(void)
 	{
 		char *dest = strdup("......... School");
 
-		asm_memcpy(dest, src, i);
+		assert(asm_memcpy(dest, src, i) == dest);
 		printf("%s\n", dest);
 		free(dest);
 	}
