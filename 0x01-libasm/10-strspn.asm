@@ -1,6 +1,6 @@
 BITS 64
 	global asm_strspn	; export for external files
-	extern main, write	; import main file and syscall
+	extern main		; import main file
 	SECTION .text		; this section stores code
 asm_strspn:
 	push	rbp
