@@ -14,15 +14,16 @@ int main(void)
 {
 	int i;
 	char *src = strdup("Holberton");
+	char *dest = strdup("......... School");
 
 	for (i = 0; i <= 9; i++)
 	{
-		char *dest = strdup("......... School");
-
-		assert(asm_memcpy(dest, src, i) == dest);
+		printf("%s before memcpy\n", dest);
+		asm_memcpy(dest, src, i);
 		printf("%s\n", dest);
-		free(dest);
 	}
+	assert(asm_memcpy(dest, src, 5) == dest);
+	free(dest);
 	free(src);
 	printf("All good!\n");
 	return (EXIT_SUCCESS);

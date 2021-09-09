@@ -12,7 +12,7 @@
  */
 int main(void)
 {
-	assert(asm_putc('H') == 1);
+	asm_putc('H');
 	assert(asm_putc('b') == 1);
 	assert(asm_putc('t') == 1);
 	assert(asm_putc('n') == 1);
