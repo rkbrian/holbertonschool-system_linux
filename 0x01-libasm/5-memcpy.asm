@@ -67,5 +67,6 @@ asm_memcpy:
 	jne	.over_inc		; if not null byte, back to loop
 .br:
 	nop				; break
+	mov	rax, [rbp-8]		; return dest_mem
 	pop	rbp			; end the function
 	ret
