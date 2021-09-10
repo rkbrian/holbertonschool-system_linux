@@ -62,17 +62,17 @@ asm_strcasecmp:		; setup & variables init
 .char_diff:		; while loop to search char difference
 	mov	rax, QWORD [rbp-8]	; str1 saved to the top regular gpr
 	movzx	edx, BYTE [rax]		; str1 byte qword ptr to get the char
-	cmp	edx, 0			; str1 null byte check
+	test	dl, dl			; str1 null byte check
 	je	.one_null		; if not null byte, check str2
 	mov	rax, QWORD [rbp-16]	; str2 comes in
 	movzx	eax, BYTE [rax]		; str2 byte qword ptr to get the char
-	cmp	eax, 0			; str2 null byte check
+	test	al, al			; str2 null byte check
 	je	.ret_pos		; if null byte, return 1
 	jmp	.s1big			; if all not equal to null byte, loop
 .one_null:
 	mov	rax, QWORD [rbp-16]	; str2 comes in
 	movzx	eax, BYTE [rax]		; str2 byte qword ptr to get the char
-	cmp	eax, 0			; str2 null byte check
+	test	al, al			; str2 null byte check
 	je	.ret_zzz		; if equal to null byte, return 0
 	jmp	.ret_neg		; if not equal to null byte, return -1
 .ret_pos:		; return the string askii difference 1
