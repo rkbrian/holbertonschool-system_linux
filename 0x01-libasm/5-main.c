@@ -18,11 +18,11 @@ int main(void)
 
 	for (i = 0; i <= 9; i++)
 	{
-		printf("%s before memcpy\n", dest);
+		printf("%p before memcpy\n", dest);
 		asm_memcpy(dest, src, i);
-		printf("%s\n", dest);
+		printf("%p\n", dest);
 	}
-	assert(asm_memcpy(dest, src, 5) == dest);
+	assert(asm_memcpy(dest, src, 9) == dest);
 	free(dest);
 	free(src);
 	printf("All good!\n");
