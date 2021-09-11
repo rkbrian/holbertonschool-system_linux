@@ -1,6 +1,5 @@
 BITS 64
 	global asm_strcasecmp	; export for external files
-	extern main		; import main file
 	SECTION .text		; this section stores code
 asm_strcasecmp:		; setup & variables init
 	push	rbp
@@ -54,8 +53,7 @@ asm_strcasecmp:		; setup & variables init
 	mov	rax, QWORD [rbp-16]	; str2 comes in
 	movzx	eax, BYTE [rax]		; str2 byte qword ptr to get the char
 	cmp	dl, al			; comparison between str1 and str2 chars
-	jg	.ret_pos		; if greater, return 1
-	jl	.ret_neg		; if less, return -1
+	jne	.ret_diff		; if greater, return ascii diff of chars
 .incs:			; next chars
 	inc	DWORD [rbp-8]		; str1 index increment for next char
 	inc	DWORD [rbp-16]		; str2 index increment for next char
@@ -63,23 +61,17 @@ asm_strcasecmp:		; setup & variables init
 	mov	rax, QWORD [rbp-8]	; str1 saved to the top regular gpr
 	movzx	edx, BYTE [rax]		; str1 byte qword ptr to get the char
 	test	dl, dl			; str1 null byte check
-	je	.one_null		; if not null byte, check str2
-	mov	rax, QWORD [rbp-16]	; str2 comes in
-	movzx	eax, BYTE [rax]		; str2 byte qword ptr to get the char
-	test	al, al			; str2 null byte check
-	je	.ret_pos		; if null byte, return 1
+	je	.ret_diff		; if null byte, return ascii diff of chars
 	jmp	.s1big			; if all not equal to null byte, loop
-.one_null:
+.ret_diff:		; return the string askii difference 1
+	mov	rax, QWORD [rbp-8] 	; str1 saved to the top regular gpr
+	movzx	eax, BYTE [rax]		; str1 byte qword ptr to get the char
+	movsx	edx, al			; signed int for calc
 	mov	rax, QWORD [rbp-16]	; str2 comes in
 	movzx	eax, BYTE [rax]		; str2 byte qword ptr to get the char
-	test	al, al			; str2 null byte check
-	je	.ret_zzz		; if equal to null byte, return 0
-	jmp	.ret_neg		; if not equal to null byte, return -1
-.ret_pos:		; return the string askii difference 1
-	mov	eax, 1			; return 1
-	jmp	.allisdone		; go to the end
-.ret_neg:		; return the string askii difference -1
-	mov	eax, -1			; return -1
+	movsx	ecx, al			; signed int for calc
+	mov	eax, edx		; str1 char
+	sub	eax, ecx		; return str1 - str2
 	jmp	.allisdone		; go to the end
 .ret_zzz:	; return 0
 	mov	eax, 0			; return 0
