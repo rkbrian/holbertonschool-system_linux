@@ -1,6 +1,6 @@
 BITS 64
 	global asm_puts			; export for external files
-	extern asm_strlen, write 	; import write file
+	extern asm_strlen, write 	; import asm_ file
 	SECTION .text			; this section stores code
 asm_puts:
 	push	rbp
@@ -16,8 +16,8 @@ asm_puts:
 	mov	rax, QWORD [rbp-24]	; load str
 	mov	rsi, rax		; write: 2nd var for print content
 	mov	edi, 1			; write: 1st var for file descriptor of stdout
-	mov	eax, 0			; clear buffer
-	call	write			; print str
+	mov	eax, 1			; syscall of write
+	syscall				; print str
 	mov	eax, DWORD [rbp-4]	; return i
 	leave				; destroy stack frame
 	ret
