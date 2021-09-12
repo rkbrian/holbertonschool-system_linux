@@ -56,3 +56,23 @@ Write a function that prints a string of characters on the standard output, in x
 - You are not allowed to use any sort of jump
 - Your file 0-strlen.asm will be compiled as well, you are allowed to call it once in your file
 - For this task, you are allowed to use the syscall instruction only once in your file
+
+## 8. strcasecmp
+Write a copycat of the function strcasecmp(3), in x86-64 Assembly
+- Prototype when used in C: int asm_strcasecmp(const char *s1, const char *s2);
+
+## 9. strncasecmp
+Write a copycat of the function strncasecmp(3), in x86-64 Assembly
+- Prototype when used in C: int asm_strncasecmp(const char *s1, const char *s2, size_t n);
+
+## 10. strspn
+Write a copycat of the function strspn(3), in x86-64 Assembly
+- Prototype when used in C: size_t asm_strspn(const char *s, const char *accept);
+
+## 11. strcspn
+Write a copycat of the function strcspn(3), in x86-64 Assembly
+- Prototype when used in C: size_t asm_strcspn(const char *s, const char *reject);
+
+## 12. strpbrk
+Write a copycat of the function strpbrk(3), in x86-64 Assembly
+- Prototype when used in C: char *asm_strpbrk(const char *s, const char *accept);
