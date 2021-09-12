@@ -22,8 +22,8 @@ asm_strcasecmp:		; setup & variables init
 	mov	rax, QWORD [rbp-16]	; str2 saved to the top regular gpr
 	movzx	eax, BYTE [rax]		; str2 byte qword ptr to get the char
 	movsx	edx, al			; signed int for calc
-	mov	eax, 32			; lower case int
-	sub	eax, edx		; return 32 - str2
+	mov	eax, -32		; lower case int
+	sub	eax, edx		; return 0 - str2 - 32
 	jmp	.allisdone		; go to the end
 .ret_02:		; return 0 - str2
 	mov	rax, QWORD [rbp-16]	; str2 saved to the top regular gpr
