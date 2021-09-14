@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <signal.h>
 
+void singer(int sig_num);
 int handle_signal(void);
 void (*current_handler_signal(void))(int);
 int handle_sigaction(void);

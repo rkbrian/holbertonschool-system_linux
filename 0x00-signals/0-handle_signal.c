@@ -10,9 +10,18 @@ int handle_signal(void)
 
 	if (sig_num == 2)
 	{
-		signal(sig_num, printf("Gotcha! [%d]\n", sig_num));
+		signal(sig_num, singer);
 		return (0);
 	}
 	else
 		return (-1);
+}
+
+/**
+ * singer - print for handling ctrl-c signal
+ */
+void singer(int sig_num)
+{
+	(void)sig_num;
+	printf("Gotcha! [2]\n");
 }
