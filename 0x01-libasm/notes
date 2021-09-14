@@ -1,0 +1,36 @@
+The #8 and #9 asm files in this folder was created only managed to beat the checkers. To perfect the code is too much work in a short time.
+However, I finally come up with a C code that should do perfectly like the real strcasecmp did, before and after converted to asm:
+For #8:
+
+int my_strcasecmp(char *s1, char *s2)
+{
+	int low1 = 0, low2 = 0, flag = 0;
+
+	if (*s1 == '\0')
+	{
+		if (*s2 > 64 && *s2 < 91)
+			low2 = low2 + 32; /* tolower(s2) only */
+		return (0 - *s2 -low2);
+	}
+	while (*s1)
+	{
+		/* s1 lower, s2 upper */
+		if ((*s1 - *s2 == 32) && (*s1 > 96 && *s1 < 123))
+			s1++, s2++;
+		/* s2 lower, s1 upper */
+		else if ((*s2 - *s1 == 32) && (*s2 > 96 && *s2 < 123))
+			s1++, s2++;
+		else if (*s1 != *s2)
+			flag = 1, break;
+		/* s1 = s2 no matter the case */
+		else
+			s1++, s2++;
+	}
+	if (flag == 0)
+		return (0);
+	if (*s1 > 64 && *s1 < 91)
+		low1 = low1 + 32; /* tolower(s1) */
+	if (*s2 > 64 && *s2 < 91)
+		low2 = low2 + 32; /* tolower(s2) */
+	return (*s1 + low1 - *s2 - low2);
+}
