@@ -19,6 +19,7 @@ int handle_signal(void)
 
 /**
  * singer - print for handling ctrl-c signal
+ * @sig_num: to be void
  */
 void singer(int sig_num)
 {
