@@ -7,8 +7,16 @@
 #include <unistd.h>
 #include <signal.h>
 
+typedef struct sig_selecter
+{
+	int sig_num;
+	void (*f)(int sig_num);
+} sig_select;
+
 void singer(int sig_num);
 int handle_signal(void);
+void print_hello(int);
+void set_print_hello(void);
 void (*current_handler_signal(void))(int);
 int handle_sigaction(void);
 void (*current_handler_sigaction(void))(int);

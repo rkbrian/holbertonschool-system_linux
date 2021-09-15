@@ -6,26 +6,9 @@
  */
 void (*current_handler_signal(void))(int)
 {
-	if (current_handler_signal)
-	{
-		signal(SIGINT, current_handler_signal);
-		return (current_handler_signal);
-	}
-	return (NULL);
-}
+	void (*handler)(int);
 
-/**
- * print_hello - fuction to print hello
- */
-void print_hello(int)
-{
-	printf("Hello :)\n");
-}
-
-/**
- * set_print_hello - fuction to set print_hello as the handler for SIGINT
- */
-void set_print_hello(void)
-{
-	current_handler_signal = print_hello;
+	handler = signal(SIGINT, SIG_DFL); /* signal returns previous handler addr */
+	signal(SIGINT, handler); /* change handler back to print_hello from sig_dfl */
+	return (handler);
 }
