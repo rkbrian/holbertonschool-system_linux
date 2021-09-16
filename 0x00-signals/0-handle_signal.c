@@ -17,7 +17,7 @@ int handle_signal(void)
  */
 void singer(int sig_num)
 {
-	/* (void)sig_num; */
+	(void)sig_num;
 	write(STDOUT_FILENO, "Gotcha! [2]\n", 12);
 	/* Note: printf() is not safe as the handler function to signal() */
 }

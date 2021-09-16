@@ -2,10 +2,11 @@
 
 /**
  * print_hello - fuction to print hello
+ * @sig_num: to be void
  */
 void print_hello(int sig_num)
 {
-	/* (void)sig_num; */
+	(void)sig_num;
 	write(STDOUT_FILENO, "Hello :)\n", 9);
 }
 

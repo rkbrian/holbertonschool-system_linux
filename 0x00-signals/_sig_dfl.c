@@ -14,5 +14,5 @@ int main(void)
 
 	cigar.sa_flags = SA_RESETHAND;
 	sigaction(SIGINT, &cigar, NULL);
-        return (0);
+	return (0);
 }
