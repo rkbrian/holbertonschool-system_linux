@@ -24,6 +24,6 @@ void sigma(int sig_num)
 	(void)sig_num;
 	write(STDOUT_FILENO, "SIGQUIT sent by ", 16);
 	/* Note: printf() is not safe as the handler function to signal() */
-	write(STDOUT_FILENO, num, sizeof(long int));
+	write(STDOUT_FILENO, &num, sizeof(long int));
 	write(STDOUT_FILENO, "\n", 1);
 }

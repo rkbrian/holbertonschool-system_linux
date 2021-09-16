@@ -7,6 +7,12 @@
 #include <unistd.h>
 #include <signal.h>
 
+typedef struct signal_dictionary
+{
+	int n;
+	char *sig_name;
+} sig_dic;
+
 void singer(int sig_num);
 int handle_signal(void);
 void print_hello(int);
@@ -15,5 +21,8 @@ void (*current_handler_signal(void))(int);
 int handle_sigaction(void);
 void (*current_handler_sigaction(void))(int);
 int trace_signal_sender(void);
+void sigma(int);
+void cigarette(int sigourney);
+void zygons(void);
 
 #endif /* SIGNALS_H */
