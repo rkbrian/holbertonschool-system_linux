@@ -14,5 +14,9 @@ void print_hello(int sig_num)
  */
 void set_print_hello(void)
 {
-	signal(SIGINT, print_hello);
+	struct sigaction cigar;
+
+	cigar.sa_handler = &print_hello;
+	cigar.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &cigar, NULL);
 }

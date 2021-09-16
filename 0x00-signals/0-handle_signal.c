@@ -6,15 +6,9 @@
  */
 int handle_signal(void)
 {
-	int sig_num = SIGINT;
-
-	if (sig_num == 2)
-	{
-		signal(sig_num, singer);
-		return (0);
-	}
-	else
+	if (signal(SIGINT, singer) == SIG_ERR)
 		return (-1);
+	return (0);
 }
 
 /**
@@ -23,6 +17,7 @@ int handle_signal(void)
  */
 void singer(int sig_num)
 {
-	(void)sig_num;
-	printf("Gotcha! [2]\n");
+	/* (void)sig_num; */
+	write(STDOUT_FILENO, "Gotcha! [2]\n", 12);
+	/* Note: printf() is not safe as the handler function to signal() */
 }
