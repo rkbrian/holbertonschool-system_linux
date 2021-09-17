@@ -7,6 +7,11 @@
 #include <unistd.h>
 #include <signal.h>
 
+/**
+ * struct signal_dictionary - struct of temprary signal dictionary
+ * @n: signum
+ * @sig_name: signal description
+ */
 typedef struct signal_dictionary
 {
 	int n;
