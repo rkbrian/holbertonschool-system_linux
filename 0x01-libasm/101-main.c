@@ -13,6 +13,8 @@
  */
 int main(void)
 {
+	int i;
+
 	asm_puti_base(98, "0123456789");
 	printf("\n");
 	asm_puti_base(-1, "0123456789");
@@ -27,5 +29,7 @@ int main(void)
 	printf("\n");
 	asm_puti_base(0, "01234567");
 	printf("\n");
+	i = asm_puti_base(-407, "0123456789abcdef");
+	printf("\n%d\n", i);
 	return (EXIT_SUCCESS);
 }

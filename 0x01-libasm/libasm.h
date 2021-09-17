@@ -22,6 +22,6 @@ size_t asm_strcspn(const char *s, const char *reject);
 char *asm_strpbrk(const char *s, const char *accept);
 size_t asm_puti(int n);
 size_t asm_puti_base(int n, const char *base);
-unsigned int puti_base(int n, const char *base); /*test file*/
+/* unsigned int puti_base(int n, const char *base); this is test file*/
 
 #endif /* LIBASM_H */
