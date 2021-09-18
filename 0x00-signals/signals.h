@@ -6,6 +6,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <signal.h>
+#include <sys/wait.h>
+#include <sys/types.h>
 
 /**
  * struct signal_dictionary - struct of temprary signal dictionary
