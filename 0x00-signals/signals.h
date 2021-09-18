@@ -16,7 +16,7 @@ typedef struct signal_dictionary
 {
 	int n;
 	char *sig_name;
-} sig_dic;
+} sidi;
 
 void singer(int sig_num);
 int handle_signal(void);
