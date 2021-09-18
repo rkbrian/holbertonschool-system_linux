@@ -6,11 +6,10 @@
  */
 void (*current_handler_sigaction(void))(int)
 {
-	void (*handler)(int);
+	/* void (*handler)(int); */
 	struct sigaction cigar;
 
-	handler = cigar.sa_handler;
-	if (handler == SIG_ERR)
+	if (cigar.sa_handler == SIG_ERR || cigar.sa_handler == SIG_DFL)
 		return (NULL);
-	return (handler);
+	return (cigar.sa_handler);
 }
