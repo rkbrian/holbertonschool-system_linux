@@ -9,22 +9,22 @@ int capture_flag = 0;
  */
 int main(void)
 {
-	/*int sig_num;*/
-	struct sigaction cigar;
+	int sig_num;
 
-	cigar.sa_handler = &cigarette;
-	cigar.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &cigar, NULL);
-sigma:
+	/*cigar.sa_handler = &cigarette;*/
+	/*cigar.sa_flags = SA_RESTART;*/
 	/*printf("\n");*/
-	/*fflush(stdout);*/
-	if (capture_flag == 1)
+	if (signal(SIGINT, cigarette) == SIG_ERR)
+		zygons();
+	else
 	{
+		scanf("%d", &sig_num);
+		signal(SIGINT, cigarette);
+		fflush(stdout);
+		signal(SIGINT, SIG_DFL);
 		printf("Signal received\n");
 		return (EXIT_SUCCESS);
 	}
-	/*scanf("%d", &sig_num);*/
-	goto sigma;
 	return (EXIT_SUCCESS);
 }
 
@@ -36,7 +36,9 @@ void cigarette(int sigourney)
 {
 	if (sigourney == SIGINT)
 	{
-		write(STDOUT_FILENO, "Caught 2\n", 9);
+		write(STDOUT_FILENO, "Caught ", 7);
+		write(STDOUT_FILENO, &sigourney, sizeof(int));
+		write(STDOUT_FILENO, "\n", 1);
 		capture_flag = 1;
 	}
 }
@@ -46,4 +48,9 @@ void cigarette(int sigourney)
  */
 void zygons(void)
 {
+	int sig_num;
+
+	scanf("%d", &sig_num);
+	/* printf("\n");*/
+	fflush(stdout);
 }
