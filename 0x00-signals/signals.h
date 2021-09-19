@@ -31,5 +31,6 @@ int trace_signal_sender(void);
 void sigma(int);
 void cigarette(int sigourney);
 void zygons(void);
+/*int pid_exist(pid_t pid);*/
 
 #endif /* SIGNALS_H */
