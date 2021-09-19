@@ -2,6 +2,8 @@
 
 /**
  * main - sends the signal SIGINT to a process, given its PID
+ * @argc: argument count
+ * @argv: argument strings
  * Return: EXIT_SUCCESS or EXIT_FAILURE
  */
 int main(int argc, char *argv[])
