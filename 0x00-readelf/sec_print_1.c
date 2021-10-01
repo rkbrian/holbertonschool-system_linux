@@ -9,18 +9,17 @@
 void print_saxon(elf32_hdr *elf_head, int endian, FILE *elf_file)
 {
         int nsh; /*i, j*/
-        char *name = "                   ", *type = "                ";
-        char *addr = "0000000000000000 ", *offs = "000000 ";
 
         nsh = elf_head->num_sec_h;
-        printf("There are %d section headers, starting at offset 0x", nsh);
-        print_shoff(elf_head), printf(":\n\nSection Headers:\n");
+        printf("There are %d section headers, starting at offset ", nsh);
+	printf("%#x", elf_head->start_sec_hl);
+	/*print_shoff(elf_head)*/
+	printf(":\n\nSection Headers:\n");
         printf("  [Nr] Name              Type            ");
         if (elf_head->e_class == 1)
                 printf("Addr     Off    Size   ES Flg Lk Inf Al\n");
         else if (elf_head->e_class == 2)
                 printf("Address          Off    Size   ES Flg Lk Inf Al\n");
-        printf("%s%s%s%s\n", name, type, addr, offs);
 	create_saxon(elf_head, endian, elf_file);
 }
 
@@ -32,12 +31,12 @@ void print_saxon(elf32_hdr *elf_head, int endian, FILE *elf_file)
  */
 void print_shoff(elf32_hdr *elf_head)
 {
-        int i, j = 0, end_i, k;
+	/*int i, j = 0, end_i, k;
 
         if (elf_head->e_data == 1) /* little endian, digit position reverse */
-                i = (4 * elf_head->e_class) - 1, end_i = -1, k = -1;
+                /*i = (4 * elf_head->e_class) - 1, end_i = -1, k = -1;
         else if (elf_head->e_data == 2) /* big endian, digit position in order */
-                i = 0, end_i = 4 * elf_head->e_class, k = 1;
+                /*i = 0, end_i = 4 * elf_head->e_class, k = 1;
         while (i != end_i)
         {
                 if (j > 0)
@@ -45,7 +44,7 @@ void print_shoff(elf32_hdr *elf_head)
                 else if (elf_head->start_sec_hl[i] != 0)
                         printf("%x", elf_head->start_sec_hl[i]), j++;
                 i = i + k;
-        }
+		}*/
 }
 
 

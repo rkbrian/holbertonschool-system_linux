@@ -49,9 +49,9 @@ typedef struct elf32_header
 	uint16_t type;
 	uint16_t machine;
 	uint32_t version;
-	uint8_t entry_addrl[4];
-	uint8_t start_pro_hl[4];
-	uint8_t start_sec_hl[4];
+	uint32_t entry_addrl;
+	uint32_t start_pro_hl;
+	uint32_t start_sec_hl;
 	uint32_t flags;
 	uint16_t size_eh;
 	uint16_t size_pro_h;
