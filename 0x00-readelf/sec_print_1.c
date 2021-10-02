@@ -10,6 +10,11 @@ void print_saxon(elf32_hdr *elf_head, int endian, FILE *elf_file)
 {
 	int nsh;
 
+	if (endian == 2)
+	{
+		elf_head->start_sec_hl = bitwise_swap(elf_head->start_sec_hl, 4);
+		elf_head->num_sec_h = bitwise_swap(elf_head->num_sec_h, 2);
+	}
 	nsh = elf_head->num_sec_h;
 	printf("There are %d section headers, starting at offset ", nsh);
 	printf("%#x", elf_head->start_sec_hl);
@@ -29,7 +34,7 @@ void print_saxon(elf32_hdr *elf_head, int endian, FILE *elf_file)
  */
 void sec_flag(unsigned long int data)
 {
-	int idx = 1;
+	int idx = 2;
 	char flg_str[3] = "   ";
 
 	if (data & SHF_EXECINSTR)
@@ -54,7 +59,7 @@ void sec_flag(unsigned long int data)
  * @type: type representation in integer form
  * Return: string of type name to be printed
  */
-char *typewriter(unsigned int type)
+char *typewriter(int type)
 {
 	int i;
 	abyss tidy[] = {{SHT_NULL, "NULL"}, {SHT_PROGBITS, "PROGBITS"},
@@ -72,28 +77,6 @@ char *typewriter(unsigned int type)
 			return (tidy[i].abi_name);
 	}
 	return (NULL);
-}
-
-/**
- * print_shoff - print the address of the start of section headers
- * @elf_head: struct database of the elf file
- */
-void print_shoff(elf32_hdr *elf_head)
-{
-	/*int i, j = 0, end_i, k;*/
-
-	/*if (elf_head->e_data == 1) little endian, digit position reverse */
-	/*i = (4 * elf_head->e_class) - 1, end_i = -1, k = -1;*/
-	/*else if (elf_head->e_data == 2) big endian, digit position in order */
-	/*i = 0, end_i = 4 * elf_head->e_class, k = 1;*/
-	/*while (i != end_i)*/
-	/*{*/
-	/*if (j > 0)*/
-	/*printf("%02x", elf_head->start_sec_hl[i]), j++;*/
-	/*else if (elf_head->start_sec_hl[i] != 0)*/
-	/*printf("%x", elf_head->start_sec_hl[i]), j++;*/
-	/*i = i + k;*/
-	/*}*/
 }
 
 /**

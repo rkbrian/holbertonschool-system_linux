@@ -227,12 +227,13 @@ typedef struct elf_header
 
 /* 1-hreadelf */
 void create_saxon(elf32_hdr *myself, int endian, FILE *elf_file);
-
+unsigned long int bitwise_swap(unsigned long int num, int bitsize);
+elf32_sh *saxon_swap(elf32_sh *saxon);
 /* section header print set 1 */
 void print_saxon(elf32_hdr *elf_head, int endian, FILE *elf_file);
 void print_shoff(elf32_hdr *elf_head);
 int magic_check(elf32_hdr *elf_head);
 void sec_flag(unsigned long int data);
-char *typewriter(unsigned int type);
+char *typewriter(int type);
 
 #endif /* SECHEAD_H */
