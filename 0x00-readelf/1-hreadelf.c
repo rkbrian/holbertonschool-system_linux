@@ -46,17 +46,15 @@ void create_saxon(elf32_hdr *myself, int endian, FILE *elf_file)
 {
 	char *name, *flgs = "   "; /* name is array of numbers */
 	elf32_sh *saxon = NULL; /* elf64_sh *sanction = NULL; */
-	uint idx;
-	int i, end_i, k, sec_h;
+	uint idx; /*int i, end_i, k, sec_h; */
 
-	if (endian == 1) /* little endian, digit position reverse */
-		i = 3, end_i = -1, k = -1;
-	else if (endian == 2)
-		i = 0, end_i = 4, k = 1; /* check later */
+	/* if (endian == 1) i = 3, end_i = -1, k = -1; */
+	/* else if (endian == 2) i = 0, end_i = 4, k = 1; */
 	saxon = malloc(sizeof(elf32_sh));
 	if (saxon == NULL)
 		return;
-	fseek(elf_file, myself->start_sec_hl + sizeof(elf32_sh) * myself->sec_h_str_index, SEEK_SET);
+	fseek(elf_file, myself->start_sec_hl
+	      + sizeof(elf32_sh) * myself->sec_h_str_index, SEEK_SET);
 	fread(saxon, sizeof(elf32_sh), 1, elf_file);
 	fseek(elf_file, saxon->sh_offset, SEEK_SET);
 	name = malloc(sizeof(char) * saxon->sh_size);
@@ -68,14 +66,15 @@ void create_saxon(elf32_hdr *myself, int endian, FILE *elf_file)
 	{
 		fread(saxon, sizeof(elf32_sh), 1, elf_file);
 		printf("  [%2u] %-17s ", idx, name + saxon->sh_name);
-		printf("%-16s%08x ", "TYPES here", saxon->sh_addr);
+		printf("%-16s%08x ", typewriter(saxon->sh_type), saxon->sh_addr);
 		printf("%06x %06x ", saxon->sh_offset, saxon->sh_size);
-		printf("%02x %s%3d ", saxon->sh_entsize, flgs, saxon->sh_link);
-		printf("%3d%3d\n", saxon->sh_info, saxon->sh_addr_align);
+		printf("%02x ", saxon->sh_entsize), sec_flag(saxon->sh_flags);
+		printf("%3d %3d", saxon->sh_link, saxon->sh_info);
+		printf("%3d\n", saxon->sh_addr_align);
 	}
 	printf("Key to Flags:\n");
 	printf("  W (write), A (alloc), X (execute), M (merge), S (strings)\n");
-	printf("  I (info), L (link order), G (group), T (TLS), E (exclude), x (unknown)\n");
-	printf("  O (extra OS processing required) o (OS specific), p (processor specific)\n");
-	free(name), free(saxon);
+	printf("  I (info), L (link order), G (group), T (TLS), E (exclude)");
+	printf(", x (unknown)\n  O (extra OS processing required) o (OS specific),");
+	printf(" p (processor specific)\n"), free(name), free(saxon);
 }

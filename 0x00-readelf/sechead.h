@@ -15,6 +15,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <string.h>
+#include <elf.h>
 
 /**
  * struct elf32_header - database for the elf header for 32-bit
@@ -94,9 +95,9 @@ typedef struct elf64_header
 	uint16_t type;
 	uint16_t machine;
 	uint32_t version;
-	uint8_t entry_addrh[8];
-	uint8_t start_pro_hh[8];
-	uint8_t start_sec_hh[8];
+	uint32_t entry_addrh;
+	uint32_t start_pro_hh;
+	uint32_t start_sec_hh;
 	uint32_t flags;
 	uint16_t size_eh;
 	uint16_t size_pro_h;
@@ -231,5 +232,7 @@ void create_saxon(elf32_hdr *myself, int endian, FILE *elf_file);
 void print_saxon(elf32_hdr *elf_head, int endian, FILE *elf_file);
 void print_shoff(elf32_hdr *elf_head);
 int magic_check(elf32_hdr *elf_head);
+void sec_flag(unsigned long int data);
+char *typewriter(unsigned int type);
 
 #endif /* SECHEAD_H */
