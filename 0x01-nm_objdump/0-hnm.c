@@ -17,7 +17,7 @@ int main(int argc, char **argv)
 			dprintf(STDERR_FILENO, "%s: 'a.out': No such file", argv[0]), exit(98);
 		if ((fr = read(fd, buffer, BUFFALO)) < 0)
 			dprintf(STDERR_FILENO, "Error: Cannot read from file\n"), exit(98);
-		eclass = buffer[4], endian = buffer[5], close(fd), free(buffer);
+		eclass = buffer[4], endian = buffer[5], close(fd);
 		nm_printer("a.out", eclass, endian);
 	}
 	else if (argc > 1)
@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 				dprintf(STDERR_FILENO, "%s: '%s': No such file", argv[0], argv[i]), exit(98);
 			if ((fr = read(fd, buffer, BUFFALO)) < 0)
 				dprintf(STDERR_FILENO, "Error: Cannot read from file\n"), exit(98);
-			eclass = buffer[4], endian = buffer[5], close(fd), free(buffer);
+			eclass = buffer[4], endian = buffer[5], close(fd);
 			nm_printer(argv[i], eclass, endian);
 		}
 	}
