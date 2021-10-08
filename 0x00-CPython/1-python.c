@@ -6,45 +6,17 @@
  */
 void print_python_list(PyObject *p)
 {
-	/*PyTypeObject *plist = p->ob_type;*/
-	/* initialize PyList_Type instance */
-	static PyTypeObject PyList_Type = {
-		PyVarObject_HEAD_INIT(&PyList_Type, 0)
-		"list",
-		sizeof(PyListObject),
-		0, /* tp_itemsize */
-		0, /* tp_dealloc */
-		0, /* tp_print */
-		0, /* tp_getattr */
-		0, /* tp_setattr */
-		0, /* tp_as_async */
-		0, /* tp_repr */
-		0, /* tp_as_number */
-		0, /* tp_as_sequence */
-		0, /* tp_as_mapping */
-		0, /* tp_hash  */
-		0, /* tp_call */
-		0, /* tp_str */
-		0, /* tp_getattro */
-		0, /* tp_setattro */
-		0, /* tp_as_buffer */
-		Py_TPFLAGS_DEFAULT, /* tp_flags */
-		"List objects", /* tp_doc */
-	};
-	Py_ssize_t i, j = PyList_Size(PyList_Type->ob_item);
+	Py_ssize_t i, j = PyList_Size(p);
 
-	if (p != NULL) /* && Py_Is_TYPE(p, PyList_type) != 0)*/
+	if (p != NULL && PyList_Check(p))
 	{
-
 		printf("[*] Python list info\n");
 		printf("[*] Size of the Python List = %zd\n", j);
-		printf("[*] Allocated = %zd\n", PyList_Type->allocated);
+		printf("[*] Allocated = %zd\n", ((PyListObject *)p)->allocated);
 		for (i = 0; i < j; i++)
 		{
 			printf("Element %zd: ", i);
-			/*if (p->ob_type)*/
-		/*printf("str\n");*/
-		/*printf("int\n");*/
+			printf("%s\n", ((PyListObject *)p)->ob_item[i]->ob_type->tp_name);
 		}
 	}
 }
