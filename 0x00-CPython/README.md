@@ -18,18 +18,27 @@ Write the big O notations for the following lists operations (one per line, in t
 
 ### 1. CPython #0: Python lists
 Create a C function that prints some basic info about Python lists.
+Compile command: gcc -Wall -Werror -Wextra -pedantic -std=c99 -shared -Wl,-soname,PyList -o libPyList.so -fPIC -I/usr/include/python3.4 1-python.c
+Run process: python3 1-tests.py
 
 ### 2. CPython #1: PyBytesObject
 Create two C functions that print some basic info about Python lists and Python bytes objects.
+Compile command: gcc -Wall -Werror -Wextra -pedantic -std=c99 -shared -Wl,-soname,libPython.so -o libPython.so -fPIC -I/usr/include/python3.4 2-python.c
+Run process: python3 2-tests.py
 
 ### 3. CPython #2: PyFloatObject
 Create three C functions that print some basic info about Python lists, Python bytes an Python float objects.
+Compile command: gcc -Wall -Werror -Wextra -pedantic -std=c99 -shared -Wl,-soname,libPython.so -o libPython.so -fPIC -I/usr/include/python3.4 3-python.c
+Run process: python3 3-tests.py
 
 ### 4. CPython #3: Python Strings
 Create a function that prints Python strings.
+Compile command
 
 ### 5. CPython Integers
 Create a C function that prints Python integers.
+Compile command
 
 ### 6. CPython Integers
 Create a C function that prints Python integers.
+Compile command
