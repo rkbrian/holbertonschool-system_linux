@@ -78,14 +78,14 @@ void print_python_bytes(PyObject *p)
 void print_python_float(PyObject *p)
 {
 	PyFloatObject *pf;
-	long int a;
+	int a;
 
 	if (p != NULL && PyFloat_Check(p))
 	{
 		pf = (PyFloatObject *)p;
 		printf("[.] float object info\n  value: ");
 		a = pf->ob_fval;
-		if (a == pf->ob_fval || (int)a == pf->ob_fval)
+		if (a == pf->ob_fval || (long int)a == pf->ob_fval)
 			printf("%.1f", pf->ob_fval);
 		else
 			printf("%.16g", pf->ob_fval);
