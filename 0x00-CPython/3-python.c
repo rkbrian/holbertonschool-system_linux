@@ -25,7 +25,10 @@ void print_python_list(PyObject *p)
 		}
 	}
 	else
+	{
+		printf("[.] list object info\n");
 		printf("  [ERROR] Invalid List Object\n");
+	}
 }
 
 /**
