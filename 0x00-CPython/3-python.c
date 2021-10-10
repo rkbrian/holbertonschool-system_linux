@@ -22,8 +22,8 @@ void print_python_list(PyObject *p)
 			printf("%s\n", pl->ob_item[i]->ob_type->tp_name);
 			if (pl->ob_item[i]->ob_type->tp_name[0] == 'l')
 			{
-				print_python_bytes(NULL);
-				print_python_float(NULL);
+				print_python_bytes(p);
+				print_python_float(p);
 			}
 			else
 			{
@@ -87,10 +87,8 @@ void print_python_float(PyObject *p)
 		a = pf->ob_fval;
 		if (a == pf->ob_fval)
 			printf("%.1f", pf->ob_fval);
-		else if (a >= INT_MAX || a <= INT_MIN)
-			printf("%ld.0", a);
 		else
-			printf("%.16lg", pf->ob_fval);
+			printf("%.16g", pf->ob_fval);
 		printf("\n");
 	}
 	else if (p == NULL || PyList_Check(p))
