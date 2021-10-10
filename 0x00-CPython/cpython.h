@@ -12,6 +12,8 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <float.h>
+#include <wchar.h>
+#include <locale.h>
 
 void print_python_list(PyObject *p);
 void print_python_bytes(PyObject *p);
