@@ -64,7 +64,7 @@ void print_python_bytes(PyObject *p)
 			printf(" %02x", pb->ob_sval[j] & 0xff);
 		printf("\n");
 	}
-	else if (!p || PyList_Check(p))
+	else if (p == NULL || PyList_Check(p))
 	{
 		printf("[.] bytes object info\n");
 		printf("  [ERROR] Invalid Bytes Object\n");
@@ -78,7 +78,7 @@ void print_python_bytes(PyObject *p)
 void print_python_float(PyObject *p)
 {
 	PyFloatObject *pf;
-	int a;
+	long int a;
 
 	if (p != NULL && PyFloat_Check(p))
 	{
@@ -87,11 +87,13 @@ void print_python_float(PyObject *p)
 		a = pf->ob_fval;
 		if (a == pf->ob_fval)
 			printf("%.1f", pf->ob_fval);
+		else if (a >= INT_MAX || a <= INT_MIN)
+			printf("%ld.0", a);
 		else
 			printf("%.16g", pf->ob_fval);
 		printf("\n");
 	}
-	else if (!p || PyList_Check(p))
+	else if (p == NULL || PyList_Check(p))
 	{
 		printf("[.] float object info\n");
 		printf("  [ERROR] Invalid Float Object\n");

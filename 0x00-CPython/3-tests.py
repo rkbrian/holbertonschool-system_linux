@@ -39,3 +39,5 @@ print(l)
 lib.print_python_list(l);
 lib.print_python_float(l);
 lib.print_python_list(f);
+f = 9492307816406286.0
+lib.print_python_float(f);
