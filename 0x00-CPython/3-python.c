@@ -90,7 +90,7 @@ void print_python_float(PyObject *p)
 		else if (a >= INT_MAX || a <= INT_MIN)
 			printf("%ld.0", a);
 		else
-			printf("%.16g", pf->ob_fval);
+			printf("%.16lg", pf->ob_fval);
 		printf("\n");
 	}
 	else if (p == NULL || PyList_Check(p))
