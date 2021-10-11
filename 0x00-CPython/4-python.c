@@ -14,13 +14,13 @@ void print_python_string(PyObject *p)
 		ps = (PyStringObject *)p;
 		printf("[.] string object info\n");
 		printf("  type: compact ");
-		if ()
+		if (ps->ob_sval)
 			printf("ascii\n");
 		else
 			printf("unicode object\n");
 		j = PyString_Size(p);
 		printf("  length: %zd\n  value: ", j);
-		wprintf(L"%ls\n", ps->ob_shash); /* maybe? */
+		wprintf(L"%ls\n", ps->ob_ob_sval); /* maybe? */
 		printf("\n");
 	}
 	else

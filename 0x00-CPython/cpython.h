@@ -14,6 +14,7 @@
 #include <float.h>
 #include <wchar.h>
 #include <locale.h>
+#include <longintrepr.h>
 
 void print_python_list(PyObject *p);
 void print_python_bytes(PyObject *p);
