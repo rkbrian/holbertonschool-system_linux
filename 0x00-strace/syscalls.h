@@ -2,6 +2,13 @@
 # define _SYSCALLS_H_
 
 # include <stddef.h>
+#include <sys/ptrace.h>
+#include <sys/user.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /* Normally, MAX_PARAMS is always 6 */
 # define MAX_PARAMS	6
