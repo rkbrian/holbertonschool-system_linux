@@ -18,18 +18,20 @@ int main(int argc, char *argv[])
 	pid_t pid;
 	long ptval = 0;
 	int i, j;
-	char buffalo[64][64];
+	char **buffalo;
 	char *envp[]={"PATH=/bin", NULL};
 
-	if (argc > 1)
+	buffalo = malloc(sizeof(char *) * argc);
+
+	for (i = 1; i < argc; i++)
 	{
-		for (i = 1; i < (argc && 64); i++)
-		{
-			for (j = 0; j < (strlen(argv[i]) && 64); j++)
-				buffalo[i - 1][j] = argv[i][j];
-		}
-		/* buffalo[i] = NULL; */
+		buffalo[i - 1] = malloc(sizeof(char) * strlen(argv[i]));
+		for (j = 0; j < (strlen(argv[i]) && 64); j++)
+			buffalo[i - 1][j] = argv[i][j];
+		buffalo[i - 1][j] = '\0';
 	}
+	buffalo[i - 1] = NULL;
+
 	pid = fork();
 	if (pid == 0)
 	{
