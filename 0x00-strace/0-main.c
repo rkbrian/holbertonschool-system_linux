@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-/* #include <linux/user.h> orig_eax etc */
+#include <linux/user.h> /* orig_eax etc */
 
 /**
  * main - executes and traces a given command to print the syscall numbers
@@ -16,7 +16,7 @@
 int main(int argc, char *argv[])
 {
 	pid_t pid;
-	long ptval = 0;
+	long orig_eax;
 	int i, j;
 	char **buffalo;
 	char *envp[]={"PATH=/bin", NULL};
@@ -35,15 +35,18 @@ int main(int argc, char *argv[])
 	pid = fork();
 	if (pid == 0)
 	{
-		ptval = ptrace(PTRACE_TRACEME, 0, NULL, NULL);
+		ptrace(PTRACE_TRACEME, 0, NULL, NULL);
 		execve(argv[1], (char * const *)buffalo, envp);
 	}
 	else
 	{
 		wait(NULL);
-		/* orig_eax = ptrace(PTRACE_PEEKUSER, pid, ORIG_EAX * 4, NULL); */
-		printf("%ld\n", ptval);
+		orig_eax = ptrace(PTRACE_PEEKUSER, pid, ORIG_EAX * 4, NULL);
+		printf("%ld\n", orig_eax);
 		ptrace(PTRACE_CONT, pid, NULL, NULL);
 	}
+	for (i = 0; buffalo[i] != NULL; i++)
+		free(buffalo[i]);
+	free(buffalo);
 	return (0);
 }
