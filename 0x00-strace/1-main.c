@@ -10,7 +10,7 @@
 int main(int argc, char *argv[], char *envp[])
 {
 	pid_t pid;
-	long ptval;
+	long ptval = -1;
 	int status = 0; /*, sysflag = 0;*/
 	struct user_regs_struct regs;
 
@@ -19,7 +19,9 @@ int main(int argc, char *argv[], char *envp[])
 		fprintf(stderr, "Useage: %s command [args...]\n", argv[0]);
 		return (1);
 	}
-	setbuf(stdout, NULL);
+	/* setbuf(stdout, NULL);*/
+	/* fflush(stdout); */
+	printf("59\n");
 	pid = fork();
 	if (pid == 0)
 	{
@@ -32,12 +34,15 @@ int main(int argc, char *argv[], char *envp[])
 		while (!WIFEXITED(status)) /*  returns true if child terminated normally */
 		{
 			/* sysflag++;*/
-			ptrace(PTRACE_SYSCALL, pid, 0, 0);
+			ptval = ptrace(PTRACE_SYSCALL, pid, 0, 0);
 			wait(&status);
-			ptval = ptrace(PTRACE_GETREGS, pid, 0, &regs);
+			ptrace(PTRACE_GETREGS, pid, 0, &regs);
+
 			if (ptval == 0)
 				printf("%s\n", syscalls_64_g[regs.orig_rax].name); /*printf("sysflag: %d\n", sysflag);*/
 			/*sleep(1);*/
+			ptval++;
+
 		}
 	}
 	return (0);
