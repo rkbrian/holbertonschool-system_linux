@@ -18,7 +18,8 @@ void sysprint(struct user_regs_struct *regs)
 	params[4] = regs->r8;
 	params[5] = regs->r9;
         printf("(");
-	for (i = 0; i < (syscalls_64_g[regs->orig_rax]).nb_params; i++)
+	for (i = 0; (syscalls_64_g[regs->orig_rax]).params[0] != VOID
+		     && i < (syscalls_64_g[regs->orig_rax]).nb_params; i++)
 	{
 		printf("%s", sepa = (i ? ", " : ""));
 		if (syscalls_64_g[regs->orig_rax].params[i] == VARARGS)
@@ -48,7 +49,7 @@ int main(int argc, char *argv[], char *envp[])
 		fprintf(stderr, "Usage: %s command [args...]\n", argv[0]);
 		return (1);
 	}
-	printf("execve = 0\n"), pid = fork();
+	printf("execve(0, 0, 0) = 0\n"), pid = fork();
 	if (pid == 0)
 	{
 		ptrace(PTRACE_TRACEME, pid, 0, 0);
