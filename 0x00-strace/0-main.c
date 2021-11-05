@@ -36,7 +36,7 @@ int main(int argc, char *argv[], char *envp[])
 			ptval = ptrace(PTRACE_GETREGS, pid, 0, &regs);
 			if (ptval == 0 && (sysflag % 2 == 0))
 				printf("%lu\n", (size_t)regs.orig_rax);
-			ptval++;
+			fflush(stdout), ptval++;
 		}
 	}
 	return (0);
