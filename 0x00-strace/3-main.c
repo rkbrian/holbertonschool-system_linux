@@ -14,7 +14,7 @@ void sysprint(struct user_regs_struct *regs)
 	params[0] = regs->rdi;
 	params[1] = regs->rsi;
 	params[2] = regs->rdx;
-	params[3] = regs->rcx;
+	params[3] = regs->r10; /* why? */
 	params[4] = regs->r8;
 	params[5] = regs->r9;
         printf("(");
