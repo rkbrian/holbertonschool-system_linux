@@ -1,6 +1,36 @@
 #include "syscalls.h"
 
 /**
+ *
+
+
+ */
+void sysprint(struct user_regs_struct *regs)
+{
+	size_t params[MAX_PARAMS]; /* int/ptr parameters of the regi in order */
+	size_t i;
+	char *sepa, *addrh;
+
+	params[0] = regs->rdi;
+	params[1] = regs->rsi;
+	params[2] = regs->rdx;
+	params[3] = regs->rcx;
+	params[4] = regs->r8;
+	params[5] = regs->r9;
+        printf("(");
+	for (i = 0; i < (syscalls_64_g[regs->orig_rax]).nb_params; i++)
+	{
+		if (syscalls_64_g[regs->orig_rax].params[i] == VARARGS)
+			printf("%s ...", sepa = (i ? ", " : ""));
+		else
+		{
+			printf("%s", sepa = (i ? ", " : ""));
+			printf("%s%lx", addrh = (params[i] == 0 ? "" : "0x"), params[i]);
+		}
+	}
+}
+
+/**
  * main - executes and traces a given command to print the syscall numbers
  * @argc: argument count
  * @argv: argument array
@@ -38,13 +68,13 @@ int main(int argc, char *argv[], char *envp[])
 			if ((ptval == 0) && (sysflag % 2 == 0))
 			{
 				printf("%s", syscalls_64_g[regs.orig_rax].name);
-				sysprint();
+				sysprint(&regs);
 			}
 			else if ((ptval == 0) && (sysflag % 2 > 0) && !WIFEXITED(status))
-				printf(" = %s%lx\n", addr = (regs.rax == 0 ? "" : "0x"), (size_t)regs.rax);
+				printf(") = %s%lx\n", addr = (regs.rax == 0 ? "" : "0x"), (size_t)regs.rax);
 			fflush(stdout), ptval++;
 		}
 	}
-	printf(" = ?\n");
+	printf(") = ?\n");
 	return (0);
 }

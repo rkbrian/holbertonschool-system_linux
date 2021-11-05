@@ -968,4 +968,5 @@ static syscall_t const syscalls_32_g[] = {
 	{"seccomp", 354, -1, 0, {-1, -1, -1, -1, -1, -1}}
 };
 
+void sysprint(struct user_regs_struct *regs);
 #endif /* !_SYSCALLS_H_ */
