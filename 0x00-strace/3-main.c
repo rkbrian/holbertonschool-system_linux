@@ -5,7 +5,7 @@
 
 
  */
-void sysprint(struct user_regs_struct *regs)
+void sysprint(const syscall_t *sysrax, struct user_regs_struct *regs)
 {
 	size_t params[MAX_PARAMS]; /* int/ptr parameters of the regi in order */
 	size_t i;
@@ -18,14 +18,13 @@ void sysprint(struct user_regs_struct *regs)
 	params[4] = regs->r8;
 	params[5] = regs->r9;
         printf("(");
-	for (i = 0; (syscalls_64_g[regs->orig_rax]).params[0] != VOID
-		     && i < (syscalls_64_g[regs->orig_rax]).nb_params; i++)
+	for (i = 0; i < sysrax->nb_params; i++)
 	{
 		printf("%s", sepa = (i ? ", " : ""));
-		if (syscalls_64_g[regs->orig_rax].params[i] == VARARGS)
+		if (sysrax->params[i] == VARARGS)
 			printf("...");
 		else
-			printf("%s%lx", addrh = (params[i] == 0 ? "" : "0x"), params[i]);
+			printf("%s%lx", addrh = (params[i] ? "0x" : ""), params[i]);
 	}
 }
 
@@ -67,7 +66,7 @@ int main(int argc, char *argv[], char *envp[])
 			if ((ptval == 0) && (sysflag % 2 == 0))
 			{
 				printf("%s", syscalls_64_g[regs.orig_rax].name);
-				sysprint(&regs);
+				sysprint(&syscalls_64_g[regs.orig_rax], &regs);
 			}
 			else if ((ptval == 0) && (sysflag % 2 > 0) && !WIFEXITED(status))
 				printf(") = %s%lx\n", addr = (regs.rax == 0 ? "" : "0x"), (size_t)regs.rax);
