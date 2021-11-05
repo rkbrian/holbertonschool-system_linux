@@ -11,18 +11,15 @@ int main(int argc, char *argv[], char *envp[])
 {
 	pid_t pid;
 	long ptval = -1;
-	int status = 0; /*, sysflag = 0;*/
+	int status = 0, sysflag = 0;
 	struct user_regs_struct regs;
 
 	if (argc < 2)
 	{
-		fprintf(stderr, "Useage: %s command [args...]\n", argv[0]);
+		fprintf(stderr, "Usage: %s command [args...]\n", argv[0]);
 		return (1);
 	}
-	/* setbuf(stdout, NULL);*/
-	/* fflush(stdout); */
-	printf("59\n");
-	pid = fork();
+	printf("execve\n"), pid = fork();
 	if (pid == 0)
 	{
 		ptrace(PTRACE_TRACEME, pid, 0, 0);
@@ -33,16 +30,15 @@ int main(int argc, char *argv[], char *envp[])
 		status = 1;
 		while (!WIFEXITED(status)) /*  returns true if child terminated normally */
 		{
-			/* sysflag++;*/
+			sysflag++;
 			ptval = ptrace(PTRACE_SYSCALL, pid, 0, 0);
 			wait(&status);
 			ptrace(PTRACE_GETREGS, pid, 0, &regs);
-
-			if (ptval == 0)
-				printf("%s\n", syscalls_64_g[regs.orig_rax].name); /*printf("sysflag: %d\n", sysflag);*/
-			/*sleep(1);*/
-			ptval++;
-
+			if ((ptval == 0) && (sysflag % 2 == 0))
+				printf("%s", syscalls_64_g[regs.orig_rax].name);
+			else if ((ptval == 0) && (sysflag % 2 > 0))
+				printf("\n");
+			fflush(stdout), ptval++;
 		}
 	}
 	return (0);
