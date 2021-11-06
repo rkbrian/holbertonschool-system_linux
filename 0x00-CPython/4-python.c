@@ -6,22 +6,23 @@
  */
 void print_python_string(PyObject *p)
 {
-	PyStringObject *ps;
 	Py_ssize_t i, j;
 
-	if (p != NULL && PyString_Check(p))
+	if (p != NULL && PyUnicode_Check(p))
 	{
-		ps = (PyStringObject *)p;
 		printf("[.] string object info\n");
-		printf("  type: compact ");
-		if (ps->ob_sval)
-			printf("ascii\n");
-		else
-			printf("unicode object\n");
-		j = PyString_Size(p);
+		printf("  type: ");
+		if (PyUnicode_IS_COMPACT_ASCII(p))
+			printf("compact ascii\n");
+		else if (PyUnicode_IS_COMPACT(p))
+			printf("compact unicode object\n");
+		else if (PyUnicode_KIND(p) == PyUnicode_WCHAR_KIND)
+			printf("legacy string, not ready");
+		else if (!PyUnicode_IS_COMPACT(p))
+			printf("legacy string, ready");
+		j = ((PyASCIIObject *)p)->length;
 		printf("  length: %zd\n  value: ", j);
-		wprintf(L"%ls\n", ps->ob_ob_sval); /* maybe? */
-		printf("\n");
+		printf("%ls\n", (PyUnicode_AsWideCharString(p, NULL)));
 	}
 	else
 	{
