@@ -17,8 +17,9 @@ void sysprint(const syscall_t *sysrax, struct user_regs_struct *regs)
 	params[3] = regs->rcx;
 	params[4] = regs->r8;
 	params[5] = regs->r9;
+	fflush(stdout);
         printf("(");
-	for (i = 0; i < sysrax->nb_params; i++)
+	for (i = 0; sysrax->params[0] != VOID && i < sysrax->nb_params; i++)
 	{
 		printf("%s", sepa = (i ? ", " : ""));
 		if (sysrax->params[i] == VARARGS)
