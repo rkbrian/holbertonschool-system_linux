@@ -2,7 +2,7 @@
 
 /**
  * sysprint - print syscall parameters
- * @sysrax: syscall struct
+ * @sysrax: syscall struct, in term of regs
  * @regs: user registers
  */
 void sysprint(const syscall_t *sysrax, struct user_regs_struct *regs)
@@ -18,15 +18,19 @@ void sysprint(const syscall_t *sysrax, struct user_regs_struct *regs)
 	params[4] = regs->r8;
 	params[5] = regs->r9;
 	printf("(");
-	for (i = 0; sysrax->params[0] != VOID && i < sysrax->nb_params; i++)
+	/* for save guarding syscalls_64_g in main, I use sysrax, not regs */
+	if (sysrax->params[0] != VOID)
 	{
-		printf("%s", sepa = (i ? ", " : ""));
-		if (sysrax->params[i] == VARARGS)
-			printf("...");
-		else
-			printf("%s%lx", addrh = (params[i] ? "0x" : ""), params[i]);
+		for (i = 0; i < sysrax->nb_params; i++)
+		{
+			printf("%s", sepa = (i ? ", " : ""));
+			if (sysrax->params[i] == VARARGS)
+				printf("...");
+			else
+				printf("%s%lx", addrh = (params[i] ? "0x" : ""), params[i]);
+		}
+		fflush(stdout);
 	}
-	fflush(stdout);
 }
 
 /**
