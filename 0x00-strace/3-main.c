@@ -14,10 +14,10 @@ void sysprint(const syscall_t *sysrax, struct user_regs_struct *regs)
 	params[0] = regs->rdi;
 	params[1] = regs->rsi;
 	params[2] = regs->rdx;
-	params[3] = regs->rcx;
+	params[3] = regs->r10;
 	params[4] = regs->r8;
 	params[5] = regs->r9;
-        printf("(");
+	putchar('(');
 	for (i = 0; sysrax->params[0] != VOID && i < sysrax->nb_params; i++)
 	{
 		printf("%s", sepa = (i ? ", " : ""));
@@ -70,7 +70,7 @@ int main(int argc, char *argv[], char *envp[])
 				sysprint(&syscalls_64_g[regs.orig_rax], &regs);
 			}
 			else if ((ptval == 0) && (sysflag % 2 > 0) && !WIFEXITED(status))
-				printf(") = %s%lx\n", addr = (regs.rax == 0 ? "" : "0x"), (size_t)regs.rax);
+				printf(") = %s%lx\n", addr = (regs.rax ? "0x" : ""), (size_t)regs.rax);
 			fflush(stdout), ptval++;
 		}
 	}
