@@ -6,7 +6,7 @@
  */
 void print_python_string(PyObject *p)
 {
-	Py_ssize_t i, j;
+	Py_ssize_t j;
 
 	if (p != NULL && PyUnicode_Check(p))
 	{
