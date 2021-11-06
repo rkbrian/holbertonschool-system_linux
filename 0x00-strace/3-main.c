@@ -1,9 +1,9 @@
 #include "syscalls.h"
 
 /**
- *
-
-
+ * sysprint - print syscall parameters
+ * @sysrax: syscall struct
+ * @regs: user registers
  */
 void sysprint(const syscall_t *sysrax, struct user_regs_struct *regs)
 {
@@ -17,7 +17,6 @@ void sysprint(const syscall_t *sysrax, struct user_regs_struct *regs)
 	params[3] = regs->rcx;
 	params[4] = regs->r8;
 	params[5] = regs->r9;
-	fflush(stdout);
         printf("(");
 	for (i = 0; sysrax->params[0] != VOID && i < sysrax->nb_params; i++)
 	{
@@ -27,6 +26,7 @@ void sysprint(const syscall_t *sysrax, struct user_regs_struct *regs)
 		else
 			printf("%s%lx", addrh = (params[i] ? "0x" : ""), params[i]);
 	}
+	fflush(stdout);
 }
 
 /**
