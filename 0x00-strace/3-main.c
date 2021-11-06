@@ -14,10 +14,10 @@ void sysprint(const syscall_t *sysrax, struct user_regs_struct *regs)
 	params[0] = regs->rdi;
 	params[1] = regs->rsi;
 	params[2] = regs->rdx;
-	params[3] = regs->r10;
+	params[3] = regs->r10; /* why not rcx??? */
 	params[4] = regs->r8;
 	params[5] = regs->r9;
-	putchar('(');
+	printf("(");
 	for (i = 0; sysrax->params[0] != VOID && i < sysrax->nb_params; i++)
 	{
 		printf("%s", sepa = (i ? ", " : ""));
