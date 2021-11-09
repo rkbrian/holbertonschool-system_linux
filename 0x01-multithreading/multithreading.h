@@ -73,8 +73,14 @@ typedef struct blur_portion_s
 
 /* functions in main */
 void *_thread_entry(__attribute__((unused))void *arg);
+void load_kernel(kernel_t *kernel, char const *file);
+void load_image(img_t *img, char const *file);
+void img_copy(img_t *dest, img_t const *src);
+void write_image(img_t const *img, char const *file);
+
 /* target functions */
 void *thread_entry(void *arg);
 int tprintf(char const *format, ...);
+void blur_portion(blur_portion_t const *portion);
 
 #endif /* MULTITHREADING_H */
