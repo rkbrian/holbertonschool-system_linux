@@ -36,10 +36,7 @@ int main(int argc, char *argv[], char *envp[])
 			wait(&status);
 			ptrace(PTRACE_GETREGS, pid, 0, &regs);
 			if ((ptval == 0) && (sysflag % 2 == 0))
-			{
 				printf("%s", syscalls_64_g[regs.orig_rax].name);
-				sysprint();
-			}
 			else if ((ptval == 0) && (sysflag % 2 > 0) && !WIFEXITED(status))
 				printf(" = %s%lx\n", addr = (regs.rax == 0 ? "" : "0x"), (size_t)regs.rax);
 			fflush(stdout), ptval++;
