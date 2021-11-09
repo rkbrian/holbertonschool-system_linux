@@ -72,3 +72,5 @@ typedef struct blur_portion_s
 } blur_portion_t;
 
 void *thread_entry(void *arg);
+
+#endif /* MULTITHREADING_H */
