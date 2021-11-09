@@ -21,3 +21,9 @@ Write a function that uses the printf family to print out a given formatted stri
  - Prototype: int tprintf(char const *format, ...);
  - The output must be preceded by the calling thread ID.
 compile command: gcc -Wall -Wextra -Werror -pedantic -g3 1-main.c 1-tprintf.c -o 1-tprintf -pthread
+
+### 2. Blur portion of an image
+Write a method that blurs a portion of an image using a Gaussian Blur.
+ - Prototype: void blur_portion(blur_portion_t const *portion);, where:
+ - portion points to a data structure described in the project requirements
+compile command: gcc -Wall -Wextra -Werror -pedantic -g3 10-main.c 10-blur_portion.c -o 10-blur_portion

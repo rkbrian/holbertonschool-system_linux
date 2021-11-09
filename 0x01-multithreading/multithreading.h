@@ -71,6 +71,10 @@ typedef struct blur_portion_s
     kernel_t const *kernel;
 } blur_portion_t;
 
+/* functions in main */
+void *_thread_entry(__attribute__((unused))void *arg);
+/* target functions */
 void *thread_entry(void *arg);
+int tprintf(char const *format, ...);
 
 #endif /* MULTITHREADING_H */
