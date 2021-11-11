@@ -27,3 +27,10 @@ Write a method that blurs a portion of an image using a Gaussian Blur.
  - Prototype: void blur_portion(blur_portion_t const *portion);, where:
  - portion points to a data structure described in the project requirements
 compile command: gcc -Wall -Wextra -Werror -pedantic -g3 10-main.c 10-blur_portion.c -o 10-blur_portion
+
+### 5. Number to prime factors
+Write a function that factorizes a number into a list of prime factors.
+ - Prototype: list_t *prime_factors(char const *s);, where
+ - s is the string representation of the number to factorize.
+ - This number will be positive and fit into an unsigned long
+compile command: gcc -Wall -Wextra -Werror -pedantic -g3 21-main.c 21-prime_factors.c list.c -o 21-prime_factors

@@ -8,6 +8,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <sys/types.h>
+#include "list.h"
 
 /**
  * struct pixel_s - RGB pixel
