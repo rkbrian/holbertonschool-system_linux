@@ -42,6 +42,8 @@ int cutting_edge(blur_portion_t const *portion, )
 void pixelblur(blur_portion_t const *portion, size_t pixid)
 {
 	size_t i = 0, j = 0;
+	pixel_t *pixxy;
+	float weight, weightsum = 0;
 
 	for (; i < portion->kernel->size; i++)
 	{
