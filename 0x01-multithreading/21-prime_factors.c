@@ -16,7 +16,7 @@ list_t *prime_factors(char const *s)
 	if (!primely)
 		return (NULL);
 	list_init(primely);
-	while (num > factory * factory)
+	while (num >= factory * factory)
 	{
 		while (num % factory == 0)
 		{

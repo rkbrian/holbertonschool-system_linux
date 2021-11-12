@@ -84,6 +84,7 @@ void *thread_entry(void *arg);
 int tprintf(char const *format, ...);
 void blur_portion(blur_portion_t const *portion);
 
+void pixelblur(blur_portion_t const *portion, size_t pixid, size_t pixelsum);
 list_t *prime_factors(char const *s);
 
 #endif /* MULTITHREADING_H */
