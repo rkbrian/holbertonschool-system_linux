@@ -2,7 +2,7 @@
 
 /**
  * blur_portion - method blurs a portion of an image using a Gaussian Blur,
- * 		  use id int property for boundary control. 
+ * 		  use id int property for boundary control.
  * @portion: points to a data struct described in the project requirements
  */
 void blur_portion(blur_portion_t const *portion)
@@ -33,7 +33,7 @@ void blur_portion(blur_portion_t const *portion)
  * @pixid: pixel id
  * @nei: neighboring id
  * @ps: total number of pixels in the image
- * Return: 1 if not the edge, 0 if it is the edge 
+ * Return: 1 if not the edge, 0 if it is the edge
  */
 int cutting_edge(blur_portion_t const *portion, int pixid, int nei, int ps)
 {
@@ -82,7 +82,7 @@ void pixelblur(blur_portion_t const *portion, size_t pixid, size_t pixelsum)
 		nei = nei + portion->img->w;
 	}
 	pixie = &(portion->img_blur->pixels[pixid]);
-	pixie->r = (int)(r / weightsum);
-	pixie->g = (int)(g / weightsum);
-	pixie->b = (int)(b / weightsum);
+	pixie->r = (int)(myr / weightsum);
+	pixie->g = (int)(myg / weightsum);
+	pixie->b = (int)(myb / weightsum);
 }

@@ -83,7 +83,7 @@ void write_image(img_t const *img, char const *file);
 void *thread_entry(void *arg);
 int tprintf(char const *format, ...);
 void blur_portion(blur_portion_t const *portion);
-int cutting_edge(blur_portion_t const *portion, size_t pixid, size_t pixelsum);
+int cutting_edge(blur_portion_t const *portion, int pixid, int nei, int ps);
 void pixelblur(blur_portion_t const *portion, size_t pixid, size_t pixelsum);
 list_t *prime_factors(char const *s);
 
