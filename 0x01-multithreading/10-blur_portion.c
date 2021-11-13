@@ -2,7 +2,7 @@
 
 /**
  * blur_portion - method blurs a portion of an image using a Gaussian Blur,
- * 		  use id int property for boundary control.
+ * use id int property for boundary control.
  * @portion: points to a data struct described in the project requirements
  */
 void blur_portion(blur_portion_t const *portion)
