@@ -44,9 +44,9 @@ int cutting_edge(blur_portion_t const *portion, int pixid, int nei, int ps)
 	idcol = pixid % (int)(portion->img->w);
 	neicol = nei % (int)(portion->img->w);
 	if (idcol + halfsize >= (int)(portion->img->w))
-		return (neicol - halfsize >= 0);
+		return (0); /*(neicol - halfsize >= 0);*/
 	if (idcol - halfsize < 0)
-		return (neicol + halfsize < (int)(portion->img->w));
+		return (0); /*(neicol + halfsize < (int)(portion->img->w));*/
 	return (1);
 }
 
