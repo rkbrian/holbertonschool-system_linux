@@ -28,17 +28,26 @@ void blur_portion(blur_portion_t const *portion)
 }
 
 /**
- * cutting_edge - function to define the edge of the matrix
+ * cutting_edge - function to define the edges of the matrix
  * @portion: points to a data struct described in the project requirements
  * @pixid: pixel id
- * @pixelsum: total number of pixels in the image
- * Return: 0 if not the edge, 1 if it is the edge 
+ * @nei: neighboring id
+ * @ps: total number of pixels in the image
+ * Return: 1 if not the edge, 0 if it is the edge 
  */
-int cutting_edge(blur_portion_t const *portion, size_t pixid, size_t pixelsum)
+int cutting_edge(blur_portion_t const *portion, int pixid, int nei, int ps)
 {
-	int pixelsum = portion->img->w * portion->img->h;
-	;
+	int idcol, neicol, halfsize = (int)(portion->kernel->size) / 2;
 
+	if (nei < 0 || nei >= ps) /* out of boarder */
+		return (0);
+	idcol = pixid % (int)(portion->img->w);
+	neicol = nei % (int)(portion->img->w);
+	if (idcol + halfsize >= (int)(portion->img->w))
+		return (neicol - halfsize >= 0);
+	if (idcol - halfsize < 0)
+		return (neicol + halfsize < (int)(portion->img->w));
+	return (1);
 }
 
 /**
@@ -59,7 +68,8 @@ void pixelblur(blur_portion_t const *portion, size_t pixid, size_t pixelsum)
 	{
 		for (; j < portion->kernel->size; j++)
 		{
-			if (cutting_edge(portion, pixid, pixelsum) == 0)
+			/* neighboring id to control */
+			if (cutting_edge(portion, (int)pixid, nei + j, (int)pixelsum) != 0)
 			{
 				weight = portion->kernel->matrix[i][j];
 				pixie = &(portion->img->pixels[nei + j]);
