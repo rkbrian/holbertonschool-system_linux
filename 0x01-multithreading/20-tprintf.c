@@ -21,11 +21,17 @@ int tprintf(char const *format, ...)
 	return (0);
 }
 
+/**
+ * init_mymutex - use pthread_mutex_init method as mutex constructor 
+ */
 void init_mymutex(void)
 {
 	pthread_mutex_init(&mymutex, NULL);
 }
 
+/**
+ * end_mymutex - use pthread_mutex_destroy method as mutex destructor
+ */
 void end_mymutex(void)
 {
 	pthread_mutex_destroy(&mymutex);

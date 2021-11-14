@@ -44,3 +44,18 @@ Write a function that factorizes a number into a list of prime factors.
  - s is the string representation of the number to factorize.
  - This number will be positive and fit into an unsigned long
 compile command: gcc -Wall -Wextra -Werror -pedantic -g3 21-main.c 21-prime_factors.c list.c -o 21-prime_factors
+
+### 6. Number to prime factors v2
+The goal of this task is to reproduce the previous task, and to improve it using a thread pool. The tread pool will have for purpose to execute a list of tasks. For this task, you will have to write 3 functions (all in the same file):
+ - Create task
+ Prototype: task_t *create_task(task_entry_t entry, void *param);. This function must return a pointer to the created task structure
+ - Destroy task
+ Prototype: void destroy_task(task_t *task);.
+ - Execute task list - Thread entry
+ Prototype: void *exec_tasks(list_t const *tasks);.
+ - - This function serves as a thread entry
+ - - This function can safely return NULL as its return value will not be retrieved
+ - - This function must go through the list of tasks and execute them, but there’s a challenge:
+ - - - Multiple thread will be going through the list of tasks, and a task must only be executed once
+ - - You must use tprintf to print when a task is started, and completed
+ 
