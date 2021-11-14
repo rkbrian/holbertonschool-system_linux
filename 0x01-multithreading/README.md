@@ -35,6 +35,8 @@ This time, you will also have to use a mutex to avoid race conditions. As you kn
  - The output must be preceded by the calling thread ID, as the following output shows.
  - Tip: You are allowed to use global variables - Don't forget to run Betty with the option --allow-global-variables
 NOTE: We first compile with our first version of tprintf to show the consequence of the race condition.
+compile command: gcc -Wall -Wextra -Werror -pedantic -g3 20-main.c 1-tprintf.c -o 20-tprintf -pthread
+compile command: gcc -Wall -Wextra -Werror -pedantic -g3 20-main.c 20-tprintf.c -o 20-tprintf -pthread
 
 ### 5. Number to prime factors (21-prime_factors.c)
 Write a function that factorizes a number into a list of prime factors.

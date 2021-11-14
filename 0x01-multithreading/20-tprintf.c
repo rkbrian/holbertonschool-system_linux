@@ -13,7 +13,7 @@ int tprintf(char const *format, ...)
 
 	va_start(arg, format);
 	pthread_mutex_lock(&mymutex);
-	printf("[%lu] ", (unsigned long)self);
+	printf("[%lu] ", (unsigned long)tidy);
 	if (format)
 		vprintf(format, arg);
 	pthread_mutex_unlock(&mymutex);
