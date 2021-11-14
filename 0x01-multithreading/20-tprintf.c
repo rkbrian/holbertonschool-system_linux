@@ -22,7 +22,7 @@ int tprintf(char const *format, ...)
 }
 
 /**
- * init_mymutex - use pthread_mutex_init method as mutex constructor 
+ * init_mymutex - use pthread_mutex_init method as mutex constructor
  */
 void init_mymutex(void)
 {
