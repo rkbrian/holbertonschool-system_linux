@@ -3,12 +3,15 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg>
 #include <unistd.h>
 #include <pthread.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <sys/types.h>
 #include "list.h"
+
+pthread_mutex_t mymutex;
 
 /**
  * struct pixel_s - RGB pixel
@@ -83,8 +86,11 @@ void write_image(img_t const *img, char const *file);
 void *thread_entry(void *arg);
 int tprintf(char const *format, ...);
 void blur_portion(blur_portion_t const *portion);
-int cutting_edge(blur_portion_t const *portion, int pixid, int nei, int ps);
-void pixelblur(blur_portion_t const *portion, size_t pixid, size_t pixelsum);
+int cutting_edge(blur_portion_t const *portion, int pixid, int nei, int ps); /*my function*/
+void pixelblur(blur_portion_t const *portion, size_t pixid, size_t pixelsum); /*my function*/
 list_t *prime_factors(char const *s);
+void *_thread_entry(__attribute__((unused))void *arg);
+void init_mymutex(void) __attribute__((constructor)); /*my function*/
+void end_mymutex(void) __attribute__((destructor)); /*my function*/
 
 #endif /* MULTITHREADING_H */
