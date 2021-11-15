@@ -103,6 +103,7 @@ typedef enum task_status_e
  * @status: Task status, default to PENDING
  * @result: Stores the return value of the entry function
  * @lock:   Task mutex
+ * @service_id: static variable for coming-in order
  */
 typedef struct task_s
 {
@@ -111,6 +112,7 @@ typedef struct task_s
     task_status_t   status;
     void        *result;
     pthread_mutex_t lock;
+    unsigned int service_id; /* not provided in the problem, I added */
 } task_t;
 
 /* functions in main */
