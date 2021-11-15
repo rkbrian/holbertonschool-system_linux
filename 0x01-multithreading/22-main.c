@@ -58,10 +58,10 @@ int main(int ac, char **av)
 
     for (i = 0; i < NB_THREADS; i++)
         pthread_create(&threads[i], NULL,
-            (void *(*) (void *))exec_tasks, &tasks);
+		       (void *(*) (void *))exec_tasks, &tasks);
     for (i = 0; i < NB_THREADS; i++)
-        pthread_join(threads[i], NULL);
-
+	    pthread_join(threads[i], NULL);
+    /* printf("hello\n"); */
     list_each(&tasks, (node_func_t)print_task_result);
 
     list_destroy(&tasks, (node_func_t)destroy_task);

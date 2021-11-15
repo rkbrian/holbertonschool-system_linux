@@ -46,8 +46,7 @@ void destroy_task(task_t *task)
  */
 void *exec_tasks(list_t const *tasks)
 {
-	int status, sf_flag = 0, status_flag = 0; /* 0 for pending task */
-	unsigned int id; /* copy of service id */
+	int id, status, status_flag = 0; /* 0 for pending task */
 	node_t *curr = NULL; /* current node */
 	void *newres;
 	task_t *currta;
@@ -70,15 +69,17 @@ void *exec_tasks(list_t const *tasks)
 				tprintf("[%02u] Started\n", id);
 				newres = currta->entry(currta->param); /* change result */
 				pthread_mutex_lock(&currta->lock), currta->result = newres;
-				if (newres)
-					currta->status = SUCCESS, sf_flag = 1;
-				else
-					currta->status = FAILURE, sf_flag = 2;
 				pthread_mutex_unlock(&currta->lock);
-				if (sf_flag == 1)
-					tprintf("[%02u] Success\n", id);
-				else if (sf_flag == 2)
-					tprintf("[%02u] Failure\n", id);
+				if (newres)
+				{
+					pthread_mutex_lock(&currta->lock), currta->status = SUCCESS;
+					pthread_mutex_unlock(&currta->lock), tprintf("[%02u] Success\n", id);
+				}
+				else
+				{
+					pthread_mutex_lock(&currta->lock), currta->status = FAILURE;
+					pthread_mutex_unlock(&currta->lock), tprintf("[%02u] Failure\n", id);
+				}
 			}
 			curr = curr->next, currta = ((task_t *)curr->content);
 		}
