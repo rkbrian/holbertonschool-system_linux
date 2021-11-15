@@ -9,7 +9,7 @@
 task_t *create_task(task_entry_t entry, void *param)
 {
 	task_t *newtask = NULL;
-	static unsigned int id = 0;
+	static unsigned int id;
 
 	newtask = malloc(sizeof(task_t));
 	if (!newtask)
@@ -19,8 +19,8 @@ task_t *create_task(task_entry_t entry, void *param)
 	newtask->status = PENDING;
 	newtask->result = NULL;
 	newtask->lock = task_mutex;
-        newtask->service_id = id;
-        id++;
+	newtask->service_id = id;
+	id++;
 	return (newtask);
 }
 
@@ -32,6 +32,8 @@ void destroy_task(task_t *task)
 {
 	if (task)
 	{
+		list_destroy(task->result, free);
+		free(task->result);
 		free(task);
 	}
 }
@@ -57,34 +59,35 @@ void *exec_tasks(list_t const *tasks)
 		curr = tasks->head, currta = ((task_t *)curr->content), status_flag++;
 		while (curr)
 		{
-			pthread_mutex_lock(currta->lock);
+			status_flag = 0, pthread_mutex_lock(&currta->lock);
 			status = currta->status;
-			pthread_mutex_unlock(currta->lock);
+			pthread_mutex_unlock(&currta->lock);
 			if (status == PENDING)
 			{
-				status_flag = 0, id = currta->service_id;
-				pthread_mutex_lock(currta->lock), currta->status = STARTED;
-				pthread_mutex_unlock(currta->lock);
+				id = currta->service_id;
+				pthread_mutex_lock(&currta->lock), currta->status = STARTED;
+				pthread_mutex_unlock(&currta->lock);
 				tprintf("[%02u] Started\n", id);
 				newres = currta->entry(currta->param); /* change result */
-				pthread_mutex_lock(currta->lock), currta->result = newres;
+				pthread_mutex_lock(&currta->lock), currta->result = newres;
 				if (newres)
 					currta->status = SUCCESS, sf_flag = 1;
 				else
 					currta->status = FAILURE, sf_flag = 2;
-				pthread_mutex_unlock(currta->lock);
+				pthread_mutex_unlock(&currta->lock);
 				if (sf_flag == 1)
 					tprintf("[%02u] Success\n", id);
 				else if (sf_flag == 2)
 					tprintf("[%02u] Failure\n", id);
 			}
+			curr = curr->next, currta = ((task_t *)curr->content);
 		}
 	}
 	return (NULL);
 }
 
 /**
- * init_mymutex - use pthread_mutex_init method as mutex constructor
+ * init_tmutex - use pthread_mutex_init method as mutex constructor
  */
 void init_tmutex(void)
 {
@@ -92,7 +95,7 @@ void init_tmutex(void)
 }
 
 /**
- * end_mymutex - use pthread_mutex_destroy method as mutex destructor
+ * end_tmutex - use pthread_mutex_destroy method as mutex destructor
  */
 void end_tmutex(void)
 {
