@@ -46,7 +46,7 @@ void destroy_task(task_t *task)
  */
 void *exec_tasks(list_t const *tasks)
 {
-	int id, status, status_flag = 0; /* 0 for pending task */
+	int i, id, sf_flag, status, status_flag = 0; /* 0 for pending task */
 	node_t *curr = NULL; /* current node */
 	void *newres;
 	task_t *currta;
@@ -58,33 +58,54 @@ void *exec_tasks(list_t const *tasks)
 		curr = tasks->head, currta = ((task_t *)curr->content), status_flag++;
 		while (curr)
 		{
-			status_flag = 0, pthread_mutex_lock(&currta->lock);
-			status = currta->status;
-			pthread_mutex_unlock(&currta->lock);
+			status_flag = 0, sf_flag = 0, pthread_mutex_lock(&currta->lock);
+			status = currta->status, pthread_mutex_unlock(&currta->lock);
 			if (status == PENDING)
 			{
-				id = currta->service_id;
+				id = currta->service_id, tprintf("[%02u] Started\n", id);
+				newres = currta->entry(currta->param);
 				pthread_mutex_lock(&currta->lock), currta->status = STARTED;
-				pthread_mutex_unlock(&currta->lock);
-				tprintf("[%02u] Started\n", id);
-				newres = currta->entry(currta->param); /* change result */
-				pthread_mutex_lock(&currta->lock), currta->result = newres;
-				pthread_mutex_unlock(&currta->lock);
+				currta->result = newres;
 				if (newres)
-				{
-					pthread_mutex_lock(&currta->lock), currta->status = SUCCESS;
-					pthread_mutex_unlock(&currta->lock), tprintf("[%02u] Success\n", id);
-				}
+					currta->status = SUCCESS, sf_flag = 1;
 				else
-				{
-					pthread_mutex_lock(&currta->lock), currta->status = FAILURE;
-					pthread_mutex_unlock(&currta->lock), tprintf("[%02u] Failure\n", id);
-				}
+					currta->status = FAILURE, sf_flag = 2;
+				pthread_mutex_unlock(&currta->lock);
+				if (sf_flag == 1)
+					tprintf("[%02u] Success\n", id);
+				else if (sf_flag == 2)
+					tprintf("[%02u] Failure\n", id);
 			}
 			curr = curr->next, currta = ((task_t *)curr->content);
 		}
 	}
+	curr = tasks->head, currta = ((task_t *)curr->content);
+	for (i = 0; i < (int)(tasks->size); i++)
+	{
+		print_factors((char *)currta->param, tasks);
+		curr = tasks->head, currta = ((task_t *)curr->content);
+	}
 	return (NULL);
+}
+
+/**
+ * print_factors - Print a nmber and its prime factorization
+ *
+ * @s:       Number as string
+ * @factors: List of prime factors
+ */
+static void print_factors(char const *s, list_t const *factors)
+{
+	node_t const *factor;
+	unsigned long n;
+
+	printf("%s =", s);
+	for (factor = factors->head; factor; factor = factor->next)
+	{
+		n = *((unsigned long *)factor->content);
+		printf("%s %lu", factor->prev ? " *" : "", n);
+	}
+	printf("\n");
 }
 
 /**

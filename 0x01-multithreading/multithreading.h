@@ -122,6 +122,7 @@ void load_image(img_t *img, char const *file);
 void img_copy(img_t *dest, img_t const *src);
 void write_image(img_t const *img, char const *file);
 void *exec_tasks(list_t const *tasks);
+static void print_factors(char const *s, list_t const *factors);
 /* target functions */
 void *thread_entry(void *arg);
 int tprintf(char const *format, ...);
