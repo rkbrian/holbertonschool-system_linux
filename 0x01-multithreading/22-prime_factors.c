@@ -46,41 +46,38 @@ void destroy_task(task_t *task)
  */
 void *exec_tasks(list_t const *tasks)
 {
-	int id, status, status_flag = 0; /* 0 for pending task */
+	int id, status;
 	node_t *curr = NULL; /* current node */
 	void *newres;
 	task_t *currta;
 
 	if (!tasks)
 		pthread_exit(NULL);
-	while (status_flag == 0)
+	curr = tasks->head, currta = ((task_t *)curr->content);
+	while (curr)
 	{
-		curr = tasks->head, currta = ((task_t *)curr->content), status_flag++;
-		while (curr)
+		pthread_mutex_lock(&currta->lock);
+		status = currta->status, pthread_mutex_unlock(&currta->lock);
+		if (status == PENDING)
 		{
-			status_flag = 0, pthread_mutex_lock(&currta->lock);
-			status = currta->status, pthread_mutex_unlock(&currta->lock);
-			if (status == PENDING)
+			pthread_mutex_lock(&currta->lock), id = currta->service_id;
+			newres = currta->entry(currta->param), currta->status = STARTED;
+			currta->result = newres, pthread_mutex_unlock(&currta->lock);
+			tprintf("[%02u] Started\n", id);
+			if (newres)
 			{
-				id = currta->service_id, tprintf("[%02u] Started\n", id);
-				newres = currta->entry(currta->param);
-				pthread_mutex_lock(&currta->lock), currta->status = STARTED;
-				currta->result = newres, pthread_mutex_unlock(&currta->lock);
-				if (newres)
-				{
-					pthread_mutex_lock(&currta->lock), currta->status = SUCCESS;
-					pthread_mutex_unlock(&currta->lock), tprintf("[%02u] Success\n", id);
-				}
-				else
-				{
-					pthread_mutex_lock(&currta->lock), currta->status = FAILURE;
-					pthread_mutex_unlock(&currta->lock), tprintf("[%02u] Failure\n", id);
-				}
+				pthread_mutex_lock(&currta->lock), currta->status = SUCCESS;
+				pthread_mutex_unlock(&currta->lock), tprintf("[%02u] Success\n", id);
 			}
-			curr = curr->next;
-			if (curr)
-				currta = ((task_t *)curr->content);
+			else
+			{
+				pthread_mutex_lock(&currta->lock), currta->status = FAILURE;
+				pthread_mutex_unlock(&currta->lock), tprintf("[%02u] Failure\n", id);
+			}
 		}
+		curr = curr->next;
+		if (curr)
+			currta = ((task_t *)curr->content);
 	}
 	return (NULL);
 }
