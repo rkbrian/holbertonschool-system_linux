@@ -53,7 +53,7 @@ void *exec_tasks(list_t const *tasks)
 
 	if (!tasks)
 		pthread_exit(NULL);
-	if (status_flag == 0)
+	while (status_flag == 0)
 	{
 		curr = tasks->head, currta = ((task_t *)curr->content), status_flag++;
 		while (curr)
