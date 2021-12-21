@@ -10,4 +10,15 @@
  - How to connect to a remote application
  - What is the the HTTP protocol
  - How to create a simple HTTP server
- 
+
+### 0 - Listen:
+ Terminal 1: ./0-server\
+ Terminal 2: lsof -i :12345; killall 0-server
+
+### 1 - Accept:
+ Termianl 1: ./1-server\
+ Terminal 2: ./1-client localhost 12345
+
+### 2 - Client
+ Ternimal 1:
+ Termianl 2:

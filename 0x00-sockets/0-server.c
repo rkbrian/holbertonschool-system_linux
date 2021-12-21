@@ -4,6 +4,8 @@
 
 /**
  * main - open an IPv4/TCP socket, and listens to traffic on port 12345.
+ *  must hang indefinitely (to be killed by a signal during correction),
+ *  don’t have to accept entering connections.
  * Return: 0 for successful exit, 1 if failed
  */
 int main(void)
@@ -18,13 +20,13 @@ int main(void)
 	socket_fd = socket(PF_INET, SOCK_STREAM, 0); /*normally 0, single protocol*/
 	if (socket_fd == -1)
 	{
-		perror("Socket failed.");
+		perror("Socket failed:");
 		return (1);
 	}
 	bind_status = bind(socket_fd, (struct sockaddr *)&porty, sizeof(porty));
 	if (bind_status == -1)
 	{
-		perror("Bind failed.");
+		perror("Bind failed:");
 		return (1);
 	}
 	listen(socket_fd, 2);
