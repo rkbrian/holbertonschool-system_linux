@@ -29,6 +29,6 @@ int main(void)
 	}
 	listen(socket_fd, 2);
 	printf("Server listening on port %d\n", PORT);
-        pause();
-        return (0);
+	pause();
+	return (0);
 }
