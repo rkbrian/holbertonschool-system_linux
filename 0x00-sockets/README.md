@@ -26,3 +26,7 @@
 ### 3 - Roger
  Terminal 1: **./3-server**\
  Terminal 2: ./3-client localhost 12345 'my message'
+
+### 4 - REST API - The Request
+ Terminal 1: make todo_api_0; ./todo_api_0\
+ Terminal 2: curl -D - 'http://localhost:8080/test' 2> /dev/null | cat -e; curl -D - -X POST 'http://localhost:8080/holberton' 2> /dev/null | cat -e

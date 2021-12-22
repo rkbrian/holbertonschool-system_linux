@@ -24,7 +24,8 @@ int main(int argc, char *argv[])
 		perror("Getaddrinfo failed:");
 		exit(1);
 	}
-	socket_fd = socket(host_ai->ai_family, host_ai->ai_socktype, host_ai->ai_protocol);
+	socket_fd = socket(host_ai->ai_family, host_ai->ai_socktype,
+			   host_ai->ai_protocol);
 	if (socket_fd == -1)
 	{
 		perror("Socket failed:");
