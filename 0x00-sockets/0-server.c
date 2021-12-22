@@ -21,16 +21,17 @@ int main(void)
 	if (socket_fd == -1)
 	{
 		perror("Socket failed:");
-		return (1);
+		exit(1);
 	}
 	bind_status = bind(socket_fd, (struct sockaddr *)&porty, sizeof(porty));
 	if (bind_status == -1)
 	{
 		perror("Bind failed:");
-		return (1);
+		exit(1);
 	}
 	listen(socket_fd, 2);
 	printf("Server listening on port %d\n", PORT);
 	pause();
+	close(socket_fd);
 	return (0);
 }

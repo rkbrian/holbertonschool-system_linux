@@ -20,5 +20,5 @@
  Terminal 2: ./1-client localhost 12345
 
 ### 2 - Client
- Ternimal 1:
- Termianl 2:
+ Ternimal 1: ./2-server\
+ Termianl 2: ./2-client \<host> \<port>

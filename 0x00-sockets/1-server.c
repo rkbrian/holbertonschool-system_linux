@@ -11,7 +11,7 @@
 int main(void)
 {
 	int bind_status, socket_fd;
-        socklen_t addrlen_client = sizeof(struct sockaddr);
+	socklen_t addrlen_client = sizeof(struct sockaddr);
 	struct sockaddr_in porty, addr_client;
 
 	porty.sin_family = AF_INET; /*store info of network addr*/
@@ -22,21 +22,22 @@ int main(void)
 	if (socket_fd == -1)
 	{
 		perror("Socket failed:");
-		return (1);
+		exit(1);
 	}
 	bind_status = bind(socket_fd, (struct sockaddr *)&porty, sizeof(porty));
 	if (bind_status == -1)
 	{
 		perror("Bind failed:");
-		return (1);
+		exit(1);
 	}
 	listen(socket_fd, 2);
 	printf("Server listening on port %d\n", PORT);
 	if (accept(socket_fd, (struct sockaddr *)&addr_client, &addrlen_client) == -1)
 	{
 		perror("Accept error:");
-		return (1);
+		exit(1);
 	}
 	printf("Client connected: %s\n", inet_ntoa(addr_client.sin_addr));
+	close(socket_fd);
 	return (0);
 }
