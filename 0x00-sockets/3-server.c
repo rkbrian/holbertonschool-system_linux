@@ -3,26 +3,26 @@
 #define PORT 12345
 
 /**
- * main - open an IPv4/TCP socket, and listens to traffic on port 12345.
- *  Must accept an entering connection, print the IP address of the
- *  connected client, and close the connection right after.
- * Return: 0 for successful exit, 1 if failed
+ * main - open an IPv4/TCP socket, and listen to traffic on port 12345.
+ *  Must accept an entering connection, print IP addr of the cnnctd client,
+ *  wait for an incoming msg from the cnnctd client, print this msg,
+ *  close the connection with the client, and exit.
+ * Return: 0 for successful exit, 1 if failed 
  */
 int main(void)
 {
 	int bind_status, socket_fd, acc_fd;
 	socklen_t addrlen_client = sizeof(struct sockaddr);
 	struct sockaddr_in porty, addr_client;
+	char buffalo[1024];
 
-	/*create endpoint for comm*/
-	socket_fd = socket(AF_INET, SOCK_STREAM, 0); /*normally 0, single protocol*/
+	socket_fd = socket(AF_INET, SOCK_STREAM, 0);
 	if (socket_fd == -1)
 	{
 		perror("Socket failed:");
 		exit(1);
 	}
-	porty.sin_family = AF_INET; /*store info of network addr*/
-	porty.sin_port = htons(PORT);
+	porty.sin_family = AF_INET, porty.sin_port = htons(PORT);
 	porty.sin_addr.s_addr = htonl(INADDR_ANY);
 	bind_status = bind(socket_fd, (struct sockaddr *)&porty, sizeof(porty));
 	if (bind_status == -1)
@@ -41,7 +41,13 @@ int main(void)
 		exit(1);
 	}
 	printf("Client connected: %s\n", inet_ntoa(addr_client.sin_addr));
-	close(acc_fd);
-	close(socket_fd);
+	if (recv(acc_fd, buffalo, sizeof(buffalo), 0) == -1)
+	{
+		perror("Receive message error:");
+		close(acc_fd), close(socket_fd);
+		exit(1);
+	}
+	printf("Message received: \"%s\"\n", buffalo);
+	close(acc_fd), close(socket_fd);
 	return (0);
 }

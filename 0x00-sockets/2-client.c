@@ -2,6 +2,8 @@
 
 /**
  * main - connects to a listening server.
+ * @argc: argument count
+ * @argv: argument strings
  * Return: 0 for successful exit, 1 if failed
  */
 int main(int argc, char *argv[])
