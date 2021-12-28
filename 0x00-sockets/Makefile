@@ -5,10 +5,10 @@
 
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -pedantic
-FILEA = 0-api.c
-FILEB = 1-api.c
-FILEC = 2-api.c
-FILED = 3-api.c
+FILEA = 0-api.c socket_server.c
+FILEB = 1-api.c socket_server.c
+FILEC = 2-api.c socket_server.c
+FILED = 3-api.c socket_server.c
 RM = rm -rf
 
 todo_api_0: $(FILEA)
