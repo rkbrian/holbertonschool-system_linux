@@ -1,5 +1,7 @@
 #include "sockets.h"
 
+#define PORT 8080
+
 /**
  * socket_server - open an IPv4/TCP socket and listen to traffic on port 8080,
  *  operations: socket, setsockopt, bind, listen
@@ -8,7 +10,7 @@
 int socket_server(void)
 {
 	int bind_status, socket_fd = socket(AF_INET, SOCK_STREAM, 0);
-	struct sockaddr_in porty, addr_client;
+	struct sockaddr_in porty;
 
 	if (socket_fd == -1)
 	{
