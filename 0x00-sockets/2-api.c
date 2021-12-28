@@ -9,7 +9,7 @@ void header_printer(char *buffalo)
 {
 	char *buffalo_chop, *header_name, *header_val;
 
-	strtok_r(buffalo, "\r", &buffalo_chop);
+	strtok_r(buffalo, "\r\n", &buffalo_chop);
 	header_name = strtok_r(NULL, ":", &buffalo_chop);
 	header_val = strtok_r(NULL, "\r", &buffalo_chop);
 	while (header_name && header_val)
