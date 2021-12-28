@@ -10,4 +10,7 @@
 #include <sys/types.h>
 #include <arpa/inet.h>
 
+int socket_server(void);
+int accept_console(int socket_fd);
+
 #endif /* SOCKETS_H */
