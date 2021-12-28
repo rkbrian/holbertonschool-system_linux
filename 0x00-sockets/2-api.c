@@ -1,24 +1,22 @@
 #include "sockets.h"
 
 /**
- * path_query_printer - function to print the request path and
- *  all queries key/value pairs of the received HTTP request.
+ * header_printer - function to print the headers key/value pairs
+ *  of the received HTTP request.
  * @buffalo: buffer that stores the HTTP request
  */
-void path_query_printer(char *buffalo)
+void header_printer(char *buffalo)
 {
 	char *buffalo_chop, *query_name, *query_val;
 
-	strtok_r(buffalo, " \r\n", &buffalo_chop);
-	/*strtok_r saves the beheaded buffer string in buffalo_chop, thread safety*/
-	printf("Path: %s\n", strtok_r(NULL, "?", &buffalo_chop));
-	query_name = strtok_r(NULL, "=", &buffalo_chop);
-	query_val = strtok_r(NULL, "& ", &buffalo_chop);
+	strtok_r(buffalo, "\r\n", &buffalo_chop);
+	query_name = strtok_r(NULL, ": ", &buffalo_chop);
+	query_val = strtok_r(NULL, "\r\n", &buffalo_chop);
 	while (query_val)
 	{
-		printf("Query: \"%s\" -> \"%s\"\n", query_name, query_val);
-		query_name = strtok_r(NULL, "=", &buffalo_chop);
-		query_val = strtok_r(NULL, "& ", &buffalo_chop);
+		printf("Header: \"%s\" -> \"%s\"\n", query_name, query_val);
+		query_name = strtok_r(NULL, ": ", &buffalo_chop);
+		query_val = strtok_r(NULL, "\r\n", &buffalo_chop);
 	}
 }
 
@@ -63,8 +61,8 @@ int accept_console(int socket_fd)
  *  Must do: Accept an entering connection,
  *  Print the IP address of the connected client,
  *  Wait for an incoming message from the connected client,
- *  Print the full received HTTP request, Print the request path and
- *  all queries key/value pairs of the received HTTP request,
+ *  Print the full received HTTP request,
+ *  Print the headers key/value pairs of the received HTTP request,
  *  Send back a response to the connected client (HTTP 200 OK),
  *  Close the connection with the client, Wait for the next connection.
  * Return: 0 for successful exit, 1 if failed
