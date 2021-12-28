@@ -8,7 +8,7 @@
 int accept_console(int socket_fd)
 {
 	int acc_fd, read_bytes;
-	char buffalo[1024];
+	char buffalo[1024], *resp_msg = "HTTP/1.1 200 OK\r\n\r\n";
 	struct sockaddr_in addr_client;
 	socklen_t addrlen_client = sizeof(struct sockaddr);
 
@@ -32,7 +32,7 @@ int accept_console(int socket_fd)
 		printf("Method: %s\n", strtok(buffalo, " "));
 		printf("Path: %s\n", strtok(NULL, " "));
 		printf("Version: %s\n", strtok(NULL, " \r\n"));
-		send(acc_fd, RESPONSE, strlen(RESPONSE), 0);
+		send(acc_fd, resp_msg, strlen(resp_msg), 0);
 		close(acc_fd);
 	}
 	return (0);
