@@ -7,16 +7,16 @@
  */
 void header_printer(char *buffalo)
 {
-	char *buffalo_chop, *query_name, *query_val;
+	char *buffalo_chop, *header_name, *header_val;
 
 	strtok_r(buffalo, "\r\n", &buffalo_chop);
-	query_name = strtok_r(NULL, ": ", &buffalo_chop);
-	query_val = strtok_r(NULL, "\r\n", &buffalo_chop);
-	while (query_val)
+	header_name = strtok_r(NULL, ": ", &buffalo_chop), header_name++;
+	header_val = strtok_r(NULL, "\r\n", &buffalo_chop), header_val++;
+	while (header_val)
 	{
-		printf("Header: \"%s\" -> \"%s\"\n", query_name, query_val);
-		query_name = strtok_r(NULL, ": ", &buffalo_chop);
-		query_val = strtok_r(NULL, "\r\n", &buffalo_chop);
+		printf("Header: \"%s\" -> \"%s\"\n", header_name, header_val);
+		header_name = strtok_r(NULL, ": ", &buffalo_chop), header_name++;
+		header_val = strtok_r(NULL, "\r\n", &buffalo_chop), header_val++;
 	}
 }
 
