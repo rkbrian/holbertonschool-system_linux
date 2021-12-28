@@ -49,7 +49,7 @@ int accept_console(int socket_fd)
 		}
 		else if (read_bytes > 0)
 			printf("Raw request: \"%s\"\n", buffalo);
-		path_query_printer(buffalo);
+		header_printer(buffalo);
 		send(acc_fd, resp_msg, strlen(resp_msg), 0);
 		close(acc_fd);
 	}
