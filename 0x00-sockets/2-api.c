@@ -1,21 +1,20 @@
 #include "sockets.h"
 
 /**
- * header_printer - function to print the headers key/value pairs
+ * headers_printer - function to print the headers key/value pairs
  *  of the received HTTP request.
  * @buffalo: buffer that stores the HTTP request
  */
-void header_printer(char *buffalo)
+void headers_printer(char *buffalo)
 {
 	char *buffalo_chop, *header_name, *header_val;
 
-	strtok_r(buffalo, "\r\n", &buffalo_chop);
+	strtok_r(buffalo, "\r", &buffalo_chop);
 	header_name = strtok_r(NULL, ":", &buffalo_chop);
 	header_val = strtok_r(NULL, "\r", &buffalo_chop);
-	while (header_val)
+	while (header_name && header_val)
 	{
-		printf("Header: \"%s\" -> \"%s\"\n",
-		       header_name + (*header_name == '\n'), ++header_val);
+		printf("Header: \"%s\" -> \"%s\"\n", ++header_name, ++header_val);
 		header_name = strtok_r(NULL, ":", &buffalo_chop);
 		header_val = strtok_r(NULL, "\r", &buffalo_chop);
 	}
@@ -50,7 +49,7 @@ int accept_console(int socket_fd)
 		}
 		else if (read_bytes > 0)
 			printf("Raw request: \"%s\"\n", buffalo);
-		header_printer(buffalo);
+		headers_printer(buffalo);
 		send(acc_fd, resp_msg, strlen(resp_msg), 0);
 		close(acc_fd);
 	}
