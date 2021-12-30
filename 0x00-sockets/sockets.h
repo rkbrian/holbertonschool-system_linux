@@ -14,5 +14,6 @@ int socket_server(void);
 int accept_console(int socket_fd);
 void path_query_printer(char *buffalo);
 void headers_printer(char *buffalo);
+void path_bodypara_printer(char *buffalo);
 
 #endif /* SOCKETS_H */

@@ -1,22 +1,24 @@
 #include "sockets.h"
 
 /**
- * headers_printer - function to print the headers key/value pairs
- *  of the received HTTP request.
+ * path_bodypara_printer - function to print the request path and
+ *  all body parameters key/value pairs of the received HTTP request.
  * @buffalo: buffer that stores the HTTP request
  */
-void headers_printer(char *buffalo)
+void path_bodypara_printer(char *buffalo)
 {
-	char *buffalo_chop, *header_name, *header_val;
+	char *chops = "\r\n\r\n", *buffalo_chop, *para_key, *para_val;
 
-	strtok_r(buffalo, "\r\n", &buffalo_chop);
-	header_name = strtok_r(NULL, ":", &buffalo_chop);
-	header_val = strtok_r(NULL, "\r", &buffalo_chop);
-	while (header_name && header_val)
+	strtok_r(buffalo, " \r\n", &buffalo_chop);
+	printf("Path: %s\n", strtok_r(NULL, " ?", &buffalo_chop));
+	buffalo_chop = strstr(buffalo_chop, chops) + strlen(chops);
+	para_key = strtok_r(NULL, "=", &buffalo_chop);
+	para_val = strtok_r(NULL, "& ", &buffalo_chop);
+	while (para_val)
 	{
-		printf("Header: \"%s\" -> \"%s\"\n", ++header_name, ++header_val);
-		header_name = strtok_r(NULL, ":", &buffalo_chop);
-		header_val = strtok_r(NULL, "\r", &buffalo_chop);
+		printf("Body param: \"%s\" -> \"%s\"\n", para_key, para_val);
+		para_key = strtok_r(NULL, "=", &buffalo_chop);
+		para_val = strtok_r(NULL, "& ", &buffalo_chop);
 	}
 }
 
@@ -49,7 +51,7 @@ int accept_console(int socket_fd)
 		}
 		else if (read_bytes > 0)
 			printf("Raw request: \"%s\"\n", buffalo);
-		headers_printer(buffalo);
+		path_bodypara_printer(buffalo);
 		send(acc_fd, resp_msg, strlen(resp_msg), 0);
 		close(acc_fd);
 	}
@@ -61,8 +63,8 @@ int accept_console(int socket_fd)
  *  Must do: Accept an entering connection,
  *  Print the IP address of the connected client,
  *  Wait for an incoming message from the connected client,
- *  Print the full received HTTP request,
- *  Print the headers key/value pairs of the received HTTP request,
+ *  Print the full received HTTP request, Print the request path and
+ *  all body parameters key/value pairs of the received HTTP request,
  *  Send back a response to the connected client (HTTP 200 OK),
  *  Close the connection with the client, Wait for the next connection.
  * Return: 0 for successful exit, 1 if failed
