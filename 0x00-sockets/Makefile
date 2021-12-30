@@ -13,7 +13,6 @@ FILEC = 2-api.c
 FILED = 3-api.c
 FILEE = 4-api.c
 FILEF = 5-api.c
-RM = rm -rf
 
 todo_api_0: $(FILEA) $(SERV)
 	$(CC) $(CFLAGS) $^ -o $@
@@ -27,6 +26,3 @@ todo_api_4: $(FILEE) $(SERV)
 	$(CC) $(CFLAGS) $^ -o $@
 todo_api_5: $(FILEF) $(SERV)
 	$(CC) $(CFLAGS) $^ -o $@
-clean:
-	$(RM) *~ $(FILEA) $(FILEB) $(FILEC) $(FILED) $(SERV)
-.PHONY: clean todo_api_0 todo_api_1 todo_api_2 todo_api_3 todo_api_4 todo_api_5
