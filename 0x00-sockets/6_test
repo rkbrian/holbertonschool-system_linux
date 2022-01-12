@@ -21,5 +21,6 @@ function http_req
 sleep 1
 
 http_req GET / -H "Holberton: School"
+# http_req GET / -H "Holberton: School"
 http_req GET / -H "Holberton: School" -H "Street: 972-Mission"
 http_req GET / -H "Holberton: School" -H "Street: 972-Mission" -H "Upfront-tuition: Not-a-Number" -H "Duration: 2-Years"

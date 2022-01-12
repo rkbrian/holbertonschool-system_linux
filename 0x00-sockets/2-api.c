@@ -23,7 +23,7 @@ void headers_printer(char *buffalo)
 /**
  * accept_console - accept an entering connection and keep printing
  * @socket_fd: the socket file descriptor
- * Return: 0 for successful exit, 1 if failed 
+ * Return: 0 for successful exit, 1 if failed
  */
 int accept_console(int socket_fd)
 {
@@ -32,6 +32,7 @@ int accept_console(int socket_fd)
 	struct sockaddr_in addr_client;
 	socklen_t addrlen_client = sizeof(struct sockaddr);
 
+	memset(buffalo, 0, sizeof(buffalo));
 	while (1)
 	{
 		acc_fd = accept(socket_fd, (struct sockaddr *)&addr_client, &addrlen_client);
