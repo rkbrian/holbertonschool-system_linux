@@ -43,11 +43,18 @@ Ongoing: :thinking:
  Terminal 2: curl -D - 'http://localhost:8080/test?value1=holberton&value2=school' 2> /dev/null | cat -e
 
 ### 6 - REST API - Headers
-:radioactive:\
  Terminal 1: make todo_api_2; **./todo_api_2**\
  Termianl 2: curl -D - 'http://localhost:8080/test' 2> /dev/null | cat -e
 
 ### 7 - REST API - Body parameters
-:thinking:\
  Terminal 1: make todo_api_3; **./todo_api_3**\
  Terminal 2: curl -D - -X POST 'http://localhost:8080/test' -d 'value1=holberton&value2=school' 2> /dev/null | cat -e
+
+### 8 - REST API - Create TODO
+:thinking:\
+ Terminal 1: make todo_api_4; **./todo_api_4**\
+ Terminal 2: curl -D - -X POST 'http://localhost:8080/todos' -d 'title=Dishes&description=Not_really_urgent' 2> /dev/null | cat -e
+ Terminal 2: curl -D - -X POST 'http://localhost:8080/todos' -d 'title=Homework' 2> /dev/null | cat -e
+ Terminal 2: curl -D - -X POST 'http://localhost:8080/holberton' -d 'title=Dishes&description=Not_really_urgent' 2> /dev/null | cat -e
+ Terminal 2: curl -D - 'http://localhost:8080/todos' 2> /dev/null | cat -e
+ 
