@@ -38,11 +38,17 @@ typedef struct rb_tree_s
 	struct rb_tree_s *left;
 	struct rb_tree_s *right;
 } rb_tree_t;
+typedef struct queue_s
+{
+	int head; /* position */
+	int tail; /* position */
+	rb_tree_t *queue_arr[MAX_Q_SIZE]; /* array of tree nodes */
+} queue_q;
 
 /* tree printer */
 void rb_tree_print(const rb_tree_t *tree);
 /* major functions */
 rb_tree_t *rb_tree_node(rb_tree_t *parent, int value, rb_color_t color);
-
+int rb_tree_is_valid(const rb_tree_t *tree);
 
 #endif /* RB_TREES_H */
